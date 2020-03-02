@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//java编译的时候缺省状态下会因为中文字符而失败，例如：有中文注释时生成javadoc
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+

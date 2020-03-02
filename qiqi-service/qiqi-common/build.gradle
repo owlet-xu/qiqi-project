@@ -1,0 +1,9 @@
+
+group 'com.qiqi.springboot.seed'
+archivesBaseName = 'qiqi-common'
+
+apply from: "../scripts/gradle/publish.gradle"
+
+dependencies{
+    // 依赖模块
+}

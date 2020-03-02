@@ -1,0 +1,13 @@
+group 'com.qiqi.springboot.seed'
+archivesBaseName = 'qiqi-bz1-webapi'
+apply from: "../scripts/gradle/publish.gradle"
+apply from: "../scripts/gradle/jacoco.gradle"
+dependencies{
+    // 依赖模块
+    compile project(":qiqi-common")
+    compile project(":qiqi-bz1-contract")
+    compile project(":qiqi-bz1-service")
+    test {
+        useTestNG()
+    }
+}

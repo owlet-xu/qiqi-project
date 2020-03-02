@@ -1,0 +1,118 @@
+# -----------------application:configs--------------------------
+# 1.spring configs (db...)
+# 2.app configs
+# 3.log configs
+# 4.common configs
+# ---------------------------------------------------------------
+
+server:
+  port: 8666      #以内嵌容器形式运行时，服务绑定的端口;当服务以war包形式部署在tomcat等容器中时，会忽略server.port配置节点
+
+spring:
+  profiles:
+    active: dev
+
+# 开发环境
+---
+spring:
+  profiles: dev
+  application:
+    name: qiqi-service
+
+  datasource:
+    url: jdbc:sqlserver://192.168.240.128:1433;databaseName=cad_sql  #业务数据库访问url
+    username: sa      #业务数据库访问用户名
+    password: p@ssw0rd #业务数据库访问用户密码
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
+    hikari:
+          maximum-pool-size: 20 # 最大连接数, 默认10
+          minimum-idle: 10 # 最小空闲连接数
+          max-lifetime: 1800000 # 最大生存期, 默认1800000(30分钟)
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
+  jpa:
+    show-sql: true                    #是否显示JPA查询的SQL。为true，日志中则会记录JPA查询数据库使用的SQL语句
+    hibernate:
+      ddl-auto: none
+# log配置
+logging:
+  config: classpath:logback-spring.xml
+
+# 种子工程扩展配置
+xseed:
+  url1: http://localhost:8666/test1
+  url2: http://localhost:8666/test2
+
+# app相关配置
+app:
+ language: en_US
+
+# 生产环境
+---
+spring:
+  profiles: prod
+  application:
+    name: qiqi-service
+
+  datasource:
+    url: jdbc:sqlserver://192.168.240.128:1433;databaseName=cad_sql_show  #业务数据库访问url
+    username: sa      #业务数据库访问用户名
+    password: p@ssw0rd #业务数据库访问用户密码
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
+    hikari:
+          maximum-pool-size: 20 # 最大连接数, 默认10
+          minimum-idle: 10 # 最小空闲连接数
+          max-lifetime: 1800000 # 最大生存期, 默认1800000(30分钟)
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
+  jpa:
+    show-sql: true                    #是否显示JPA查询的SQL。为true，日志中则会记录JPA查询数据库使用的SQL语句
+    hibernate:
+      ddl-auto: none
+# log配置
+logging:
+  config: classpath:logback-spring.xml
+
+# 种子工程扩展配置
+xseed:
+  url1: http://localhost:8666/test1
+  url2: http://localhost:8666/test2
+
+# app相关配置
+app:
+ language: en_US
+
+# 测试环境
+---
+spring:
+  profiles: test
+  application:
+    name: qiqi-service
+
+  datasource:
+    url: jdbc:sqlserver://192.168.240.128:1433;databaseName=cad_sql_test  #业务数据库访问url
+    username: sa      #业务数据库访问用户名
+    password: p@ssw0rd #业务数据库访问用户密码
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
+    hikari:
+          maximum-pool-size: 20 # 最大连接数, 默认10
+          minimum-idle: 10 # 最小空闲连接数
+          max-lifetime: 1800000 # 最大生存期, 默认1800000(30分钟)
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
+  jpa:
+    show-sql: true                    #是否显示JPA查询的SQL。为true，日志中则会记录JPA查询数据库使用的SQL语句
+    hibernate:
+      ddl-auto: none
+# log配置
+logging:
+  config: classpath:logback-spring.xml
+
+# 种子工程扩展配置
+xseed:
+  url1: http://localhost:8666/test1
+  url2: http://localhost:8666/test2
+
+# app相关配置
+app:
+ language: en_US
