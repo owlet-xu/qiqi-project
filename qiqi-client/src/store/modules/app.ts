@@ -10,13 +10,15 @@ export interface IAppState {
   configs: object;
   device: DeviceType;
   sidebar: { opened: boolean; withoutAnimation: boolean };
+  size: string;
 }
 
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements IAppState {
   public language = Cookies.get(CookiesKeys.language) || 'zh';
+  public size = Cookies.get(CookiesKeys.size) || 'medium';
   public configs = {};
-  public device!: DeviceType;
+  public device = DeviceType.Desktop;
   public sidebar = {
     opened: true,
     withoutAnimation: true
@@ -35,12 +37,33 @@ class App extends VuexModule implements IAppState {
   }
 
   @Mutation
-  private CLOSE_SIDE_BAR(withoutAnimation: boolean) {
+  private CLOSE_SIDEBAR(withoutAnimation: boolean) {
     this.sidebar.opened = false;
     this.sidebar.withoutAnimation = withoutAnimation;
     Cookies.set(CookiesKeys.sidebarStatusKey, 'closed');
   }
 
+  @Mutation
+  private TOGGLE_DEVICE(device: DeviceType) {
+    this.device = device;
+  }
+
+  @Mutation
+  private TOGGLE_SIDEBAR(withoutAnimation: boolean) {
+    this.sidebar.opened = !this.sidebar.opened;
+    this.sidebar.withoutAnimation = withoutAnimation;
+    if (this.sidebar.opened) {
+      Cookies.set(CookiesKeys.sidebarStatusKey, 'opened');
+    } else {
+      Cookies.set(CookiesKeys.sidebarStatusKey, 'closed');
+    }
+  }
+
+  @Mutation
+  private SET_SIZE(size: string) {
+    this.size = size;
+    Cookies.set(CookiesKeys.size, this.size);
+  }
   // #endregion
 
   // #region actions
@@ -55,9 +78,25 @@ class App extends VuexModule implements IAppState {
   }
 
   @Action
-  public closeSideBar(withoutAnimation: boolean) {
-    this.CLOSE_SIDE_BAR(withoutAnimation);
+  public CloseSideBar(withoutAnimation: boolean) {
+    this.CLOSE_SIDEBAR(withoutAnimation);
   }
+
+  @Action
+  public ToggleDevice(device: DeviceType) {
+    this.TOGGLE_DEVICE(device);
+  }
+
+  @Action
+  public ToggleSideBar(withoutAnimation: boolean) {
+    this.TOGGLE_SIDEBAR(withoutAnimation);
+  }
+
+  @Action
+  public SetSize(size: string) {
+    this.SET_SIZE(size);
+  }
+
   // #endregion
 }
 

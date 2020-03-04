@@ -2,7 +2,7 @@
  * 配置文件初始化
  */
 import axios from 'axios';
-import { AppModule } from '@/store/modules-store/app';
+import { AppModule } from '@/store/modules/app';
 // const isDev = process.env.NODE_ENV === 'development';
 const configPath = '/config.json';
 

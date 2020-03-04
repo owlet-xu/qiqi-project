@@ -1,6 +1,6 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Action } from 'vuex-class';
-import { AppModule } from '@/store/modules-store/app';
+import { AppModule } from '@/store/modules/app';
 @Component({
   name: 'LangSelect'
 })

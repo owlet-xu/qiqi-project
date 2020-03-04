@@ -34,7 +34,7 @@ gulp.task('copy-store-types', ['copy-router'], () => {
 });
 
 gulp.task('copy-store', ['copy-store-types'], () => {
-  return gulp.src('src/store/modules-store/login.ts').pipe(gulp.dest('dist/store/modules-store'));
+  return gulp.src('src/store/modules/login.ts').pipe(gulp.dest('dist/store/modules'));
 });
 
 gulp.task('build-lib', ['copy-store'], (done) => {

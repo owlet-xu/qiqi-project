@@ -9,7 +9,7 @@ export enum Path {
   // 登录
   Login = '/login',
   // 主页面
-  Home = '/',
+  Layout = '/',
   // error
   Error = '/404'
 }

@@ -1,6 +1,8 @@
 import store from '@/store';
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
 import { UserInfo } from '@/models/user-info';
+// store
+import { TagsViewModule } from './tags-view';
 
 export interface IUserState {
   userInfo: UserInfo;
@@ -33,6 +35,16 @@ class User extends VuexModule implements IUserState {
   @Action
   public setUserInfo(userInfo: UserInfo) {
     this.SET_USER_INFO(userInfo);
+  }
+
+  @Action
+  public async LogOut() {
+    if (this.token === '') {
+      throw Error('LogOut: token is undefined!')
+    }
+    // Reset visited views and cached views
+    TagsViewModule.delAllViews();
+    this.SET_TOKEN('');
   }
   // #endregion
 }
