@@ -1,58 +1,64 @@
+import store from '@/store';
+import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
 import Cookies from 'js-cookie';
 import { CookiesKeys } from '@/common/constant/cookies-keys';
-import { GetterTree, MutationTree, ActionTree, Module } from 'vuex';
-import { AppTypes } from '../types/app-types';
 // models
 import { DeviceType } from '@/models/enums/device-type';
 
-export class AppState {
-  language = Cookies.get(CookiesKeys.language) || 'en';
-  configs = {};
-  device!: DeviceType;
-  sidebar = {
+export interface IAppState {
+  language: string;
+  configs: object;
+  device: DeviceType;
+  sidebar: { opened: boolean; withoutAnimation: boolean };
+}
+
+@Module({ dynamic: true, store, name: 'app' })
+class App extends VuexModule implements IAppState {
+  public language = Cookies.get(CookiesKeys.language) || 'zh';
+  public configs = {};
+  public device!: DeviceType;
+  public sidebar = {
     opened: true,
     withoutAnimation: true
   };
-}
-const mutations: MutationTree<AppState> = {
-  [AppTypes.mutations.SET_LANGUAGE]: (state, language: string) => {
-    state.language = language;
+  // #region mutations
+  @Mutation
+  private SET_LANGUAGE(language: string) {
+    this.language = language;
     Cookies.set(CookiesKeys.language, language);
-  },
-  [AppTypes.mutations.SET_CONFIGS]: (state, configs: any) => {
-    state.configs = configs;
+  }
+
+  @Mutation
+  private SET_CONFIGS(configs: any) {
+    this.configs = configs;
     Cookies.set(CookiesKeys.configs, configs);
-  },
-  [AppTypes.mutations.CLOSE_SIDE_BAR]: (state, withoutAnimation: boolean) => {
-    state.sidebar.opened = false;
-    state.sidebar.withoutAnimation = withoutAnimation;
+  }
+
+  @Mutation
+  private CLOSE_SIDE_BAR(withoutAnimation: boolean) {
+    this.sidebar.opened = false;
+    this.sidebar.withoutAnimation = withoutAnimation;
     Cookies.set(CookiesKeys.sidebarStatusKey, 'closed');
   }
-};
-const actions: ActionTree<AppState, any> = {
-  [AppTypes.actions.SET_LANGUAGE]({ commit }, language: string) {
-    commit(AppTypes.mutations.SET_LANGUAGE, language);
-  },
-  [AppTypes.actions.SET_CONFIGS]({ commit }, configs: any) {
-    commit(AppTypes.mutations.SET_CONFIGS, configs);
-  },
-  [AppTypes.actions.CLOSE_SIDE_BAR]({ commit }, withoutAnimation: boolean) {
-    commit(AppTypes.mutations.CLOSE_SIDE_BAR, withoutAnimation);
+
+  // #endregion
+
+  // #region actions
+  @Action
+  public setLanguage(language: string) {
+    this.SET_LANGUAGE(language);
   }
-};
-const getters: GetterTree<AppState, any> = {
-  [AppTypes.getters.CONFIGS](state) {
-    return state.configs;
-  },
-  [AppTypes.getters.LANGUAGE](state) {
-    return state.language;
+
+  @Action
+  public setConfigs(configs: any) {
+    this.SET_CONFIGS(configs);
   }
-};
-// 这里是定义vuex模块
-const app: Module<AppState, any> = {
-  state: new AppState(),
-  mutations,
-  actions,
-  getters
-};
-export default app;
+
+  @Action
+  public closeSideBar(withoutAnimation: boolean) {
+    this.CLOSE_SIDE_BAR(withoutAnimation);
+  }
+  // #endregion
+}
+
+export const AppModule = getModule(App);

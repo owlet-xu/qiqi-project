@@ -1,18 +1,17 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Action } from 'vuex-class';
-import { AppTypes } from '@/store/types/app-types';
+import { AppModule } from '@/store/modules-store/app';
 @Component({
   name: 'LangSelect'
 })
 export default class extends Vue {
-  @Getter(AppTypes.getters.LANGUAGE)
-  language!: string;
-  @Action(AppTypes.actions.SET_LANGUAGE)
-  setLanguage!: (lang: string) => void;
+  get language() {
+    return  AppModule.language;
+  }
 
   private handleSetLanguage(lang: string) {
     this.$i18n.locale = lang;
-    this.setLanguage(lang);
+    AppModule.setLanguage(lang);
     this.$message({
       message: 'Switch Language Success',
       type: 'success'
