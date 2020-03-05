@@ -4,9 +4,9 @@ import { Dictionary } from 'vue-router/types/router';
 import { Form as ElForm, Input } from 'element-ui';
 import { stringFormatArr } from '@/utils/string-utils';
 import LoginService from '@/api/login-service';
-
+import { PermissionModule } from '@/store/modules/permission';
 import LangSelect from '@/components/lang-select/index.vue';
-
+import { constantRouterMap } from '@/router';
 @Component({
   name: 'Login',
   components: {
@@ -76,7 +76,7 @@ export default class extends Vue {
 
   private checkCapslock(e: KeyboardEvent) {
     const { key } = e;
-    this.capsTooltip = key !== null && key.length === 1 && (key >= 'A' && key <= 'Z');
+    this.capsTooltip = !!key && key.length === 1 && (key >= 'A' && key <= 'Z');
   }
 
   private showPwd() {
@@ -99,6 +99,7 @@ export default class extends Vue {
   }
 
   private handleLogin() {
+    PermissionModule.GenerateRoutes(constantRouterMap);
     this.$router.push({
       path: this.redirect || '/',
       query: this.otherQuery

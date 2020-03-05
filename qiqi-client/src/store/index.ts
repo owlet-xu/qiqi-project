@@ -7,6 +7,7 @@ import { IUserState } from '../store/modules/user';
 import { ISettingsState } from '../store/modules/settings';
 import { ITagsViewState } from '../store/modules/tags-view';
 import { IErrorLogState } from './modules/error-log';
+import { IPermissionState } from './modules/permission';
 
 Vue.use(Vuex);
 
@@ -16,11 +17,13 @@ export interface IRootState {
   settings: ISettingsState;
   tagsView: ITagsViewState;
   errorLog: IErrorLogState;
+  permission: IPermissionState;
 }
 
 const isDev = process.env.NODE_ENV === 'development';
 const store = new Vuex.Store<IRootState>({
-  plugins: isDev ? [createLogger({})] : []
+  // 开启了vuex logger会非常卡，因为会在console.log界面输出缓存的所有仓库，包括界面
+  // plugins: isDev ? [createLogger({})] : []
 });
 
 export default store;

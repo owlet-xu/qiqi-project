@@ -14,16 +14,54 @@ export const constantRouterMap: RouteConfig[] = [
   {
     path: Path.Layout,
     component: Layout,
-    redirect: '/dashboard',
+    redirect: Path.Home,
     children: [
       {
-        path: 'dashboard',
+        path: Path.Home,
         component: () => import(/* webpackChunkName: "home" */ '@/views/home/home.vue'),
-        name: 'Dashboard',
+        name: RouterPrefix(RouterName.Home),
         meta: {
-          title: 'dashboard',
+          title: RouterName.Home,
           icon: 'dashboard',
           affix: true
+        }
+      }
+    ]
+  },
+  {
+    path: Path.Privilege,
+    component: Layout,
+    redirect: Path.RoleList,
+    meta: {
+      title: RouterName.PrivilegeList,
+      icon: 'dashboard'
+    },
+    children: [
+      {
+        path: Path.RoleList,
+        component: () => import(/* webpackChunkName: "role-list" */ '@/views/privilege-manage/role-list.vue'),
+        name: RouterPrefix(RouterName.RoleList),
+        meta: {
+          title: RouterName.RoleList,
+          icon: 'dashboard'
+        }
+      },
+      {
+        path: Path.MenuList,
+        component: () => import(/* webpackChunkName: "menu-list" */ '@/views/privilege-manage/menu-list.vue'),
+        name: RouterPrefix(RouterName.MenuList),
+        meta: {
+          title: RouterName.MenuList,
+          icon: 'dashboard'
+        }
+      },
+      {
+        path: Path.PrivilegeList,
+        component: () => import(/* webpackChunkName: "home" */ '@/views/privilege-manage/privilege-list.vue'),
+        name: RouterPrefix(RouterName.PrivilegeList),
+        meta: {
+          title: RouterName.PrivilegeList,
+          icon: 'dashboard'
         }
       }
     ]
@@ -32,7 +70,7 @@ export const constantRouterMap: RouteConfig[] = [
 ];
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',  // Disabled due to Github Pages doesn't support this, enable this if you need.
   base: process.env.BASE_URL,
   routes: constantRouterMap
 });

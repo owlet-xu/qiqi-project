@@ -57,6 +57,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import VueRouter, { Route, RouteRecord, RouteConfig } from 'vue-router';
 import { TagsViewModule, ITagView } from '@/store/modules/tags-view';
 import ScrollPane from './ScrollPane.vue';
+import { PermissionModule } from '@/store/modules/permission';
 
 @Component({
   name: 'TagsView',
@@ -76,7 +77,7 @@ export default class extends Vue {
   }
 
   get routes() {
-    return [];
+     return PermissionModule.routes;
   }
 
   @Watch('$route')

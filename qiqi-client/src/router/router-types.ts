@@ -10,6 +10,16 @@ export enum Path {
   Login = '/login',
   // 主页面
   Layout = '/',
+  // 首页
+  Home = '/home',
+  // 权限管理
+  Privilege = '/privilege',
+  // 角色列表
+  RoleList = '/privilege/role-list',
+  // 菜单列表
+  MenuList = '/privilege/menu-list',
+  // 权限列表
+  PrivilegeList = '/privilege/list',
   // error
   Error = '/404'
 }
@@ -24,6 +34,14 @@ export enum RouterName {
   Login = 'login',
   // 主页面
   Home = 'home',
+  // 权限管理
+  Privilege = 'Privilege',
+  // 角色列表
+  RoleList = 'roleList',
+  // 菜单列表
+  MenuList = 'menuList',
+  // 权限列表
+  PrivilegeList = 'privilegeList',
   // error
   Error = '404'
 }

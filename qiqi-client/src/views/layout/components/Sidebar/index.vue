@@ -30,6 +30,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { AppModule } from '@/store/modules/app';
+import { PermissionModule } from '@/store/modules/permission';
 import { SettingsModule } from '@/store/modules/settings';
 import SidebarItem from './SidebarItem.vue';
 import SidebarLogo from './SidebarLogo.vue';
@@ -47,21 +48,12 @@ export default class extends Vue {
   }
 
   get routes() {
-    return [];
+    return PermissionModule.routes;
   }
 
   get showLogo() {
     return SettingsModule.showSidebarLogo;
   }
-
-  // get menuActiveTextColor() {
-  //   if (SettingsModule.sidebarTextTheme) {
-  //     return SettingsModule.theme;
-  //   } else {
-  //     // return variables.menuActiveText
-  //     return 'red';
-  //   }
-  // }
 
   get activeMenu() {
     const route = this.$route;

@@ -36,7 +36,7 @@ import Fuse from 'fuse.js'; // A lightweight fuzzy-search module,轻量级模糊
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { RouteConfig } from 'vue-router';
 import { AppModule } from '@/store/modules/app';
-// import { PermissionModule } from '@/store/modules/permission'
+import { PermissionModule } from '@/store/modules/permission';
 import i18n from '@/lang'; // Internationalization
 
 @Component({
@@ -50,8 +50,7 @@ export default class extends Vue {
   private fuse?: Fuse<RouteConfig, Fuse.FuseOptions<RouteConfig>>;
 
   get routes() {
-    // return PermissionModule.routes
-    return [];
+    return PermissionModule.routes;
   }
 
   get lang() {
