@@ -11,6 +11,9 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { SettingsModule } from '@/store/modules/settings';
 
+/* eslint-disable */
+/* tslint:disable */
+// @ts-ignore
 const version = require('element-ui/package.json').version; // element-ui version from node_modules
 const ORIGINAL_THEME = '#409EFF'; // default color
 
@@ -32,7 +35,7 @@ export default class extends Vue {
 
   @Watch('theme')
   private async onThemeChange(value: string) {
-    if (!value) return;
+    if (!value) { return; }
     const oldValue = this.chalk ? this.theme : ORIGINAL_THEME;
     const themeCluster = this.getThemeCluster(value.replace('#', ''));
     const originalCluster = this.getThemeCluster(oldValue.replace('#', ''));
@@ -67,13 +70,15 @@ export default class extends Vue {
     chalkHandler();
 
     let styles: HTMLElement[] = [].slice.call(document.querySelectorAll('style'));
-    styles = styles.filter(style => {
+    styles = styles.filter((style: HTMLElement) => {
       const text = style.innerText;
       return new RegExp(oldValue, 'i').test(text) && !/Chalk Variables/.test(text);
     });
-    styles.forEach(style => {
+    styles.forEach((style: HTMLElement) => {
       const { innerText } = style;
-      if (typeof innerText !== 'string') return;
+      if (typeof innerText !== 'string') {
+        return;
+      }
       style.innerText = this.updateStyle(innerText, originalCluster, themeCluster);
     });
 
@@ -83,7 +88,7 @@ export default class extends Vue {
 
   private updateStyle(style: string, oldCluster: string[], newCluster: string[]) {
     let newStyle = style;
-    oldCluster.forEach((color, index) => {
+    oldCluster.forEach((color: string, index: number) => {
       newStyle = newStyle.replace(new RegExp(color, 'ig'), newCluster[index]);
     });
     return newStyle;

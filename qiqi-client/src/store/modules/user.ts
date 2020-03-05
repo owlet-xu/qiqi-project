@@ -40,7 +40,7 @@ class User extends VuexModule implements IUserState {
   @Action
   public async LogOut() {
     if (this.token === '') {
-      throw Error('LogOut: token is undefined!')
+      throw Error('LogOut: token is undefined!');
     }
     // Reset visited views and cached views
     TagsViewModule.delAllViews();

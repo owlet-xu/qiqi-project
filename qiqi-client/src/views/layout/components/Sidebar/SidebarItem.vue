@@ -83,7 +83,7 @@ export default class extends Vue {
 
   get showingChildNumber() {
     if (this.item.children) {
-      const showingChildren = this.item.children.filter(item => {
+      const showingChildren = this.item.children.filter((item: RouteConfig) => {
         if (item.meta && item.meta.hidden) {
           return false;
         } else {
@@ -100,7 +100,7 @@ export default class extends Vue {
       return null;
     }
     if (this.item.children) {
-      for (let child of this.item.children) {
+      for (const child of this.item.children) {
         if (!child.meta || !child.meta.hidden) {
           return child;
         }

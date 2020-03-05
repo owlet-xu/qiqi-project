@@ -24,7 +24,6 @@ export default class extends Vue {
     this.$emit('toggleClick');
   }
 }
-
 </script>
 
 <style lang="scss" scoped>

@@ -59,7 +59,7 @@ class TagsView extends VuexModule implements ITagsViewState {
 
   @Mutation
   private DEL_OTHERS_VISITED_VIEWS(view: ITagView) {
-    this.visitedViews = this.visitedViews.filter(v => {
+    this.visitedViews = this.visitedViews.filter((v: ITagView) => {
       return v.meta.affix || v.path === view.path;
     });
   }
@@ -80,7 +80,7 @@ class TagsView extends VuexModule implements ITagsViewState {
   @Mutation
   private DEL_ALL_VISITED_VIEWS() {
     // keep affix tags
-    const affixTags = this.visitedViews.filter(tag => tag.meta.affix);
+    const affixTags = this.visitedViews.filter((tag: ITagView) => tag.meta.affix);
     this.visitedViews = affixTags;
   }
 

@@ -65,7 +65,7 @@ import ScrollPane from './ScrollPane.vue';
   }
 })
 export default class extends Vue {
-  private visible: boolean = false;
+  private visible = false;
   private top = 0;
   private left = 0;
   private selectedTag: ITagView = {};
@@ -109,7 +109,7 @@ export default class extends Vue {
 
   private filterAffixTags(routes: RouteConfig[], basePath = '/') {
     let tags: ITagView[] = [];
-    routes.forEach(route => {
+    routes.forEach((route: RouteConfig) => {
       if (route.meta && route.meta.affix) {
         const tagPath = path.resolve(basePath, route.path);
         tags.push({
@@ -188,7 +188,7 @@ export default class extends Vue {
 
   private closeAllTags(view: ITagView) {
     TagsViewModule.delAllViews();
-    if (this.affixTags.some(tag => tag.path === this.$route.path)) {
+    if (this.affixTags.some((tag: ITagView) => tag.path === this.$route.path)) {
       return;
     }
     this.toLastView(TagsViewModule.visitedViews, view);

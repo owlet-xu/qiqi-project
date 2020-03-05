@@ -8,7 +8,7 @@ baiduApi = {
    * 递归dom的子dom,解析出百度搜索结果
    */
   recursiveDoms(doms, res) {
-    doms.forEach(dom => {
+    doms.forEach((dom) => {
       if (baiduApi.isSearchTitle(dom)) {
         res.title = dom.innerHTML;
       } else if (baiduApi.isSearchContent(dom)) {

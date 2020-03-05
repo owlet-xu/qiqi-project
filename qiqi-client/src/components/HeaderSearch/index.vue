@@ -89,12 +89,14 @@ export default class extends Vue {
   private click() {
     this.show = !this.show;
     if (this.show) {
-      this.$refs.headerSearchSelect && (this.$refs.headerSearchSelect as HTMLElement).focus();
+      return this.$refs.headerSearchSelect && (this.$refs.headerSearchSelect as HTMLElement).focus();
     }
   }
 
   private close() {
-    this.$refs.headerSearchSelect && (this.$refs.headerSearchSelect as HTMLElement).blur();
+    if (this.$refs.headerSearchSelect) {
+      (this.$refs.headerSearchSelect as HTMLElement).blur();
+    }
     this.options = [];
     this.show = false;
   }

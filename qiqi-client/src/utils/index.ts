@@ -9,7 +9,7 @@ export const parseTime = (time?: object | string | number, cFormat?: string): st
     date = time as Date;
   } else {
     if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
-      time = parseInt(time);
+      time = parseInt(time, undefined);
     }
     if (typeof time === 'number' && time.toString().length === 10) {
       time = time * 1000;
@@ -55,7 +55,9 @@ export const hasClass = (ele: HTMLElement, className: string) => {
 
 // Add class to element
 export const addClass = (ele: HTMLElement, className: string) => {
-  if (!hasClass(ele, className)) ele.className += ' ' + className;
+  if (!hasClass(ele, className)) {
+    ele.className += ' ' + className;
+  }
 };
 
 // Remove class from element

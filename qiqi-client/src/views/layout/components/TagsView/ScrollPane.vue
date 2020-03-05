@@ -18,7 +18,7 @@ const tagSpacing = 4;
   name: 'ScrollPane'
 })
 export default class extends Vue {
-  private handleScroll(e: MouseWheelEvent) {
+  private handleScroll(e: WheelEvent) {
     const eventDelta = (e as any).wheelDelta || -e.deltaY * 40;
     const scrollContainer = this.$refs.scrollContainer as Vue;
     const scrollWrapper = scrollContainer.$refs.wrap as HTMLElement;
@@ -47,7 +47,7 @@ export default class extends Vue {
       scrollWrapper.scrollLeft = scrollWrapper.scrollWidth - containerWidth;
     } else {
       // find preTag and nextTag
-      const currentIndex = tagList.findIndex(item => item === currentTag);
+      const currentIndex = tagList.findIndex((item: any) => item === currentTag);
       const prevTag = tagList[currentIndex - 1];
       const nextTag = tagList[currentIndex + 1];
       // the tag's offsetLeft after of nextTag
@@ -63,7 +63,6 @@ export default class extends Vue {
     }
   }
 }
-
 </script>
 
 <style lang="scss">

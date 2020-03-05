@@ -48,5 +48,4 @@ export default class extends Vue {
     sf.toggle();
   }
 }
-
 </script>
