@@ -13,7 +13,7 @@ export interface ISettingsState {
 
 @Module({ dynamic: true, store, name: 'settings' })
 class Settings extends VuexModule implements ISettingsState {
-  public theme = '';
+  public theme = '#1890ff';
   public fixedHeader = defaultSettings.fixedHeader;
   public showSettings = defaultSettings.showSettings;
   public showTagsView = defaultSettings.showTagsView;

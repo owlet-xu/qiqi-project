@@ -1,6 +1,7 @@
 <template>
   <div>
     Home
+    <i class="el-icon-setting"></i>
   </div>
 </template>
 

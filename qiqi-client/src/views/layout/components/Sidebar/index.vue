@@ -8,9 +8,9 @@
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
-        :background-color="'red'"
-        :text-color="'red'"
-        :active-text-color="menuActiveTextColor"
+        :background-color="'#304156'"
+        :text-color="'#bfcbd9'"
+        :active-text-color="'#409EFF'"
         :unique-opened="false"
         :collapse-transition="false"
         mode="vertical"
@@ -54,14 +54,14 @@ export default class extends Vue {
     return SettingsModule.showSidebarLogo;
   }
 
-  get menuActiveTextColor() {
-    if (SettingsModule.sidebarTextTheme) {
-      return SettingsModule.theme;
-    } else {
-      // return variables.menuActiveText
-      return 'red';
-    }
-  }
+  // get menuActiveTextColor() {
+  //   if (SettingsModule.sidebarTextTheme) {
+  //     return SettingsModule.theme;
+  //   } else {
+  //     // return variables.menuActiveText
+  //     return 'red';
+  //   }
+  // }
 
   get activeMenu() {
     const route = this.$route;
