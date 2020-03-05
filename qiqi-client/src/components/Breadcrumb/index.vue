@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import pathToRegexp from 'path-to-regexp';
+import * as pathToRegexp from 'path-to-regexp';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { RouteRecord, Route } from 'vue-router';
 
