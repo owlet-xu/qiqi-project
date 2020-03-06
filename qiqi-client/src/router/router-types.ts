@@ -20,6 +20,10 @@ export enum Path {
   MenuList = '/privilege/menu-list',
   // 权限列表
   PrivilegeList = '/privilege/list',
+  // 用户管理
+  UserManage = '/user-manage',
+  // 部门管理
+  DeptManage = '/dept-manage',
   // error
   Error = '/404'
 }
@@ -42,6 +46,10 @@ export enum RouterName {
   MenuList = 'MenuList',
   // 权限列表
   PrivilegeList = 'PrivilegeList',
+  // 用户管理
+  UserManage = 'UserManage',
+  // 部门管理
+  DeptManage = 'DeptManage',
   // error
   Error = '404'
 }

@@ -36,10 +36,13 @@
     "Privilege": "权限管理",
     "RoleList": "角色列表",
     "MenuList": "菜单列表",
-    "PrivilegeList": "菜单列表"
+    "PrivilegeList": "权限列表",
+    "UserManage": "用户管理",
+    "DeptManage": "部门管理"
   },
   "Navbar": {
-    "LoginOut": "退出"
+    "LoginOut": "退出",
+    "Size": "字体大小"
   },
   "Settings": {
     "Title": "系统设置",

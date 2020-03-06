@@ -16,13 +16,14 @@
         <!-- <header-search class="right-menu-item" /> -->
         <error-log class="errLog-container right-menu-item hover-effect" />
         <screenfull class="right-menu-item hover-effect" />
-        <el-tooltip
-          :content="$t('navbar.size')"
+        <!-- 不需要布局大小 -->
+        <!-- <el-tooltip
+          :content="$t('Navbar.Size')"
           effect="dark"
           placement="bottom"
         >
           <size-select class="right-menu-item hover-effect" />
-        </el-tooltip>
+        </el-tooltip> -->
         <lang-select class="right-menu-item hover-effect" />
       </template>
       <el-dropdown

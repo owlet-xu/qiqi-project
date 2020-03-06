@@ -29,6 +29,38 @@ export const constantRouterMap: RouteConfig[] = [
     ]
   },
   {
+    path: Path.UserManage,
+    component: Layout,
+    children: [
+      {
+        path: Path.UserManage,
+        component: () => import(/* webpackChunkName: "icons" */ '@/views/user-manage/user-manage.vue'),
+        name: RouterPrefix(RouterName.UserManage),
+        meta: {
+          title: RouterPrefix(RouterName.UserManage),
+          icon: 'icon',
+          noCache: true
+        }
+      }
+    ]
+  },
+  {
+    path: Path.DeptManage,
+    component: Layout,
+    children: [
+      {
+        path: Path.DeptManage,
+        component: () => import(/* webpackChunkName: "icons" */ '@/views/dept-manage/dept-manage.vue'),
+        name: RouterPrefix(RouterName.DeptManage),
+        meta: {
+          title: RouterPrefix(RouterName.DeptManage),
+          icon: 'icon',
+          noCache: true
+        }
+      }
+    ]
+  },
+  {
     path: Path.Privilege,
     component: Layout,
     redirect: Path.RoleList,

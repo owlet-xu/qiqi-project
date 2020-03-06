@@ -17,8 +17,7 @@
         :disabled="size===item.value"
         :command="item.value"
       >
-        {{
-          item.label }}
+        {{ item.label }}
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
