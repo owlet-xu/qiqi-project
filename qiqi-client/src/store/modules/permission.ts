@@ -2,8 +2,7 @@ import { VuexModule, Module, getModule, Mutation, Action } from 'vuex-module-dec
 import { RouteConfig } from 'vue-router';
 import store from '@/store';
 import { constantRouterMap } from '@/router';
-import Cookies from 'js-cookie';
-import { CookiesKeys } from '@/common/constant/cookies-keys';
+import { CookiesKeys, Cookies } from '@/strorage/cookies';
 
 export interface IPermissionState {
   routes: RouteConfig[];

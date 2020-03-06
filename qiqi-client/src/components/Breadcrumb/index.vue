@@ -11,11 +11,11 @@
         <span
           v-if="item.redirect === 'noredirect' || index === breadcrumbs.length-1"
           class="no-redirect"
-        >{{ $t('route.' + item.meta.title) }}</span>
+        >{{ $t(item.meta.title) }}</span>
         <a
           v-else
           @click.prevent="handleLink(item)"
-        >{{ $t('route.' + item.meta.title) }}</a>
+        >{{ $t(item.meta.title) }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -25,6 +25,7 @@
 import * as pathToRegexp from 'path-to-regexp';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { RouteRecord, Route } from 'vue-router';
+import { Path, RouterPrefix, RouterName } from '@/router/router-types';
 
 @Component({
   name: 'Breadcrumb'
@@ -48,20 +49,20 @@ export default class extends Vue {
   private getBreadcrumb() {
     let matched = this.$route.matched.filter((item: RouteRecord) => item.meta && item.meta.title);
     const first = matched[0];
-    if (!this.isDashboard(first)) {
-      matched = [{ path: '/dashboard', meta: { title: 'dashboard' } } as RouteRecord].concat(matched);
+    if (!this.isHome(first)) {
+      matched = [{ path: Path.Home, meta: { title: RouterPrefix(RouterName.Home) } } as RouteRecord].concat(matched);
     }
     this.breadcrumbs = matched.filter((item: RouteRecord) => {
       return item.meta && item.meta.title && item.meta.breadcrumb !== false;
     });
   }
 
-  private isDashboard(route: RouteRecord) {
+  private isHome(route: RouteRecord) {
     const name = route && route.name;
     if (!name) {
       return false;
     }
-    return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase();
+    return name === RouterPrefix(RouterName.Home);
   }
 
   private pathCompile(path: string) {

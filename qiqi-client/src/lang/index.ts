@@ -1,7 +1,7 @@
 // tslint:disable
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
-import Cookies from 'js-cookie';
+import { CookiesKeys, Cookies } from '@/strorage/cookies';
 
 const zh = require ('./zh-CN.json');
 const en = require ('./en-US.json');
@@ -32,7 +32,7 @@ const messages = {
 };
 
 const i18n = new VueI18n({
-  locale: Cookies.get('language') || 'zh',
+  locale: Cookies.get(CookiesKeys.language) || 'zh',
   messages
 });
 // 解决Element-ui组件内的词条

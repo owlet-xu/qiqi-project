@@ -3,6 +3,7 @@ import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-dec
 import { UserInfo } from '@/models/user-info';
 // store
 import { TagsViewModule } from './tags-view';
+import { CookiesKeys, Cookies } from '@/strorage/cookies';
 
 export interface IUserState {
   userInfo: UserInfo;
@@ -11,12 +12,13 @@ export interface IUserState {
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements IUserState {
   public userInfo = new UserInfo();
-  public token = '';
+  public token = Cookies.get(CookiesKeys.token) || '';
 
   // #region mutations
   @Mutation
   private SET_TOKEN(token: string) {
     this.token = token;
+    Cookies.set(CookiesKeys.token, token);
   }
 
   @Mutation

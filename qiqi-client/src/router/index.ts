@@ -21,7 +21,7 @@ export const constantRouterMap: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/home/home.vue'),
         name: RouterPrefix(RouterName.Home),
         meta: {
-          title: RouterName.Home,
+          title: RouterPrefix(RouterName.Home),
           icon: 'dashboard',
           affix: true
         }
@@ -33,7 +33,7 @@ export const constantRouterMap: RouteConfig[] = [
     component: Layout,
     redirect: Path.RoleList,
     meta: {
-      title: RouterName.PrivilegeList,
+      title: RouterPrefix(RouterName.Privilege),
       icon: 'dashboard'
     },
     children: [
@@ -42,7 +42,7 @@ export const constantRouterMap: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "role-list" */ '@/views/privilege-manage/role-list.vue'),
         name: RouterPrefix(RouterName.RoleList),
         meta: {
-          title: RouterName.RoleList,
+          title: RouterPrefix(RouterName.RoleList),
           icon: 'dashboard'
         }
       },
@@ -51,7 +51,7 @@ export const constantRouterMap: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "menu-list" */ '@/views/privilege-manage/menu-list.vue'),
         name: RouterPrefix(RouterName.MenuList),
         meta: {
-          title: RouterName.MenuList,
+          title: RouterPrefix(RouterName.MenuList),
           icon: 'dashboard'
         }
       },
@@ -60,7 +60,7 @@ export const constantRouterMap: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/privilege-manage/privilege-list.vue'),
         name: RouterPrefix(RouterName.PrivilegeList),
         meta: {
-          title: RouterName.PrivilegeList,
+          title: RouterPrefix(RouterName.PrivilegeList),
           icon: 'dashboard'
         }
       }

@@ -7,6 +7,7 @@ import LoginService from '@/api/login-service';
 import { PermissionModule } from '@/store/modules/permission';
 import LangSelect from '@/components/lang-select/index.vue';
 import { constantRouterMap } from '@/router';
+import { UserModule } from '@/store/modules/user';
 @Component({
   name: 'Login',
   components: {
@@ -100,6 +101,7 @@ export default class extends Vue {
 
   private handleLogin() {
     PermissionModule.GenerateRoutes(constantRouterMap);
+    UserModule.setToken('aaaaaaaaaaaaaaaaa');
     this.$router.push({
       path: this.redirect || '/',
       query: this.otherQuery

@@ -3,5 +3,6 @@ export const CookiesKeys = {
   language: 'language',
   sidebarStatusKey: 'sidebar_status',
   size: 'size',
-  menus: 'menus'
+  menus: 'menus',
+  token: 'token'
 };

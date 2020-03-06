@@ -7,10 +7,7 @@
   >
     <slot />
   </a>
-  <router-link
-    v-else
-    :to="to"
-  >
+  <router-link v-else :to="to" >
     <slot />
   </router-link>
 </template>

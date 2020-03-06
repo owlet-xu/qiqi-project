@@ -31,17 +31,17 @@ export const PathPackAge = (args: string[]) => {
 
 export enum RouterName {
   // 登录
-  Login = 'login',
+  Login = 'Login',
   // 主页面
-  Home = 'home',
+  Home = 'Home',
   // 权限管理
   Privilege = 'Privilege',
   // 角色列表
-  RoleList = 'roleList',
+  RoleList = 'RoleList',
   // 菜单列表
-  MenuList = 'menuList',
+  MenuList = 'MenuList',
   // 权限列表
-  PrivilegeList = 'privilegeList',
+  PrivilegeList = 'PrivilegeList',
   // error
   Error = '404'
 }

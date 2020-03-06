@@ -30,5 +30,21 @@
     "CapsOn": "大写字幕锁定中",
     "UserName": "账号",
     "Password": "密码"
+  },
+  "Router": {
+    "Home": "首页",
+    "Privilege": "权限管理",
+    "RoleList": "角色列表",
+    "MenuList": "菜单列表",
+    "PrivilegeList": "菜单列表"
+  },
+  "Navbar": {
+    "LoginOut": "退出"
+  },
+  "Settings": {
+    "Title": "系统设置",
+    "ShowTagsView": "显示 Tags-View",
+    "ShowSidebarLogo": "显示侧边栏 Logo",
+    "FixedHeader": "固定 Header"
   }
 }

@@ -5,18 +5,6 @@
   >
     <transition name="sidebarLogoFade">
       <router-link
-        v-if="collapse"
-        key="collapse"
-        class="sidebar-logo-link"
-        to="/"
-      >
-        <img
-          src="favicon.ico"
-          class="sidebar-logo"
-        >
-      </router-link>
-      <router-link
-        v-else
         key="expand"
         class="sidebar-logo-link"
         to="/"
@@ -26,7 +14,7 @@
           class="sidebar-logo"
         >
         <h1 class="sidebar-title">
-          {{ title }}
+          {{ $t('Login.Title') }}
         </h1>
       </router-link>
     </transition>
@@ -35,15 +23,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import settings from '@/settings';
 
 @Component({
   name: 'SidebarLogo'
 })
 export default class extends Vue {
   @Prop({ required: true }) private collapse!: boolean;
-
-  private title = settings.title;
 }
 </script>
 

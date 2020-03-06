@@ -2,19 +2,19 @@
   <div class="drawer-container">
     <div>
       <h3 class="drawer-title">
-        {{ $t('settings.title') }}
+        {{ $t('Settings.Title') }}
       </h3>
 
-      <div class="drawer-item">
-        <span>{{ $t('settings.theme') }}</span>
+      <!-- <div class="drawer-item">
+        <span>{{ $t('Settings.theme') }}</span>
         <theme-picker
           style="float: right;height: 26px;margin: -3px 8px 0 0;"
           @change="themeChange"
         />
-      </div>
+      </div> -->
 
       <div class="drawer-item">
-        <span>{{ $t('settings.showTagsView') }}</span>
+        <span>{{ $t('Settings.ShowTagsView') }}</span>
         <el-switch
           v-model="showTagsView"
           class="drawer-switch"
@@ -22,7 +22,7 @@
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.showSidebarLogo') }}</span>
+        <span>{{ $t('Settings.ShowSidebarLogo') }}</span>
         <el-switch
           v-model="showSidebarLogo"
           class="drawer-switch"
@@ -30,20 +30,20 @@
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.fixedHeader') }}</span>
+        <span>{{ $t('Settings.FixedHeader') }}</span>
         <el-switch
           v-model="fixedHeader"
           class="drawer-switch"
         />
       </div>
 
-      <div class="drawer-item">
+      <!-- <div class="drawer-item">
         <span>{{ $t('settings.sidebarTextTheme') }}</span>
         <el-switch
           v-model="sidebarTextTheme"
           class="drawer-switch"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -107,19 +107,19 @@ export default class extends Vue {
 
   .drawer-title {
     margin-bottom: 12px;
-    color: rgba(0, 0, 0, .85);
+    color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     line-height: 22px;
   }
 
   .drawer-item {
-    color: rgba(0, 0, 0, .65);
+    color: rgba(0, 0, 0, 0.65);
     font-size: 14px;
     padding: 12px 0;
   }
 
   .drawer-switch {
-    float: right
+    float: right;
   }
 }
 </style>

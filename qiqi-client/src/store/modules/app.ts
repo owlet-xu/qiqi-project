@@ -1,7 +1,6 @@
 import store from '@/store';
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
-import Cookies from 'js-cookie';
-import { CookiesKeys } from '@/common/constant/cookies-keys';
+import { CookiesKeys, Cookies } from '@/strorage/cookies';
 // models
 import { DeviceType } from '@/models/enums/device-type';
 

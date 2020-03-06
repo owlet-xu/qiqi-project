@@ -1,6 +1,6 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
 import store from '@/store';
-import defaultSettings from '@/settings';
+import { LocalStorageKeys, MylocalStorage } from '@/strorage/local-storage';
 
 export interface ISettingsState {
   theme: string;
@@ -13,18 +13,21 @@ export interface ISettingsState {
 
 @Module({ dynamic: true, store, name: 'settings' })
 class Settings extends VuexModule implements ISettingsState {
+  private settings: any = MylocalStorage.getObject(LocalStorageKeys.settings);
   public theme = '#1890ff';
-  public fixedHeader = defaultSettings.fixedHeader;
-  public showSettings = defaultSettings.showSettings;
-  public showTagsView = defaultSettings.showTagsView;
-  public showSidebarLogo = defaultSettings.showSidebarLogo;
-  public sidebarTextTheme = defaultSettings.sidebarTextTheme;
+  public fixedHeader = this.settings.fixedHeader === false ? false : true;
+  public showSettings = this.settings.showSettings === false ? false : true;
+  public showTagsView = this.settings.showTagsView === false ? false : true;
+  public showSidebarLogo = this.settings.showSidebarLogo === false ? false : true;
+  public sidebarTextTheme = this.settings.sidebarTextTheme === false ? false : true;
 
   @Mutation
   private CHANGE_SETTING(payload: { key: string; value: any }) {
     const { key, value } = payload;
     if (Object.prototype.hasOwnProperty.call(this, key)) {
       (this as any)[key] = value;
+      this.settings[key] = value;
+      MylocalStorage.setObject(LocalStorageKeys.settings, this.settings);
     }
   }
 

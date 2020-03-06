@@ -1,6 +1,6 @@
 <template>
   <div :class="{'has-logo': showLogo}">
-    <sidebar-logo
+    <SidebarLogo
       v-if="showLogo"
       :collapse="isCollapse"
     />

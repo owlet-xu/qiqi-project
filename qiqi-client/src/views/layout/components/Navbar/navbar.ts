@@ -9,6 +9,9 @@ import LangSelect from '@/components/lang-select/index';
 import Screenfull from '@/components/Screenfull/index.vue';
 import SizeSelect from '@/components/SizeSelect/index.vue';
 
+/**
+ * 头部
+ */
 @Component({
   name: 'Navbar',
   components: {
@@ -39,7 +42,7 @@ export default class extends Vue {
     AppModule.ToggleSideBar(false);
   }
 
-  private async logout() {
+  private async LogOut() {
     await UserModule.LogOut();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);
   }
