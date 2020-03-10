@@ -22,6 +22,7 @@
   "OperationColumn": "操作",
   "OptionFailed": "操作失败",
   "OptionSuccess": "操作成功",
+  "LoadingData": "数据加载中，请稍后...",
   "Login": {
     "Title": "后台管理系统",
     "Login": "登录",
@@ -49,5 +50,11 @@
     "ShowTagsView": "显示 Tags-View",
     "ShowSidebarLogo": "显示侧边栏 Logo",
     "FixedHeader": "固定 Header"
+  },
+  "TagsView": {
+    "Refresh": "刷新",
+    "Close": "关闭",
+    "CloseOthers": "关闭其他",
+    "CloseAll": "关闭所有"
   }
 }

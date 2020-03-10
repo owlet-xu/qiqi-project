@@ -48,7 +48,7 @@ export default class extends Vue {
   height: 50px;
   line-height: 50px;
   background: #2b2f3a;
-  text-align: center;
+  padding-left: 12px;
   overflow: hidden;
 
   & .sidebar-logo-link {

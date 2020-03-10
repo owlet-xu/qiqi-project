@@ -1,4 +1,14 @@
-.home {
+.user-manage {
   height: 100%;
+  width: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+  @include scrollBar();
+  .filter-container {
+    
+  }
+  .user-table {
+    width: 100%;
+  }
 }

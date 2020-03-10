@@ -32,20 +32,20 @@
       class="contextmenu"
     >
       <li @click="refreshSelectedTag(selectedTag)">
-        {{ $t('tagsView.refresh') }}
+        {{ $t('TagsView.Refresh') }}
       </li>
       <li
         v-if="!isAffix(selectedTag)"
         @click="closeSelectedTag(selectedTag)"
       >
         {{
-          $t('tagsView.close') }}
+          $t('TagsView.Close') }}
       </li>
       <li @click="closeOthersTags">
-        {{ $t('tagsView.closeOthers') }}
+        {{ $t('TagsView.CloseOthers') }}
       </li>
       <li @click="closeAllTags(selectedTag)">
-        {{ $t('tagsView.closeAll') }}
+        {{ $t('TagsView.CloseAll') }}
       </li>
     </ul>
   </div>

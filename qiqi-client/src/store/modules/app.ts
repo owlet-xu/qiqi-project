@@ -16,7 +16,7 @@ export interface IAppState {
 class App extends VuexModule implements IAppState {
   public language = Cookies.get(CookiesKeys.language) || 'zh';
   public size = Cookies.get(CookiesKeys.size) || 'medium';
-  public configs = {};
+  public configs: any = {};
   public device = DeviceType.Desktop;
   public sidebar = {
     opened: true,
