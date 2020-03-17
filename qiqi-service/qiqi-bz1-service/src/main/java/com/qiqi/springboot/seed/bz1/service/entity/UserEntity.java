@@ -43,7 +43,7 @@ public class UserEntity {
     @Column(name = "EMAIL", length = 200)
     private String email;
     /**
-     * 用户类型
+     * 用户类型 admin/超级管理员
      */
     @Column(name = "USER_TYPE", length = 20)
     private String userType;

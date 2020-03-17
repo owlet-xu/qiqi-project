@@ -1,7 +1,19 @@
 // 登录背景色
 .login-container {
-    background-color: $login-bgc;
+  background-color: $login-bgc;
 }
-.body,.main,.sider{
-    background-color: $login-bgc;
+.body,
+.main,
+.sider {
+  background-color: $login-bgc;
+}
+// 一般是搜索工具栏
+.tool-container {
+  margin-bottom: $margin-size;
+  /deep/ .el-input {
+    width: 200px;
+  }
+  /deep/ .el-button {
+    margin-left: 10px;
+  }
 }

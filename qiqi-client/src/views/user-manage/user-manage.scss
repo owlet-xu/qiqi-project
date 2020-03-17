@@ -3,11 +3,8 @@
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 10px;
+  padding: $margin-size;
   @include scrollBar();
-  .filter-container {
-    
-  }
   .user-table {
     width: 100%;
   }

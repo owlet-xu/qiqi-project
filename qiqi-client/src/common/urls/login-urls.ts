@@ -1,3 +1,3 @@
 export const LoginUrls = {
-  login: '/api/v2/system/incident-type'
+  login: '/api/v1/login'
 };

@@ -3,11 +3,17 @@ import { Route } from 'vue-router';
 import { Dictionary } from 'vue-router/types/router';
 import { Form as ElForm, Input } from 'element-ui';
 import { stringFormatArr } from '@/utils/string-utils';
-import LoginService from '@/api/login-service';
-import { PermissionModule } from '@/store/modules/permission';
-import LangSelect from '@/components/lang-select/index.vue';
 import { constantRouterMap } from '@/router';
+// componets
+import LangSelect from '@/components/lang-select/index.vue';
+// models
+import { LoginInfo } from '@/models/login-info';
+// services
+import LoginService from '@/api/login-service';
+// store
+import { PermissionModule } from '@/store/modules/permission';
 import { UserModule } from '@/store/modules/user';
+
 @Component({
   name: 'Login',
   components: {
@@ -100,22 +106,28 @@ export default class extends Vue {
   }
 
   private handleLogin() {
-    PermissionModule.GenerateRoutes(constantRouterMap);
-    UserModule.setToken('aaaaaaaaaaaaaaaaa');
-    this.$router.push({
-      path: this.redirect || '/',
-      query: this.otherQuery
-    });
-    return;
     this.loading = true;
-    LoginService.login(this.loginForm.username, this.loginForm.password).then((res: any) => {
-      this.$router.push({
-        path: this.redirect || '/',
-        query: this.otherQuery
+    LoginService.login(this.loginForm.username, this.loginForm.password)
+      .then((res: LoginInfo) => {
+        if (res) {
+          PermissionModule.GenerateRoutes(constantRouterMap);
+          UserModule.setToken(res.token);
+          this.$router.push({
+            path: this.redirect || '/',
+            query: this.otherQuery
+          });
+        }
+      })
+      .catch((e: any) => {
+        if (e.errorCode === 22005) {
+          this.$message.error(this.$t('Login.UserNotExit').toString());
+        } else if (e.errorCode === 22001) {
+          this.$message.error(this.$t('Login.UserError').toString());
+        }
+      })
+      .finally(() => {
+        this.loading = false;
       });
-    }).finally(() => {
-      this.loading = false;
-    });
   }
 
   private getOtherQuery(query: Dictionary<string>) {

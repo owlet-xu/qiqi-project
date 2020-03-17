@@ -9,5 +9,9 @@ export default {
   findUserListPage(pageInfo: PageInfo<UserInfo>): Promise<any> {
     const url = `${AppModule.configs.qiqiServiceUrl}${UserUrls.findUserListPage}`;
     return httpClient.postPromise(url, pageInfo);
+  },
+  saveUser(user: UserInfo) {
+    const url = `${AppModule.configs.qiqiServiceUrl}${UserUrls.saveUser}`;
+    return httpClient.postPromise(url, user);
   }
 };

@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * @author xuguoyuan
- * @description
- * @date 2020/3/2
+ * @description 分页查询返回数据model
+ * @date 2020-03-16 15:17
  */
 public class PageInfo<T> {
 
@@ -16,11 +16,16 @@ public class PageInfo<T> {
     private Integer size;
 
     private long totalCount;
-
+    
     private Integer totalPage;
 
+    // 高接搜索条件
     private T conditions;
 
+    // 综合搜索文字
+    private String search;
+
+    // 分页的列表数据
     private List<T> contents;
 
     public Integer getPage() {
@@ -69,5 +74,13 @@ public class PageInfo<T> {
 
     public void setTotalPage(Integer totalPage) {
         this.totalPage = totalPage;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

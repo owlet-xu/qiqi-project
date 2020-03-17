@@ -14,15 +14,17 @@
   "SelectTip": "请选择",
   "InputTip": "请输入{0}",
   "SearchTip": "输入关键字搜索",
+  "Search": "搜索",
   "NotEmptyTip": "{0}不能为空",
   "MaxStringLenTip": "{0}长度不能大于{1}",
   "MinStringLenTip": "{0}长度不能小于{1}",
   "NoRepeatTip": "{0}不能重复",
   "FormatErrorTip": "{0}格式不正确",
-  "OperationColumn": "操作",
+  "Operation": "操作",
   "OptionFailed": "操作失败",
   "OptionSuccess": "操作成功",
   "LoadingData": "数据加载中，请稍后...",
+  "CreateTime": "创建时间",
   "Login": {
     "Title": "后台管理系统",
     "Login": "登录",
@@ -30,7 +32,9 @@
     "UsernameTip": "请输入账号",
     "CapsOn": "大写字幕锁定中",
     "UserName": "账号",
-    "Password": "密码"
+    "Password": "密码",
+    "UserNotExit": "账号不存在",
+    "UserError": "账号或密码错误"
   },
   "Router": {
     "Home": "首页",
@@ -56,5 +60,11 @@
     "Close": "关闭",
     "CloseOthers": "关闭其他",
     "CloseAll": "关闭所有"
+  },
+  "UserManage": {
+    "Name": "姓名",
+    "Mobile": "手机",
+    "UserName": "用户名",
+    "Email": "邮箱"
   }
 }

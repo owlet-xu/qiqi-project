@@ -20,7 +20,7 @@ spring:
     name: qiqi-service
 
   datasource:
-    url: jdbc:sqlserver://192.168.226.144:1433;databaseName=qiqi_sql  #业务数据库访问url
+    url: jdbc:sqlserver://192.168.226.160:1433;databaseName=qiqi_sql  #业务数据库访问url
     username: sa      #业务数据库访问用户名
     password: p@ssw0rd #业务数据库访问用户密码
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
@@ -45,74 +45,8 @@ xseed:
 
 # app相关配置
 app:
- language: en_US
-
-# 生产环境
----
-spring:
-  profiles: prod
-  application:
-    name: qiqi-service
-
-  datasource:
-    url: jdbc:sqlserver://192.168.226.128:1433;databaseName=qiqi_sql  #业务数据库访问url
-    username: sa      #业务数据库访问用户名
-    password: p@ssw0rd #业务数据库访问用户密码
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
-    hikari:
-          maximum-pool-size: 20 # 最大连接数, 默认10
-          minimum-idle: 10 # 最小空闲连接数
-          max-lifetime: 1800000 # 最大生存期, 默认1800000(30分钟)
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
-  jpa:
-    show-sql: true                    #是否显示JPA查询的SQL。为true，日志中则会记录JPA查询数据库使用的SQL语句
-    hibernate:
-      ddl-auto: none
-# log配置
-logging:
-  config: classpath:logback-spring.xml
-
-# 种子工程扩展配置
-xseed:
-  url1: http://localhost:8666/test1
-  url2: http://localhost:8666/test2
-
-# app相关配置
-app:
- language: en_US
-
-# 测试环境
----
-spring:
-  profiles: test
-  application:
-    name: qiqi-service
-
-  datasource:
-    url: jdbc:sqlserver://192.168.226.128:1433;databaseName=qiqi_sql  #业务数据库访问url
-    username: sa      #业务数据库访问用户名
-    password: p@ssw0rd #业务数据库访问用户密码
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
-    hikari:
-          maximum-pool-size: 20 # 最大连接数, 默认10
-          minimum-idle: 10 # 最小空闲连接数
-          max-lifetime: 1800000 # 最大生存期, 默认1800000(30分钟)
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
-  jpa:
-    show-sql: true                    #是否显示JPA查询的SQL。为true，日志中则会记录JPA查询数据库使用的SQL语句
-    hibernate:
-      ddl-auto: none
-# log配置
-logging:
-  config: classpath:logback-spring.xml
-
-# 种子工程扩展配置
-xseed:
-  url1: http://localhost:8666/test1
-  url2: http://localhost:8666/test2
-
-# app相关配置
-app:
- language: en_US
+  language: en_US
+  check-token: true
+  check-token-url: http://172.22.3.61:31025/v3/oauth/check-token
+  rest-connect-timeout: 10000
+  rest-read-timeout: 10000

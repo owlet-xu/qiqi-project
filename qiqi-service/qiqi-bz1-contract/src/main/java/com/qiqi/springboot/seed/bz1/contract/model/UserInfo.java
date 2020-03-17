@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * @author xuguoyuan
- * @description
- * @date 2020/3/2
+ * @description 用户信息model
+ * @date 2020-03-16 15:17
  */
 public class UserInfo {
 

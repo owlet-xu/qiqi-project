@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "xseed")
 public class XseedSettings {
+    public static String defaultPassword = "123456";
     private String url1;
     private String url2;
 

@@ -7,13 +7,17 @@ package com.qiqi.springboot.seed.common.exception;
  */
 public class BusinessException extends RuntimeException {
     private final int code;
+    private final String message;
 
     public BusinessException(ResultStatus status) {
         super(status.getMessage());
         this.code = status.getCode();
+        this.message = status.getMessage();
     }
 
     public int getCode() {
         return code;
     }
+
+    public String getMessage() {return message; }
 }

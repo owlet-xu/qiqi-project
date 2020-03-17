@@ -6,4 +6,5 @@ apply from: "../scripts/gradle/publish.gradle"
 
 dependencies{
     // 依赖模块
+    compile 'com.alibaba:fastjson:1.2.48'
 }

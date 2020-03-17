@@ -1,59 +1,39 @@
 <template>
-  <div
-    class="user-manage"
-    v-loading="loading"
-    :element-loading-text="$t('LoadingData')"
-  >
-    <div class="filter-container">
-      <el-input></el-input>
+  <div class="user-manage" v-loading="loading" :element-loading-text="$t('LoadingData')">
+    <div class="tool-container">
+      <el-input :placeholder="$t('SearchTip')" v-model="search" @input="searchChange"></el-input>
+      <el-tooltip effect="dark" :content="$t('Add')" placement="top">
+        <el-button type="primary" @click="add">
+          <i class="el-icon-plus"></i>
+        </el-button>
+      </el-tooltip>
     </div>
-    <el-table
-      class="user-table"
-      :data="pageInfo.contents"
-      border
-      fit
-      highlight-current-row
-    >
-      <el-table-column
-        :label="$t('用户名')"
-        prop='userName'
-      ></el-table-column>
-      <el-table-column
-        :label="$t('姓名')"
-        prop='name'
-      ></el-table-column>
-      <el-table-column
-        :label="$t('手机')"
-        prop='mobile'
-      ></el-table-column>
-      <el-table-column
-        :label="$t('创建时间')"
-        prop='createTime'
-      ></el-table-column>
-      <el-table-column :label="$t('创建时间')">
-        <template slot-scope="{row}">
-          <el-button
-            type="primary"
-            size="mini"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleModifyStatus(row,'deleted')"
-          >
-            {{ $t('table.delete') }}
-          </el-button>
-        </template></el-table-column>
+    <el-table class="user-table" :data="pageInfo.contents" border fit highlight-current-row>
+      <el-table-column :label="$t('UserManage.UserName')" prop="userName"></el-table-column>
+      <el-table-column :label="$t('UserManage.Name')" prop="name"></el-table-column>
+      <el-table-column :label="$t('UserManage.Mobile')" prop="mobile"></el-table-column>
+      <el-table-column :label="$t('CreateTime')" prop="createTime"></el-table-column>
+      <el-table-column :label="$t('Operation')" width="130" align="center">
+        <template slot-scope="{ row }">
+          <el-tooltip effect="dark" :content="$t('Edit')" placement="top">
+            <el-button type="primary" size="mini" @click="edit(row)">
+              <i class="el-icon-edit"></i>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip effect="dark" :content="$t('Remove')" placement="top">
+            <el-button size="mini" type="danger" @click="handleModifyStatus(row, 'deleted')"> <i class="el-icon-delete"></i></el-button>
+          </el-tooltip>
+        </template>
+      </el-table-column>
     </el-table>
-    <Pagination
-      v-show="pageInfo.totalCount > 0"
-      :total="pageInfo.totalCount"
-      :page.sync="pageInfo.page"
-      :limit.sync="pageInfo.size"
-      @pagination="getUserList"
-    ></pagination>
+    <Pagination :total="pageInfo.totalCount" :current-page.sync="pageInfo.page" :page-size="pageInfo.size"></Pagination>
+    <el-dialog :title="userInfoSelected.id ? $t('Edit') : $t('Add')" :visible.sync="showEditDialog" :close-on-click-modal="false">
+      <UserForm :userInfo="userInfoSelected"></UserForm>
+      <div slot="footer">
+        <el-button @click="showEditDialog = false">{{ $t('Cancel') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('Save') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
