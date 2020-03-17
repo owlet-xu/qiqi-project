@@ -1,5 +1,6 @@
 package com.qiqi.springboot.seed.bz1.service.serviceimpl;
 
+import com.qiqi.springboot.seed.bz1.contract.constant.UserEnableEnum;
 import com.qiqi.springboot.seed.bz1.contract.constant.UserTypeEnum;
 import com.qiqi.springboot.seed.bz1.contract.model.*;
 import com.qiqi.springboot.seed.bz1.contract.service.UserService;
@@ -113,6 +114,13 @@ public class UserServiceImpl implements UserService {
         return res;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean disableUser(String id) {
+        userRepository.disableUser(id, UserEnableEnum.DISABLED.value());
+        return true;
+    }
+
     private Specification<UserEntity> createSpecification(UserInfo userInfo, String search) {
         List<Predicate> predicatesAdvance = new ArrayList<>(); // 高接搜索，并列
         List<Predicate> predicatesCommon = new ArrayList<>(); // 模糊搜索，or
@@ -148,8 +156,16 @@ public class UserServiceImpl implements UserService {
                 Predicate namePre = criteriaBuilder.like(root.get("email"), prefixForLike(userInfo.getEmail()));
                 predicatesAdvance.add(namePre);
             }
+            // 默认查询启用的用户
+            if (null != userInfo.getEnable() && userInfo.getEnable() != UserEnableEnum.ALL.value()) {
+                Predicate enablePre = criteriaBuilder.equal(root.get("enable"), userInfo.getEnable());
+                predicatesAdvance.add(enablePre);
+            }
             Predicate predicateCommon = criteriaBuilder.or(predicatesCommon.toArray(new Predicate[predicatesCommon.size()]));
             Predicate predicateAdvance = criteriaBuilder.and(predicatesAdvance.toArray(new Predicate[predicatesAdvance.size()]));
+
+
+
             if (predicatesCommon.size() > 0 && predicatesAdvance.size() > 0) {
                 Predicate[] predicate = { predicateCommon, predicateAdvance };
                 return criteriaBuilder.and(predicate);

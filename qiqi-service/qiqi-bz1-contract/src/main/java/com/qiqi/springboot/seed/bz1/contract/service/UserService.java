@@ -19,4 +19,13 @@ public interface UserService {
 
     LoginInfo login(String loginName, String password);
 
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    Boolean disableUser(String id);
+
+
+
 }

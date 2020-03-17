@@ -9,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,5 +55,37 @@ public class UserController {
             @RequestBody UserInfo userInfo
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.saveUser(userInfo));
+    }
+
+    @ApiOperation(value = "测试用户数据", notes = "测试用户数据")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = UserInfo.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/user/test-add", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> testAdd() {
+        for(int i = 0; i < 1000; i++) {
+            UserInfo temp = new UserInfo();
+            temp.setUserType("1");
+            temp.setName("name" + i);
+            temp.setUserName("username" + i);
+            userService.saveUser(temp);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
+
+    @ApiOperation(value = "删除用户", notes = "删除用户")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/user/remove/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> disableUser(
+            @ApiParam(value = "用户id", required = true)
+            @PathVariable String id
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.disableUser(id));
     }
 }

@@ -13,6 +13,14 @@ $--border-color-light: #dfe4ed;
 $--border-color-lighter: #e6ebf5;
 $--table-border:1px solid#dfe6ec;
 
+//table
+.el-table {
+  .el-table__body-wrapper {
+    overflow-y: visible;
+    @include scrollBar();
+  }
+}
+
 // Icon font path, required
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 

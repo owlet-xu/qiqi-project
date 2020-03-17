@@ -1,10 +1,10 @@
 <template>
   <div class="user-form">
-    <el-form :model="fromData">
-      <el-form-item label="用户名">
+    <el-form ref="formRef" :model="fromData">
+      <el-form-item label="用户名" prop="userName" :rules="rules.userName">
         <el-input v-model="fromData.userName"></el-input>
       </el-form-item>
-      <el-form-item label="姓名">
+      <el-form-item label="姓名"  prop="name" :rules="rules.name">
         <el-input v-model="fromData.name"></el-input>
       </el-form-item>
       <el-form-item label="手机号">

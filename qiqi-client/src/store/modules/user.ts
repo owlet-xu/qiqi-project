@@ -14,6 +14,10 @@ class User extends VuexModule implements IUserState {
   public userInfo = new UserInfo();
   public token = Cookies.get(CookiesKeys.token) || '';
 
+  get isLogin() {
+    return this.token ? true : false;
+  }
+
   // #region mutations
   @Mutation
   private SET_TOKEN(token: string) {
@@ -41,9 +45,10 @@ class User extends VuexModule implements IUserState {
 
   @Action
   public async LogOut() {
-    if (this.token === '') {
-      throw Error('LogOut: token is undefined!');
-    }
+    // if (this.token === '') {
+    //   throw Error('LogOut: token is undefined!');
+    // }
+    this.SET_TOKEN('');
     // Reset visited views and cached views
     TagsViewModule.delAllViews();
     this.SET_TOKEN('');

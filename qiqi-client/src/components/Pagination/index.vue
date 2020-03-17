@@ -4,13 +4,12 @@
     class="pagination-container"
   >
     <el-pagination
-      :background="background"
-      :current-page.sync="currentPage"
-      :page-size.sync="pageSize"
-      :layout="layout"
+      :current-page.sync="currentPageTemp"
+      :page-size.sync="pageSizeTemp"
       :page-sizes="pageSizes"
+      :background="background"
+      :layout="layout"
       :total="total"
-      v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -26,39 +25,39 @@ import { scrollTo } from '@/utils/scroll-to';
 })
 export default class extends Vue {
   @Prop({ required: true }) private total!: number;
-  @Prop({ default: 1 }) private page!: number;
-  @Prop({ default: 20 }) private limit!: number;
+  @Prop({ default: 1 }) private currentPage!: number;
   @Prop({ default: () => [10, 20, 30, 50] }) private pageSizes!: number[];
+  @Prop({ default: 20 }) private pageSize!: number;
   @Prop({ default: 'total, sizes, prev, pager, next, jumper' }) private layout!: string;
   @Prop({ default: true }) private background!: boolean;
   @Prop({ default: true }) private autoScroll!: boolean;
   @Prop({ default: false }) private hidden!: boolean;
 
-  get currentPage() {
-    return this.page;
+  get currentPageTemp() {
+    return this.currentPage;
   }
 
-  set currentPage(value) {
-    this.$emit('update:page', value);
+  set currentPageTemp(value) {
+    this.$emit('update:currentPage', value);
   }
 
-  get pageSize() {
-    return this.limit;
+  get pageSizeTemp() {
+    return this.pageSize;
   }
 
-  set pageSize(value) {
-    this.$emit('update:limit', value);
+  set pageSizeTemp(value) {
+    this.$emit('update:pageSize', value);
   }
 
   handleSizeChange(value: number) {
-    this.$emit('pagination', { page: this.currentPage, limit: value });
+    this.$emit('pagination', { page: this.currentPage, size: this.pageSize });
     if (this.autoScroll) {
       scrollTo(0, 800);
     }
   }
 
   handleCurrentChange(value: number) {
-    this.$emit('pagination', { page: value, limit: this.pageSize });
+    this.$emit('pagination', { page: value, size: this.pageSize });
     if (this.autoScroll) {
       scrollTo(0, 800);
     }
@@ -69,7 +68,10 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .pagination-container {
   background: #fff;
-  padding: 32px 16px;
+  padding: 10px;
+  /deep/ .el-pagination {
+    float: right;
+  }
 }
 
 .pagination-container.hidden {

@@ -1,4 +1,4 @@
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 // components
 import Pagination from '@/components/Pagination/index.vue';
 import UserForm from './user-form/user-form';
@@ -9,6 +9,7 @@ import { PageInfo } from '@/models/page-info';
 import { UserInfo } from '@/models/user-info';
 // tools
 import _ from 'lodash';
+import { stringFormatArr } from '@/utils/string-utils';
 @Component({
   components: {
     Pagination,
@@ -23,14 +24,20 @@ export default class UserManager extends Vue {
   private userInfoSelected = new UserInfo();
   private search = '';
   private searchChange: any;
+  private showAll = false; // 是否显示所有用户
 
   created() {
     this.pageInfo.conditions = new UserInfo();
-    this.pageInfo.page = 1;
     this.getUserListFirstPage();
     this.searchChange = _.debounce(() => {
-     this.getUserListFirstPage();
+      this.getUserListFirstPage();
     }, 500);
+  }
+
+  @Watch('showAll')
+  showAllChange(newVal: boolean) {
+    this.pageInfo.conditions.enable = newVal ? -1 : 1;
+    this.getUserListFirstPage();
   }
 
   getUserListFirstPage() {
@@ -71,15 +78,51 @@ export default class UserManager extends Vue {
     this.showEditDialog = true;
   }
 
-  save() {
-    this.loadingSave = true;
-    UserService.saveUser(this.userInfoSelected).then((res: any) => {
-      this.getUserListFirstPage();
-      this.showEditDialog = false;
-    }).finally(() => {
-      this.loadingSave = false;
+  removeConfirm(item: UserInfo) {
+    if (item.enable !== 1) {
+      return;
+    }
+    this.$confirm(stringFormatArr(this.$t('RemoveTip').toString(), ['']), this.$t('Tip').toString(), {
+      confirmButtonText: this.$t('Comfirm').toString(),
+      cancelButtonText: this.$t('Cancel').toString(),
+      type: 'warning'
+    }).then(() => {
+      this.remove(item.id);
     });
   }
 
-  handleModifyStatus(row: any, type: any) {}
+  remove(id: string) {
+    UserService.remove(id).then((res: any) => {
+      if (res) {
+        this.getUserList();
+      }
+    });
+  }
+
+  saveValid() {
+    const userForm = this.$refs['userFormRef'] as UserForm;
+    userForm.validForm().then((valid: boolean) => {
+      if (valid) {
+        this.save();
+      }
+    }).catch(() => {});
+  }
+
+  save() {
+    this.loadingSave = true;
+    this.userInfoSelected.userType = '1';
+    UserService.saveUser(this.userInfoSelected)
+      .then((res: any) => {
+        this.getUserListFirstPage();
+        this.showEditDialog = false;
+      })
+      .finally(() => {
+        this.loadingSave = false;
+      });
+  }
+
+  // 分页改变
+  pagination(data: any) {
+    this.getUserList();
+  }
 }

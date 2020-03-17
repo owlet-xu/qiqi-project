@@ -11,6 +11,7 @@
   "Tip": "提示",
   "All": "全部",
   "Remove": "删除",
+  "RemoveTip": "是否删除{0}",
   "SelectTip": "请选择",
   "InputTip": "请输入{0}",
   "SearchTip": "输入关键字搜索",

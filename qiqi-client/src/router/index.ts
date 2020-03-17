@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router, { RouteConfig } from 'vue-router';
 import { Path, RouterName, RouterPrefix } from './router-types';
 import Layout from '@/views/layout/layout.vue';
+import { AuthorizeGuard } from './login-guard';
 
 Vue.use(Router);
 
@@ -14,6 +15,7 @@ export const constantRouterMap: RouteConfig[] = [
   {
     path: Path.Layout,
     component: Layout,
+    beforeEnter: AuthorizeGuard(Path.Login),
     redirect: Path.Home,
     children: [
       {
@@ -31,6 +33,7 @@ export const constantRouterMap: RouteConfig[] = [
   {
     path: Path.UserManage,
     component: Layout,
+    beforeEnter: AuthorizeGuard(Path.Login),
     children: [
       {
         path: Path.UserManage,
@@ -47,6 +50,7 @@ export const constantRouterMap: RouteConfig[] = [
   {
     path: Path.DeptManage,
     component: Layout,
+    beforeEnter: AuthorizeGuard(Path.Login),
     children: [
       {
         path: Path.DeptManage,
@@ -63,6 +67,7 @@ export const constantRouterMap: RouteConfig[] = [
   {
     path: Path.Privilege,
     component: Layout,
+    beforeEnter: AuthorizeGuard(Path.Login),
     redirect: Path.RoleList,
     meta: {
       title: RouterPrefix(RouterName.Privilege),

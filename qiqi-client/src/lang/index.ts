@@ -1,18 +1,15 @@
-// tslint:disable
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import { CookiesKeys, Cookies } from '@/strorage/cookies';
 
-const zh = require ('./zh-CN.json');
-const en = require ('./en-US.json');
-const es = require('./es-EC.json');
-const elementEnLocale = require ('element-ui/lib/locale/lang/en'); // element-ui lang
-const elementZhLocale = require ('element-ui/lib/locale/lang/zh-CN'); // element-ui lang
-const elementEsLocale = require ('element-ui/lib/locale/lang/es'); // element-ui lang
+import zh from './zh-CN.json';
+import en from './en-US.json';
+import es from './es-EC.json';
 
-
-
-const ElementLocale = require('element-ui/lib/locale');
+import ElementLocale from 'element-ui/lib/locale';
+import elementEnLocale from 'element-ui/lib/locale/lang/en'; // element-ui lang
+import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'; // element-ui lang
+import elementEsLocale from 'element-ui/lib/locale/lang/es'; // element-ui lang
 
 Vue.use(VueI18n);
 
@@ -37,5 +34,6 @@ const i18n = new VueI18n({
 });
 // 解决Element-ui组件内的词条
 ElementLocale.use(i18n.locale);
-// ElementLocale.i18n((key: any, value: any) => i18n.t(key, value));
+ElementLocale.i18n((key: any, value: any) => i18n.t(key, value));
+
 export default i18n;
