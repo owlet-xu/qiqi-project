@@ -6,9 +6,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 import java.util.Locale;
 
-/**
- * Created by xiaodiming on 2016/5/20.
- */
 public class AppInit implements ApplicationListener<ContextRefreshedEvent> {
     @Value("${app.language}")
     private String language;

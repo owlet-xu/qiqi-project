@@ -3,15 +3,19 @@ package com.qiqi.springboot.seed.bz1.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.qiqi.springboot.seed.bz1.contract.model.LoginInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
-import com.qiqi.springboot.seed.bz1.contract.service.UserService;
-import io.swagger.annotations.*;
+import com.qiqi.springboot.seed.bz1.contract.service.LoginService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author xuguoyuan
@@ -23,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api(value = "/api/v1", tags = { "登录模块Api"})
 public class LoginController {
     @Autowired
-    UserService userService;
+    LoginService loginService;
 
     @ApiOperation(value = "保存用户", notes = "新增or更新用户")
     @ApiResponses({
@@ -35,6 +39,6 @@ public class LoginController {
     public ResponseEntity<LoginInfo> Login(@RequestBody JSONObject jsonObject) {
         String loginName =  jsonObject.get("loginName").toString();
         String password =  jsonObject.get("password").toString();
-        return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginName, password));
+        return ResponseEntity.status(HttpStatus.OK).body(loginService.login(loginName, password));
     }
 }

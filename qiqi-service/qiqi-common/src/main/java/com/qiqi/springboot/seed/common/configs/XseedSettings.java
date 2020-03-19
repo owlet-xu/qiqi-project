@@ -7,7 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "xseed")
 public class XseedSettings {
+    // 用户默认密码
     public static String defaultPassword = "123456";
+    // http请求头的字段
+    public static String authorizationHeadName = "Authorization";
     private String url1;
     private String url2;
 

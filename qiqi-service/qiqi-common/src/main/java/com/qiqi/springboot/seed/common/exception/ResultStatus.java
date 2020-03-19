@@ -55,7 +55,12 @@ public enum ResultStatus {
     /**
      * 一般指插入数据时,该记录已存在.
      */
-    DATA_ALREADY_EXISTS(22007, "Data already exists!");
+    DATA_ALREADY_EXISTS(22007, "Data already exists!"),
+
+    /**
+     * token验证失败
+     */
+    TOKEN_CHECK_FAILED(29999, "Token check failed!");
 
     private int code;
     private String message;

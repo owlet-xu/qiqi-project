@@ -2,7 +2,8 @@ package com.qiqi.springboot.seed.bz1.service.serviceimpl;
 
 import com.qiqi.springboot.seed.bz1.contract.constant.UserEnableEnum;
 import com.qiqi.springboot.seed.bz1.contract.constant.UserTypeEnum;
-import com.qiqi.springboot.seed.bz1.contract.model.*;
+import com.qiqi.springboot.seed.bz1.contract.model.PageInfo;
+import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.UserService;
 import com.qiqi.springboot.seed.bz1.service.datamappers.UserMapper;
 import com.qiqi.springboot.seed.bz1.service.entity.UserEntity;
@@ -18,11 +19,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author xgy
@@ -97,21 +100,6 @@ public class UserServiceImpl implements UserService {
         userEntity.setUserLevel( userInfo.getUserLevel() );
         userEntity.setUpdateTime(new Date());
         return userEntity;
-    }
-
-    @Override
-    public LoginInfo login(String loginName, String password) {
-        List<UserEntity> users = userRepository.findByUserName(loginName);
-        if (CollectionUtils.isEmpty(users)) {
-            throw new BusinessException(ResultStatus.DATA_NOT_EXIST);
-        }
-        if (!users.get(0).getPassword().equals(password)) {
-            throw new BusinessException(ResultStatus.PARAM_IS_INVALID);
-        }
-        LoginInfo res = new LoginInfo();
-        res.setToken(UUID.randomUUID().toString());
-        res.setUserInfo(userMapper.entityToModel(users.get(0)));
-        return res;
     }
 
     @Override

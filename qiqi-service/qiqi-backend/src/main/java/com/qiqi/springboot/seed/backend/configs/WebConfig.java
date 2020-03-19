@@ -3,7 +3,7 @@ package com.qiqi.springboot.seed.backend.configs;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qiqi.springboot.seed.common.citysafety.JsonUtil;
+import com.qiqi.springboot.seed.common.qiqi.JsonUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 /**
- * Created by xiaodm on 2016/4/25.
- * DispatcherServlet的配置
+ * 2016/4/25.
+ * Servlet的配置
  */
 @Configuration
 // 允许CGLIB方式的切面代理

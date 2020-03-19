@@ -1,4 +1,4 @@
-package com.qiqi.springboot.seed.common.citysafety;
+package com.qiqi.springboot.seed.common.qiqi;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
