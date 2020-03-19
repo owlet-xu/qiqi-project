@@ -6,6 +6,7 @@ import ElementUI from 'element-ui';
 import SvgIcon from 'vue-svgicon';
 import config from './utils/appconfig';
 import i18n from '@/lang';
+import '@/venders/http-client';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/fonts/iconfont';
 import '@/assets/styles/index.scss';

@@ -6,7 +6,7 @@ export const AuthorizeGuard = (loginUrl = '/login') => {
     if (UserModule.isLogin) {
       next();
     } else {
-      next(loginUrl);
+      next(`${loginUrl}?redirect=${to.fullPath}`);
     }
   };
 };

@@ -8,6 +8,7 @@ import HeaderSearch from '@/components/HeaderSearch/index.vue';
 import LangSelect from '@/components/lang-select/index';
 import Screenfull from '@/components/Screenfull/index.vue';
 import SizeSelect from '@/components/SizeSelect/index.vue';
+import { Path } from '@/router/router-types';
 
 /**
  * 头部
@@ -44,6 +45,6 @@ export default class extends Vue {
 
   private async LogOut() {
     await UserModule.LogOut();
-    this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+    this.$router.push(`${Path.Login}?redirect=${this.$route.fullPath}`);
   }
 }

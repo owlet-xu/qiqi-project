@@ -26,6 +26,7 @@
   "OptionSuccess": "操作成功",
   "LoadingData": "数据加载中，请稍后...",
   "CreateTime": "创建时间",
+  "TokenValid": "token失效，请重新登录",
   "Login": {
     "Title": "后台管理系统",
     "Login": "登录",
@@ -67,5 +68,9 @@
     "Mobile": "手机",
     "UserName": "用户名",
     "Email": "邮箱"
+  },
+  "Error": {
+    "System": "系统错误",
+    "Net": "服务器请求失败"
   }
 }
