@@ -61,6 +61,11 @@ public class UserInfo {
     @Size(max = 100)
     private String userLevel;
     /**
+     * 用户头像
+     */
+    @Size(max = 200)
+    private String headImg;
+    /**
      * 更新时间
      */
     private Date updateTime;
@@ -163,5 +168,13 @@ public class UserInfo {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 }

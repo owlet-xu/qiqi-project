@@ -4,5 +4,6 @@ export const CookiesKeys = {
   sidebarStatusKey: 'sidebar_status',
   size: 'size',
   menus: 'menus',
-  token: 'token'
+  token: 'token',
+  userInfo: 'userInfo'
 };

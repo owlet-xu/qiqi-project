@@ -32,7 +32,7 @@
       >
         <div class="avatar-wrapper">
           <img
-            src="@/assets/imgs/owlet.png"
+            :src="avatar"
             class="user-avatar"
           >
           <i class="el-icon-caret-bottom" />

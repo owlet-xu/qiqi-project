@@ -11,7 +11,7 @@ export interface IUserState {
 }
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements IUserState {
-  public userInfo = new UserInfo();
+  public userInfo = Cookies.getJSON(CookiesKeys.userInfo) || new UserInfo();
   public token = Cookies.get(CookiesKeys.token) || '';
 
   get isLogin() {
@@ -28,6 +28,7 @@ class User extends VuexModule implements IUserState {
   @Mutation
   private SET_USER_INFO(userInfo: UserInfo) {
     this.userInfo = userInfo;
+    Cookies.set(CookiesKeys.userInfo, userInfo);
   }
 
   // #endregion

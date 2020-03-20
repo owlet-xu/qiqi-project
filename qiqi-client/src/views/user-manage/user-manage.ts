@@ -4,12 +4,15 @@ import Pagination from '@/components/Pagination/index.vue';
 import UserForm from './user-form/user-form';
 // services
 import UserService from '@/api/user-service';
+import AttachService from '@/api/attach-service';
 // models
 import { PageInfo } from '@/models/page-info';
 import { UserInfo } from '@/models/user-info';
 // tools
 import _ from 'lodash';
 import { stringFormatArr } from '@/utils/string-utils';
+// store
+import { UserModule } from '@/store/modules/user';
 @Component({
   components: {
     Pagination,
@@ -101,24 +104,53 @@ export default class UserManager extends Vue {
 
   saveValid() {
     const userForm = this.$refs['userFormRef'] as UserForm;
-    userForm.validForm().then((valid: boolean) => {
-      if (valid) {
-        this.save();
-      }
-    }).catch(() => {});
+    userForm.getHeadImgFile();
+    userForm
+      .validForm()
+      .then((valid: boolean) => {
+        if (valid) {
+          this.save();
+        }
+      })
+      .catch(() => {});
   }
 
-  save() {
+  async save() {
     this.loadingSave = true;
+    const img: any = await this.uploadHeadImg();
+    if (img && img.fileName) {
+      this.userInfoSelected.headImg = img.fileName;
+    }
     this.userInfoSelected.userType = '1';
     UserService.saveUser(this.userInfoSelected)
       .then((res: any) => {
+        this.changeCurrentUserInfo();
         this.getUserListFirstPage();
         this.showEditDialog = false;
       })
       .finally(() => {
         this.loadingSave = false;
       });
+  }
+
+  /**
+   * 如果修改的是登录用户，相关信息要更新
+   */
+  changeCurrentUserInfo() {
+    if (UserModule.userInfo.id === this.userInfoSelected.id) {
+      UserModule.setUserInfo(this.userInfoSelected);
+    }
+  }
+
+  uploadHeadImg() {
+    const userForm = this.$refs['userFormRef'] as UserForm;
+    const singleFile = userForm.getHeadImgFile();
+    if (!singleFile) {
+      return null;
+    }
+    const formData = new FormData();
+    formData.append('file', singleFile);
+    return AttachService.uploadSingle(formData);
   }
 
   // 分页改变

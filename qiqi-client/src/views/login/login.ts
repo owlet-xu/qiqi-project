@@ -112,6 +112,7 @@ export default class extends Vue {
         if (res) {
           PermissionModule.GenerateRoutes(constantRouterMap);
           UserModule.setToken(res.token);
+          UserModule.setUserInfo(res.userInfo);
           this.$router.push({
             path: this.redirect || '/',
             query: this.otherQuery

@@ -44,4 +44,5 @@ export class UserInfo {
      * 创建时间
      */
     createTime?: Date;
+    headImg = '';
 }

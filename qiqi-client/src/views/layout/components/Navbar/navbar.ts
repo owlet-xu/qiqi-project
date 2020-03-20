@@ -9,6 +9,7 @@ import LangSelect from '@/components/lang-select/index';
 import Screenfull from '@/components/Screenfull/index.vue';
 import SizeSelect from '@/components/SizeSelect/index.vue';
 import { Path } from '@/router/router-types';
+import AttachService from '@/api/attach-service';
 
 /**
  * 头部
@@ -35,8 +36,11 @@ export default class extends Vue {
   }
 
   get avatar() {
-    // return UserModule.avatar
-    return '';
+    if (UserModule.userInfo.headImg) {
+     return AttachService.previewUrl(UserModule.userInfo.headImg);
+    } else {
+      return '@/assets/imgs/owlet.png';
+    }
   }
 
   private toggleSideBar() {

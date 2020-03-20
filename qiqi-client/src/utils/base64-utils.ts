@@ -83,4 +83,25 @@ const compressBase64ForSize = async (base64Str: any, ratio: any, limit: number) 
   return getBase64Pic(base64Str);
 };
 
-export { getBase64Pic, getPicBase64NoHead, compressBase64ForSize };
+/**
+ * 从上传文件插件中获取base64
+ * @param file
+ */
+const getBase64FromFile = (file: any): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    let imgResult: any = '';
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      imgResult = reader.result;
+    };
+    reader.onerror = (error: any) => {
+      reject(error);
+    };
+    reader.onloadend = () => {
+      resolve(imgResult);
+    };
+  });
+};
+
+export { getBase64Pic, getPicBase64NoHead, compressBase64ForSize, getBase64FromFile };

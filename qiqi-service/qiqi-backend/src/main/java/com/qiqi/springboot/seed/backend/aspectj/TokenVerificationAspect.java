@@ -79,9 +79,8 @@ public class TokenVerificationAspect {
 //            String errorMessage = ex.getMessage();
 //            throw new BusinessException(ResultStatus.TOKEN_CHECK_FAILED.getCode(), errorMessage);
 //        }
-        // 登录界面过滤掉
-        String uri = HttpServletContextHolder.getCurrentRequest().getRequestURI();
-        if (uri.indexOf("/login") > -1) {
+        String url = HttpServletContextHolder.getCurrentRequest().getRequestURI();
+        if (isIgloreUrl(url)) {
             return;
         }
         String clientToken = HttpServletContextHolder.getHeader(XseedSettings.authorizationHeadName);
@@ -92,6 +91,18 @@ public class TokenVerificationAspect {
             this.logger.warn("Check Token Failed, token: {}", clientToken);
             throw new BusinessException(ResultStatus.TOKEN_CHECK_FAILED.getCode(), errorMessage);
         }
+    }
+
+    private boolean isIgloreUrl(String url) {
+        // 登陆接口
+        if (url.indexOf("/login") != -1) {
+            return true;
+        }
+        // 预览图片接口
+        if (url.indexOf("/upload/preview/") != -1) {
+            return true;
+        }
+        return false;
     }
 
     private boolean isCheckError(String response) {

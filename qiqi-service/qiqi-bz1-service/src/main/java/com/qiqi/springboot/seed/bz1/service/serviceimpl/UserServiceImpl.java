@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setEmail( userInfo.getEmail() );
         userEntity.setUserType( userInfo.getUserType() );
         userEntity.setEnable( userInfo.getEnable() );
+        userEntity.setHeadImg(userInfo.getHeadImg());
         userEntity.setUserIntegral( userInfo.getUserIntegral() );
         userEntity.setUserLevel( userInfo.getUserLevel() );
         userEntity.setUpdateTime(new Date());

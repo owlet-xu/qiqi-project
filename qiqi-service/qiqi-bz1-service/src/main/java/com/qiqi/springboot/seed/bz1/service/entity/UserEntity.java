@@ -63,6 +63,11 @@ public class UserEntity {
     @Column(name = "USER_LEVEL", length = 100)
     private String userLevel;
     /**
+     * 用户头像
+     */
+    @Column(name = "HEAD_IMG", length = 200)
+    private String headImg;
+    /**
      * 更新时间
      */
     @Column(name = "UPDATE_TIME")
@@ -167,5 +172,13 @@ public class UserEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 }
