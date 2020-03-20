@@ -2,17 +2,23 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { UserInfo } from '@/models/user-info';
 import { Form as ElForm } from 'element-ui';
 import AttachService from '@/api/attach-service';
+// services
+import UserService from '@/api/user-service';
 // tools
 import { stringFormatArr } from '@/utils/string-utils';
 import { getBase64FromFile } from '@/utils/base64-utils';
+// store
+import { UserModule } from '@/store/modules/user';
 
 @Component
 export default class UserForm extends Vue {
   @Prop()
-  userInfo!: UserInfo;
+  userInfo!: UserInfo; // 表单数据
 
-  private headImgBase64: any = '';
-  private headImgFile: any = '';
+  @Prop({ default: false })
+  saving!: boolean; // 是否正在保存中
+  private headImgBase64: any = ''; // 显示的图片
+  private headImgFile: any = ''; // 上传的文件
 
   private rules = {
     userName: [{ required: true, validator: this.validateUserName, trigger: ['blur', 'change'] }],
@@ -23,30 +29,43 @@ export default class UserForm extends Vue {
     return this.userInfo;
   }
 
+  set fromData(value) {
+    this.$emit('update:userInfo', value);
+  }
+
+  get savingTemp() {
+    return this.saving;
+  }
+
+  set savingTemp(value) {
+    this.$emit('update:saving', value);
+  }
+
   created() {
     if (this.userInfo.headImg) {
       this.headImgBase64 = AttachService.previewUrl(this.userInfo.headImg);
-      // AttachService.preview(this.userInfo.headImg).then((res: any) => {
-      //   debugger;
-      //  this.headImgBase64 = res;
-      // });
     }
-
   }
 
   /**
    * 验证表单-暴漏给父组件
    */
-  async validForm(): Promise<boolean> {
+  public async validForm(): Promise<boolean> {
     const form: ElForm = this.$refs['formRef'] as ElForm;
     return form.validate();
   }
 
   /**
-   * 获取图片数据
+   * 保存表单--暴漏给父组件
    */
-  getHeadImgFile() {
-    return this.headImgFile;
+  public saveValid() {
+    this.validForm()
+      .then((valid: boolean) => {
+        if (valid) {
+          this.save();
+        }
+      })
+      .catch(() => {});
   }
 
   private validateUserName(rule: any, value: any, callback: any) {
@@ -80,5 +99,41 @@ export default class UserForm extends Vue {
     getBase64FromFile(file.raw).then((res: any) => {
       this.headImgBase64 = res;
     });
+  }
+
+  private async save() {
+    this.savingTemp = true;
+    const img: any = await this.uploadHeadImg();
+    if (img && img.fileName) {
+      this.fromData.headImg = img.fileName;
+    }
+    this.fromData.userType = '1';
+    UserService.saveUser(this.fromData)
+      .then((res: any) => {
+        this.changeCurrentUserInfo();
+        // 父组件回调函数
+        this.$emit('saveSuccess', res);
+      })
+      .finally(() => {
+        this.savingTemp = false;
+      });
+  }
+
+  uploadHeadImg() {
+    if (!this.headImgFile) {
+      return null;
+    }
+    const formData = new FormData();
+    formData.append('file', this.headImgFile);
+    return AttachService.uploadSingle(formData);
+  }
+
+  /**
+   * 如果修改的是登录用户，相关信息要更新
+   */
+  changeCurrentUserInfo() {
+    if (UserModule.userInfo.id === this.fromData.id) {
+      UserModule.setUserInfo(this.fromData);
+    }
   }
 }

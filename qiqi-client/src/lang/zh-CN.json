@@ -49,7 +49,8 @@
   },
   "Navbar": {
     "LoginOut": "退出",
-    "Size": "字体大小"
+    "Size": "字体大小",
+    "EditSelfInfo": "修改个人信息"
   },
   "Settings": {
     "Title": "系统设置",

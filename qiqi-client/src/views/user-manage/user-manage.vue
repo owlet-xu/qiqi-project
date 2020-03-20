@@ -35,10 +35,10 @@
       @pagination="pagination"
     ></Pagination>
     <el-dialog :title="userInfoSelected.id ? $t('Edit') : $t('Add')" :visible.sync="showEditDialog" :close-on-click-modal="false">
-      <UserForm ref="userFormRef" v-if="showEditDialog" :userInfo="userInfoSelected"></UserForm>
+      <UserForm ref="userFormRef" v-if="showEditDialog" :userInfo.sync="userInfoSelected" :saving.sync="loadingSave" @saveSuccess="saveSuccess"></UserForm>
       <div slot="footer">
         <el-button @click="showEditDialog = false">{{ $t('Cancel') }}</el-button>
-        <el-button type="primary" @click="saveValid">{{ $t('Save') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('Save') }}</el-button>
       </div>
     </el-dialog>
   </div>
