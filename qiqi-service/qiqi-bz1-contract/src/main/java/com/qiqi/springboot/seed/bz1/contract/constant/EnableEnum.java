@@ -5,24 +5,24 @@ package com.qiqi.springboot.seed.bz1.contract.constant;
  * @description
  * @date 2020-03-17 14:29
  */
-public enum UserEnableEnum implements EnumValue<Integer> {
+public enum EnableEnum implements EnumValue<Integer> {
 
     /**
-     * 所有用户
+     * 所有数据
      */
     ALL(-1),
     /**
-     * 禁用的用户
+     * 禁用的数据
      */
     DISABLED(0),
     /**
-     * 启用的用户
+     * 启用的数据
      */
     ENABLE(1);
 
     private Integer type;
 
-    UserEnableEnum(Integer type) {
+    EnableEnum(Integer type) {
         this.type = type;
     }
 

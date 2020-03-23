@@ -1,4 +1,24 @@
-.home {
+.dept-manage {
   height: 100%;
-  overflow-y: auto;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  background-color: $contentBg;
+  padding: $margin-size;
+  .dept-tree-container {
+    flex: 0 0 420px;
+    margin-right: 10px;
+    background-color: white;
+  }
+  .dept-tree-mobile {
+    flex: 1 1 auto;
+    margin-right: 0px;
+  }
+  .dept-users-container {
+    flex: 1 1 auto;
+    background-color: white;
+  }
+  .dept-users-mobile {
+    display: none;
+  }
 }

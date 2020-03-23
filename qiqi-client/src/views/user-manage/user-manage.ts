@@ -118,4 +118,8 @@ export default class UserManager extends Vue {
   pagination(data: any) {
     this.getUserList();
   }
+
+  disabledRow(data: any) {
+    return data.row && data.row.enable ? '' : 'disabled-row';
+  }
 }

@@ -9,7 +9,7 @@
       </el-tooltip>
       <el-switch v-model="showAll" inactive-text="全部"> </el-switch>
     </div>
-    <el-table class="user-table" :data="pageInfo.contents" stripe fit highlight-current-row>
+    <el-table class="user-table" :data="pageInfo.contents" stripe fit highlight-current-row :cell-class-name="disabledRow">
       <el-table-column :label="$t('UserManage.UserName')" prop="userName"></el-table-column>
       <el-table-column :label="$t('UserManage.Name')" prop="name"></el-table-column>
       <el-table-column :label="$t('UserManage.Mobile')" prop="mobile"></el-table-column>

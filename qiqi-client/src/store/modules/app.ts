@@ -17,7 +17,7 @@ class App extends VuexModule implements IAppState {
   public language = Cookies.get(CookiesKeys.language) || 'zh';
   public size = Cookies.get(CookiesKeys.size) || 'medium';
   public configs: any = {};
-  public device = DeviceType.Desktop;
+  public device = DeviceType.Desktop; // 移动设备还是电脑客户端
   public sidebar = {
     opened: true,
     withoutAnimation: true

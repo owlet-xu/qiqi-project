@@ -13,13 +13,15 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020-03-19 16:19
  */
 public interface FileUploadService {
+
     /**
-     * 上传用户头像
+     * 上传文件
      * @param request
      * @param response
+     * @param type
      * @return
      */
-    FileMeta uploadHeadImg(MultipartHttpServletRequest request, HttpServletResponse response);
+    FileMeta upload(MultipartHttpServletRequest request, HttpServletResponse response, String type);
 
     /**
      * 处理下载或者预览请求

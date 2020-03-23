@@ -1,6 +1,11 @@
 <template>
-  <div>
-    部门管理
+  <div class="dept-manage">
+    <div :class="['dept-tree-container', isMobile ? 'dept-tree-mobile': '']">
+      <DeptTree></DeptTree>
+    </div>
+    <div :class="['dept-users-container', isMobile ? 'dept-users-mobile': '']">
+      <DeptUsers></DeptUsers>
+    </div>
   </div>
 </template>
 

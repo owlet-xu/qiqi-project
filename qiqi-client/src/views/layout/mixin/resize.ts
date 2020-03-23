@@ -6,7 +6,7 @@ import { DeviceType } from '@/models/enums/device-type';
 const WIDTH = 992; // refer to Bootstrap's responsive design
 
 /**
- * 电脑/移动设备
+ * 电脑/移动设备，会变化sidebar样式和状态
  */
 @Component({
   name: 'ResizeMixin'

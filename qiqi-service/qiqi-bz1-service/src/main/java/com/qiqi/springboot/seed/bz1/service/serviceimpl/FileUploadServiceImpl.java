@@ -37,15 +37,16 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Autowired
     UserRepository userRepository;
+
     /**
-     * 上传用户头像
-     *
+     * 上传文件
      * @param request
      * @param response
+     * @param type
      * @return
      */
     @Override
-    public FileMeta uploadHeadImg(MultipartHttpServletRequest request, HttpServletResponse response) {
+    public FileMeta upload(MultipartHttpServletRequest request, HttpServletResponse response, String type) {
         Iterator<String> itr = request.getFileNames();
         MultipartFile mpf = null;
 

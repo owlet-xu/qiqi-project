@@ -1,6 +1,6 @@
 package com.qiqi.springboot.seed.bz1.service.serviceimpl;
 
-import com.qiqi.springboot.seed.bz1.contract.constant.UserEnableEnum;
+import com.qiqi.springboot.seed.bz1.contract.constant.EnableEnum;
 import com.qiqi.springboot.seed.bz1.contract.constant.UserTypeEnum;
 import com.qiqi.springboot.seed.bz1.contract.model.PageInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
@@ -12,6 +12,7 @@ import com.qiqi.springboot.seed.bz1.service.repository.UserRepository;
 import com.qiqi.springboot.seed.common.configs.XseedSettings;
 import com.qiqi.springboot.seed.common.exception.BusinessException;
 import com.qiqi.springboot.seed.common.exception.ResultStatus;
+import com.qiqi.springboot.seed.common.util.RepositoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
     private UserEntity add(UserInfo userInfo) {
         UserEntity userEntity = userMapper.modelToEntity(userInfo);
         userEntity.setId(UUID.randomUUID().toString());
+        userEntity.setEnable(1);
         userEntity.setUserType(UserTypeEnum.COMMON.value());
         userEntity.setPassword(XseedSettings.defaultPassword);
         userEntity.setCreateTime(new Date());
@@ -106,7 +108,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean disableUser(String id) {
-        userRepository.disableUser(id, UserEnableEnum.DISABLED.value());
+        userRepository.disableUser(id, EnableEnum.DISABLED.value());
         return true;
     }
 
@@ -120,33 +122,33 @@ public class UserServiceImpl implements UserService {
             }
             // 综合搜搜
             if (!StringUtils.isEmpty(search)) {
-                Predicate namePre = criteriaBuilder.like(root.get("name"), prefixForLike(search));
+                Predicate namePre = criteriaBuilder.like(root.get("name"), RepositoryUtils.prefixForLike(search));
                 predicatesCommon.add(namePre);
-                Predicate userNamePre = criteriaBuilder.like(root.get("userName"), prefixForLike(search));
+                Predicate userNamePre = criteriaBuilder.like(root.get("userName"), RepositoryUtils.prefixForLike(search));
                 predicatesCommon.add(userNamePre);
-                Predicate mobilePre = criteriaBuilder.like(root.get("mobile"), prefixForLike(search));
+                Predicate mobilePre = criteriaBuilder.like(root.get("mobile"), RepositoryUtils.prefixForLike(search));
                 predicatesCommon.add(mobilePre);
-                Predicate emailPre = criteriaBuilder.like(root.get("email"), prefixForLike(search));
+                Predicate emailPre = criteriaBuilder.like(root.get("email"), RepositoryUtils.prefixForLike(search));
                 predicatesCommon.add(emailPre);
             }
             if (!StringUtils.isEmpty(userInfo.getName())) {
-                Predicate namePre = criteriaBuilder.like(root.get("name"),  prefixForLike(userInfo.getName()));
+                Predicate namePre = criteriaBuilder.like(root.get("name"),  RepositoryUtils.prefixForLike(userInfo.getName()));
                 predicatesAdvance.add(namePre);
             }
             if (!StringUtils.isEmpty(userInfo.getUserName())) {
-                Predicate namePre = criteriaBuilder.like(root.get("userName"), prefixForLike(userInfo.getUserName()));
+                Predicate namePre = criteriaBuilder.like(root.get("userName"), RepositoryUtils.prefixForLike(userInfo.getUserName()));
                 predicatesAdvance.add(namePre);
             }
             if (!StringUtils.isEmpty(userInfo.getMobile())) {
-                Predicate namePre = criteriaBuilder.like(root.get("mobile"), prefixForLike(userInfo.getMobile()));
+                Predicate namePre = criteriaBuilder.like(root.get("mobile"), RepositoryUtils.prefixForLike(userInfo.getMobile()));
                 predicatesAdvance.add(namePre);
             }
             if (!StringUtils.isEmpty(userInfo.getEmail())) {
-                Predicate namePre = criteriaBuilder.like(root.get("email"), prefixForLike(userInfo.getEmail()));
+                Predicate namePre = criteriaBuilder.like(root.get("email"), RepositoryUtils.prefixForLike(userInfo.getEmail()));
                 predicatesAdvance.add(namePre);
             }
             // 默认查询启用的用户
-            if (null != userInfo.getEnable() && userInfo.getEnable() != UserEnableEnum.ALL.value()) {
+            if (null != userInfo.getEnable() && userInfo.getEnable() != EnableEnum.ALL.value()) {
                 Predicate enablePre = criteriaBuilder.equal(root.get("enable"), userInfo.getEnable());
                 predicatesAdvance.add(enablePre);
             }
@@ -167,9 +169,5 @@ public class UserServiceImpl implements UserService {
             }
         };
         return filters;
-    }
-
-    private String prefixForLike(String val) {
-        return "%" + val+ "%";
     }
 }
