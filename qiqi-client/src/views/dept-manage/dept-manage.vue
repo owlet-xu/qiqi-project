@@ -1,9 +1,9 @@
 <template>
   <div class="dept-manage">
-    <div :class="['dept-tree-container', isMobile ? 'dept-tree-mobile': '']">
+    <div :class="['dept-tree-container', isMobile ? 'dept-tree-container-mobile': '']">
       <DeptTree></DeptTree>
     </div>
-    <div :class="['dept-users-container', isMobile ? 'dept-users-mobile': '']">
+    <div :class="['dept-users-container', isMobile ? 'dept-users-container-mobile': '']">
       <DeptUsers></DeptUsers>
     </div>
   </div>

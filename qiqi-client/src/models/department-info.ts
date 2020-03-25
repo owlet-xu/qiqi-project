@@ -27,4 +27,6 @@ export class DepartmentInfo {
   imgId = '';
 
   enable = 1;
+
+  userIds: string[] = [];
 }

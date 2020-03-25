@@ -13,7 +13,6 @@ import java.util.List;
 public class UserInfo {
 
     @Size(max = 50)
-    @NotBlank
     private String id;
     /**
      * 姓名
@@ -65,6 +64,10 @@ public class UserInfo {
      */
     @Size(max = 200)
     private String headImg;
+    /**
+     * 用户部门
+     */
+    private List<DepartmentInfo> deptInfos;
     /**
      * 更新时间
      */
@@ -176,5 +179,13 @@ public class UserInfo {
 
     public void setHeadImg(String headImg) {
         this.headImg = headImg;
+    }
+
+    public List<DepartmentInfo> getDeptInfos() {
+        return deptInfos;
+    }
+
+    public void setDeptInfos(List<DepartmentInfo> deptInfos) {
+        this.deptInfos = deptInfos;
     }
 }

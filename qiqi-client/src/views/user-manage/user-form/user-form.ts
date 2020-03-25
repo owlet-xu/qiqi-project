@@ -1,14 +1,18 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { UserInfo } from '@/models/user-info';
 import { Form as ElForm } from 'element-ui';
 import AttachService from '@/api/attach-service';
 // services
 import UserService from '@/api/user-service';
+import DeptService from '@/api/dept-service';
 // tools
 import { stringFormatArr } from '@/utils/string-utils';
 import { getBase64FromFile } from '@/utils/base64-utils';
 // store
 import { UserModule } from '@/store/modules/user';
+// models
+import { UserInfo } from '@/models/user-info';
+import { DepartmentInfo } from '@/models/department-info';
+import { PageInfo } from '@/models/page-info';
 
 @Component
 export default class UserForm extends Vue {
@@ -19,6 +23,7 @@ export default class UserForm extends Vue {
   saving!: boolean; // 是否正在保存中
   private headImgBase64: any = ''; // 显示的图片
   private headImgFile: any = ''; // 上传的文件
+  private depts: DepartmentInfo[] = [];
 
   private rules = {
     userName: [{ required: true, validator: this.validateUserName, trigger: ['blur', 'change'] }],
@@ -45,6 +50,17 @@ export default class UserForm extends Vue {
     if (this.userInfo.headImg) {
       this.headImgBase64 = AttachService.previewUrl(this.userInfo.headImg);
     }
+    this.findDepartmentListPage();
+  }
+
+  findDepartmentListPage() {
+    const pageInfo: PageInfo<DepartmentInfo> = new PageInfo();
+    pageInfo.page = 0;
+    pageInfo.size = 999999;
+    pageInfo.conditions = new DepartmentInfo();
+    DeptService.findDepartmentListPage(pageInfo).then((res: PageInfo<DepartmentInfo>) => {
+      this.depts = res.contents;
+    });
   }
 
   /**

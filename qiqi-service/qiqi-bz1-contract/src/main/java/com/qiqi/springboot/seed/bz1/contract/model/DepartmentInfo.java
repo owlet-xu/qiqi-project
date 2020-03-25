@@ -13,7 +13,6 @@ import java.util.List;
 public class DepartmentInfo {
 
     @Size(max = 50)
-    @NotBlank
     private String id;
 
     /**
@@ -54,6 +53,16 @@ public class DepartmentInfo {
      */
     @Size(max = 200)
     private String imgId;
+
+    /**
+     * 树深度，从0开始
+     */
+    private Integer deepId;
+
+    /**
+     * 部门关联的人员id
+     */
+    private List<String> userIds;
 
     public String getId() {
         return id;
@@ -117,5 +126,21 @@ public class DepartmentInfo {
 
     public void setEnable(Integer enable) {
         this.enable = enable;
+    }
+
+    public List<String> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<String> userIds) {
+        this.userIds = userIds;
+    }
+
+    public Integer getDeepId() {
+        return deepId;
+    }
+
+    public void setDeepId(Integer deepId) {
+        this.deepId = deepId;
     }
 }

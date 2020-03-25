@@ -43,6 +43,12 @@ public class DepartmentEntity {
     private Integer enable;
 
     /**
+     * 树深度，从0开始
+     */
+    @Column(name = "DEEP_ID")
+    private Integer deepId;
+
+    /**
      * 更新时间
      */
     @Column(name = "UPDATE_TIME")
@@ -108,5 +114,13 @@ public class DepartmentEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getDeepId() {
+        return deepId;
+    }
+
+    public void setDeepId(Integer deepId) {
+        this.deepId = deepId;
     }
 }

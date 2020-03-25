@@ -1,6 +1,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 // models
 import { DepartmentInfo } from '@/models/department-info';
+import { EventKeys } from '@/common/constant/event-keys';
 // components
 import DeptForm from './dept-form/dept-form';
 import { Tree as ElTree } from 'element-ui';
@@ -71,7 +72,24 @@ export default class DeptTree extends Vue {
     DeptService.findDepartmentTree().then((res: DepartmentInfo[]) => {
       this.deptsAll = res;
       this.depts = _.cloneDeep(res);
+      this.$nextTick(() => {
+        this.defaultSelectTopOne();
+      });
     });
+  }
+
+  /**
+   * 默认选中部门
+   */
+  defaultSelectTopOne() {
+    const tree: ElTree = this.$refs['tree'] as ElTree;
+    if (this.deptSelected.id) {
+      tree.setCurrentKey(this.deptSelected.id);
+      this.nodeClick(this.deptSelected);
+    } else if (this.deptFilters.length > 0) {
+      tree.setCurrentKey(this.deptFilters[0].id);
+      this.nodeClick(this.deptFilters[0]);
+    }
   }
 
   /**
@@ -87,8 +105,9 @@ export default class DeptTree extends Vue {
     return data.name.indexOf(value) !== -1;
   }
 
-  public getNodeData(node: any, data: any) {
+  public nodeClick(data: DepartmentInfo) {
     this.deptSelected = data;
+    rxevent.publish(EventKeys.deptChange, this.deptSelected);
   }
 
   add(item?: DepartmentInfo) {
@@ -102,7 +121,6 @@ export default class DeptTree extends Vue {
       this.deptEditing.parentId = '';
     }
     this.showEditDialog = true;
-    rxevent.publish('aaabbb', 'aaabbb');
   }
 
   edit(item: DepartmentInfo) {

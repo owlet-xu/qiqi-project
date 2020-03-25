@@ -10,15 +10,15 @@
     margin-right: 10px;
     background-color: white;
   }
-  .dept-tree-mobile {
-    flex: 1 1 auto;
-    margin-right: 0px;
-  }
   .dept-users-container {
-    flex: 1 1 auto;
+    flex: 1;
     background-color: white;
   }
-  .dept-users-mobile {
+  .dept-tree-container-mobile {
+    flex: 1;
+    margin-right: 0px;
+  }
+  .dept-users-container-mobile {
     display: none;
   }
 }

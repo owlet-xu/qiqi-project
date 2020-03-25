@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * @author xuguoyuan
  * @description
@@ -46,7 +48,7 @@ public class UserController {
     @RequestMapping(value = "/user/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> saveUser(
             @ApiParam(value = "用户model", required = true)
-            @RequestBody UserInfo userInfo
+            @RequestBody @Valid UserInfo userInfo
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.saveUser(userInfo));
     }

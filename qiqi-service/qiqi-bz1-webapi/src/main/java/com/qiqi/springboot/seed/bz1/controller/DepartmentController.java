@@ -2,6 +2,7 @@ package com.qiqi.springboot.seed.bz1.controller;
 
 import com.qiqi.springboot.seed.bz1.contract.model.DepartmentInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.PageInfo;
+import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.DepartmentService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -63,7 +65,7 @@ public class DepartmentController {
     @RequestMapping(value = "/department/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> saveDepartment(
             @ApiParam(value = "部门model", required = true)
-            @RequestBody DepartmentInfo departmentInfo
+            @RequestBody @Valid DepartmentInfo departmentInfo
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(departmentService.saveDepartment(departmentInfo));
     }
@@ -81,5 +83,63 @@ public class DepartmentController {
             @PathVariable String id
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(departmentService.disableDepartment(id));
+    }
+
+    @ApiOperation(value = "获取部门人员", notes = "不包括禁用的人员")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/department/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PageInfo<UserInfo>> getDepartmentUsers(
+            @ApiParam(value = "部门model", required = true)
+            @RequestBody PageInfo<DepartmentInfo> pageInfo
+    ) {
+        PageInfo<UserInfo> result = departmentService.getDepartmentUsers(pageInfo);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "获取非本部门人员", notes = "不包括禁用的人员")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/department/users/other", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PageInfo<UserInfo>> getOrderDepartmentUsers(
+            @ApiParam(value = "部门model", required = true)
+            @RequestBody PageInfo<DepartmentInfo> pageInfo
+    ) {
+        PageInfo<UserInfo> result = departmentService.getOrderDepartmentUsers(pageInfo);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "保存部门关联的人员信息", notes = "保存部门关联的人员信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/department/users/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> saveDepartmentUsers(
+            @ApiParam(value = "部门model", required = true)
+            @RequestBody DepartmentInfo departmentInfo
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.saveDepartmentUsers(departmentInfo));
+    }
+
+    @ApiOperation(value = "删除部门关联的人员信息", notes = "删除部门关联的人员信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/department/users/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> deleteDepartmentUsers(
+            @ApiParam(value = "部门model", required = true)
+            @RequestBody DepartmentInfo departmentInfo
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.deleteDepartmentUsers(departmentInfo));
     }
 }

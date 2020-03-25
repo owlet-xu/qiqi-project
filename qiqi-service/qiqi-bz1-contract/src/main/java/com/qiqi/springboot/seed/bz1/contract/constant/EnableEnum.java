@@ -2,7 +2,7 @@ package com.qiqi.springboot.seed.bz1.contract.constant;
 
 /**
  * @author xuguoyuan
- * @description
+ * @description 启用禁用枚举
  * @date 2020-03-17 14:29
  */
 public enum EnableEnum implements EnumValue<Integer> {

@@ -2,7 +2,7 @@ package com.qiqi.springboot.seed.bz1.contract.constant;
 
 /**
  * @author xuguoyuan
- * @description
+ * @description 用户的类型枚举
  * @date 2020-03-16 16:47
  */
 public enum  UserTypeEnum implements EnumValue<String> {

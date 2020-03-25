@@ -20,7 +20,6 @@ import ResizeMixin from './mixin/resize';
   }
 })
 export default class extends mixins(ResizeMixin) {
-
   get classObj() {
     return {
       hideSidebar: !this.sidebar.opened,

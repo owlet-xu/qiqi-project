@@ -4,7 +4,6 @@ import Pagination from '@/components/Pagination/index.vue';
 import UserForm from './user-form/user-form';
 // services
 import UserService from '@/api/user-service';
-// import AttachService from '@/api/attach-service';
 // models
 import { PageInfo } from '@/models/page-info';
 import { UserInfo } from '@/models/user-info';

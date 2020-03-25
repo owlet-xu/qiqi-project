@@ -2,6 +2,7 @@ package com.qiqi.springboot.seed.bz1.contract.service;
 
 import com.qiqi.springboot.seed.bz1.contract.model.DepartmentInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.PageInfo;
+import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
 
 import java.util.List;
 
@@ -38,4 +39,39 @@ public interface DepartmentService {
      * @return
      */
     boolean disableDepartment(String id);
+
+    /**
+     * 获取部门人员,不包括禁用的人员
+     * @param pageInfo
+     * @return
+     */
+    PageInfo<UserInfo> getDepartmentUsers(PageInfo<DepartmentInfo> pageInfo);
+
+    /**
+     * 获取非本部门人员,不包括禁用的人员
+     * @param pageInfo
+     * @return
+     */
+    PageInfo<UserInfo> getOrderDepartmentUsers(PageInfo<DepartmentInfo> pageInfo);
+
+    /**
+     * 保存部门关联的人员信息
+     * @param departmentInfo
+     * @return
+     */
+    boolean saveDepartmentUsers(DepartmentInfo departmentInfo);
+
+    /**
+     * 保存部门关联的人员信息
+     * @param departmentInfos
+     * @return
+     */
+    boolean saveDepartmentUsers(List <DepartmentInfo> departmentInfos);
+
+    /**
+     * 删除部门关联的人员信息
+     * @param departmentInfo
+     * @return
+     */
+    boolean deleteDepartmentUsers(DepartmentInfo departmentInfo);
 }

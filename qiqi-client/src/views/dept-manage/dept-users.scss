@@ -1,4 +1,36 @@
 .dept-users {
   height: 100%;
+  width: 100%;
   overflow-y: auto;
+  padding: $margin-size;
+  .dept-info-container {
+    height: 200px;
+    
+    .dept-info {
+      display: flex;
+      .item {
+        margin-right: 10px;
+      }
+      &>.item:first-child {
+        margin-left: 10px;
+      }
+      .avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+      }
+      .no-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+        border: 1px solid red;
+        display: inline-block;
+      }
+    }
+  }
+  .user-list-container {
+    .user-table {
+      width: 100%;
+    }
+  }
 }

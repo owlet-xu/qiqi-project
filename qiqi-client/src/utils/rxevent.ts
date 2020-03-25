@@ -34,16 +34,16 @@ export const rxevent = {
     // 现在的订阅一般都是在构造器里，所以传递给订阅模式的func属性都必须是基于最新实例的，否则会
     // 出现页面绑定的变量在页面来回跳转后虽然能正常的触发publish，但却无法通知界面的现象，以下
     // 代码通过删除并重新进入队列的方式，保证了订阅发布是最新的
-    const index = eventObjects.findIndex(o => o.event === event && o.key === key);
-    const delLength = index === -1 ? -1 : 1;
-    eventObjects.splice(index, delLength);
+    const index = eventObjects.findIndex((eo: EventObject) => eo.event === event && eo.key === key);
+    if (index > -1) {
+      eventObjects.splice(index, 1);
+    }
     // 再找一次(做保护，防止没删掉)
-    const eos = eventObjects.filter((eo: any) => {
-      if (eo.event === event && eo.key === key) {
-        return eo;
-      }
-    });
-    if (eos.length === 0) {
+    const index2 = eventObjects.findIndex((eo: EventObject) => eo.event === event && eo.key === key);
+    if (index2 > -1) {
+      // 递归删除.必须保证每次订阅时,上下文环境是最新的
+      this.subscribe(event, key, func);
+    } else {
       const subject = new Subject();
       const subscription = subject.subscribe({
         next: (v: any) => {
@@ -57,12 +57,26 @@ export const rxevent = {
         subscription
       };
       eventObjects.push(eventObject);
-    } else {
-      // 递归删除.必须保证每次订阅时,上下文环境是最新的
-      this.subscribe(event, key, func);
     }
   },
-
+  /**
+   * 取消事件订阅
+   * @param event
+   * @param key
+   * @param func
+   */
+  unsubscribe(event: string, key: string) {
+    const index = eventObjects.findIndex((e: EventObject) => e.event === event && e.key === key);
+    if (index > -1) {
+      eventObjects[index].subject.unsubscribe();
+      eventObjects.splice(index, 1);
+    }
+    // 递归删除.必须保证每次订阅时,上下文环境是最新的
+    const index2 = eventObjects.findIndex((e: EventObject) => e.event === event && e.key === key);
+    if (index > -1) {
+      this.unsubscribe(event, key);
+    }
+  },
   /**
    * @param {event} event - 事件名称
    * @param {any} param - 参数
