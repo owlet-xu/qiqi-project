@@ -20,7 +20,7 @@ public interface DepartmentService {
     Boolean saveDepartment(DepartmentInfo departmentInfo);
 
     /**
-     * 分页查找数据
+     * 分页查找部门
      * @param pageInfo
      * @return
      */

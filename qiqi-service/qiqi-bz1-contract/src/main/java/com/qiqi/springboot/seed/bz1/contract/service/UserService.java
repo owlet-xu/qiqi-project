@@ -30,7 +30,4 @@ public interface UserService {
      * @return
      */
     Boolean disableUser(String id);
-
-
-
 }
