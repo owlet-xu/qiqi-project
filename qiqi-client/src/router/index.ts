@@ -68,15 +68,15 @@ export const constantRouterMap: RouteConfig[] = [
     path: Path.Privilege,
     component: Layout,
     beforeEnter: AuthorizeGuard(Path.Login),
-    redirect: Path.RoleList,
+    redirect: Path.RoleManage,
     meta: {
       title: RouterPrefix(RouterName.Privilege),
       icon: 'dashboard'
     },
     children: [
       {
-        path: Path.RoleList,
-        component: () => import(/* webpackChunkName: "role-list" */ '@/views/privilege-manage/role-list.vue'),
+        path: Path.RoleManage,
+        component: () => import(/* webpackChunkName: "role-manage" */ '@/views/privilege-manage/role-manage.vue'),
         name: RouterPrefix(RouterName.RoleList),
         meta: {
           title: RouterPrefix(RouterName.RoleList),

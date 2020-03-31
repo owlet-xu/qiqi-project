@@ -14,8 +14,8 @@ export enum Path {
   Home = '/home',
   // 权限管理
   Privilege = '/privilege',
-  // 角色列表
-  RoleList = '/privilege/role-list',
+  // 角色管理
+  RoleManage = '/privilege/role-manage',
   // 菜单列表
   MenuList = '/privilege/menu-list',
   // 权限列表
