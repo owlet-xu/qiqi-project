@@ -26,6 +26,16 @@ public class RoleInfo {
     private String name;
 
     /**
+     * 默认数据
+     */
+    private int defaultData;
+
+    /**
+     * 启用禁用
+     */
+    private Integer enable;
+
+    /**
      * 更新时间
      */
     private Date updateTime;
@@ -85,5 +95,21 @@ public class RoleInfo {
 
     public void setMenuInfos(List<MenuInfo> menuInfos) {
         this.menuInfos = menuInfos;
+    }
+
+    public Integer getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Integer enable) {
+        this.enable = enable;
+    }
+
+    public int getDefaultData() {
+        return defaultData;
+    }
+
+    public void setDefaultData(int defaultData) {
+        this.defaultData = defaultData;
     }
 }

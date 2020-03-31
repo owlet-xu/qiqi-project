@@ -23,10 +23,22 @@ public class RoleEntity {
     @Column(name = "CODE")
     private int code;
     /**
-     * 姓名
+     * 名称
      */
     @Column(name = "NAME", nullable = false, length = 200)
     private String name;
+
+    /**
+     * 默认数据
+     */
+    @Column(name = "DEFAULT_DATA")
+    private int defaultData;
+
+    /**
+     * 启用禁用
+     */
+    @Column(name = "ENABLE")
+    private int enable;
 
     /**
      * 更新时间
@@ -77,5 +89,21 @@ public class RoleEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public int getEnable() {
+        return enable;
+    }
+
+    public void setEnable(int enable) {
+        this.enable = enable;
+    }
+
+    public int getDefaultData() {
+        return defaultData;
+    }
+
+    public void setDefaultData(int defaultData) {
+        this.defaultData = defaultData;
     }
 }

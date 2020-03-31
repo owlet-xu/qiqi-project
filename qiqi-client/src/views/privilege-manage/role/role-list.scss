@@ -1,4 +1,6 @@
-.role-list {}
+.role-list {
+  padding: $margin-size;
+}
 
 /deep/ .el-tree-node {
     .el-tree-node__content {

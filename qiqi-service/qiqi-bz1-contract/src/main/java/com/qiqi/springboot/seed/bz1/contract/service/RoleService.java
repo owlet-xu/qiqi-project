@@ -38,4 +38,6 @@ public interface RoleService {
      * @return
      */
     List<RoleInfo> findList(RoleInfo roleInfo);
+
+    boolean disableRole(String id);
 }

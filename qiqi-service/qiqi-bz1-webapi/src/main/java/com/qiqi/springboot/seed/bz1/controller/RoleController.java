@@ -43,10 +43,24 @@ public class RoleController {
             @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
     })
     @RequestMapping(value = "/role/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> saveUser(
+    public ResponseEntity<Boolean> saveRole(
             @ApiParam(value = "角色model", required = true)
             @RequestBody @Valid RoleInfo roleInfo
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(roleService.save(roleInfo));
+    }
+
+    @ApiOperation(value = "删除角色", notes = "删除角色")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/role/remove/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> disableUser(
+            @ApiParam(value = "角色id", required = true)
+            @PathVariable String id
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(roleService.disableRole(id));
     }
 }

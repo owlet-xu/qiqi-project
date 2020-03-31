@@ -15,6 +15,7 @@ import com.qiqi.springboot.seed.bz1.service.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -138,5 +139,12 @@ public class RoleServiceImpl implements RoleService {
         // 携带上菜单权限数据
         rRoleMenuPrivilegeService.addMenuPrivilege(roleInfos);
         return roleInfos;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean disableRole(String id) {
+        roleRepository.disableRole(id, 0);
+        return true;
     }
 }
