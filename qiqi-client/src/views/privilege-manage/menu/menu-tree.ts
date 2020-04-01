@@ -79,7 +79,7 @@ export default class MenuTree extends Vue {
   }
 
   /**
-   * 默认选中部门
+   * 默认选中菜单
    */
   defaultSelectTopOne() {
     const tree: ElTree = this.$refs['tree'] as ElTree;

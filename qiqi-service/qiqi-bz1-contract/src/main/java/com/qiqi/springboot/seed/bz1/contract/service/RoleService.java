@@ -19,6 +19,13 @@ public interface RoleService {
     boolean save(RoleInfo roleInfo);
 
     /**
+     * 保存角色的菜单和权限数据
+     * @param roleInfo
+     * @return
+     */
+    boolean saveRoleMenuPrivilege(RoleInfo roleInfo);
+
+    /**
      * 禁用角色
      * @param id
      * @return

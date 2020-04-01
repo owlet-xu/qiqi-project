@@ -50,6 +50,20 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.OK).body(roleService.save(roleInfo));
     }
 
+    @ApiOperation(value = "保存角色的菜单和权限", notes = "保存角色的菜单和权限")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = RoleInfo.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/role/menu/privilege/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> saveRoleMenuPrivilege(
+            @ApiParam(value = "角色model", required = true)
+            @RequestBody @Valid RoleInfo roleInfo
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(roleService.saveRoleMenuPrivilege(roleInfo));
+    }
+
     @ApiOperation(value = "删除角色", notes = "删除角色")
     @ApiResponses({
             @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),

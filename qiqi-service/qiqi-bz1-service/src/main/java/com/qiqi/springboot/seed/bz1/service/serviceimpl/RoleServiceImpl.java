@@ -1,5 +1,6 @@
 package com.qiqi.springboot.seed.bz1.service.serviceimpl;
 
+import com.qiqi.springboot.seed.bz1.contract.constant.RRoleMenuPrivilegeTypeEnum;
 import com.qiqi.springboot.seed.bz1.contract.model.MenuInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.RoleInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.RRoleMenuPrivilegeService;
@@ -65,41 +66,66 @@ public class RoleServiceImpl implements RoleService {
         }
         roleInfo.setUpdateTime(new Date());
         roleRepository.saveAndFlush(roleMapper.modelToEntity(roleInfo));
-        // 保存角色的菜单和权限
-        return saveMenuPrivilege(roleInfo.getId(), roleInfo.getMenuInfos());
+        return true;
+    }
+
+    /**
+     * 保存角色的菜单和权限数据
+     *
+     * @param roleInfo
+     * @return
+     */
+    @Override
+    public boolean saveRoleMenuPrivilege(RoleInfo roleInfo) {
+        saveMenuPrivilege(roleInfo.getId(), roleInfo.getMenuInfos());
+        return true;
     }
 
     /**
      * 保存角色的菜单和权限关系
      * @param roleId
-     * @param menus
+     * @param menus 树结构
      * @return
      */
     private boolean saveMenuPrivilege(String roleId, List<MenuInfo> menus) {
         if (!CollectionUtils.isEmpty(menus)) {
             rRoleMenuPrivilegeService.deleteByRoleId(roleId);
             List<RRoleMenuPrivilegeEntity> rs = new ArrayList<>();
-            menus.forEach(menuInfo -> {
-                RRoleMenuPrivilegeEntity r = new RRoleMenuPrivilegeEntity();
-                r.setId(UUID.randomUUID().toString());
-                r.setType(0);
-                r.setRoleId(roleId);
-                r.setMenuId(menuInfo.getId());
-                r.setCreateTime(new Date());
-                rs.add(r);
-                menuInfo.getPrivilegeInfos().forEach(privilegeInfo -> {
-                    RRoleMenuPrivilegeEntity r2 = new RRoleMenuPrivilegeEntity();
-                    r2.setType(1);
-                    r2.setMenuId(menuInfo.getId());
-                    r2.setPrivilegeId(privilegeInfo.getId());
-                    r2.setCreateTime(new Date());
-                    rs.add(r2);
-                });
-            });
+            getRByMenuTree(roleId, menus, rs);
             // 保存菜单和权限
             rRoleMenuPrivilegeRepository.saveAll(rs);
         }
         return true;
+    }
+
+    /**
+     * 从树中找到r关系
+     * @param menus
+     * @param rs
+     */
+    private void getRByMenuTree(String roleId, List<MenuInfo> menus, List<RRoleMenuPrivilegeEntity> rs) {
+        for(MenuInfo menuInfo : menus) {
+            RRoleMenuPrivilegeEntity r = new RRoleMenuPrivilegeEntity();
+            r.setId(UUID.randomUUID().toString());
+            r.setType(RRoleMenuPrivilegeTypeEnum.ROLE_MENU.value());
+            r.setRoleId(roleId);
+            r.setMenuId(menuInfo.getId());
+            r.setCreateTime(new Date());
+            rs.add(r);
+            menuInfo.getPrivilegeInfos().forEach(privilegeInfo -> {
+                RRoleMenuPrivilegeEntity r2 = new RRoleMenuPrivilegeEntity();
+                r2.setId(UUID.randomUUID().toString());
+                r2.setType(RRoleMenuPrivilegeTypeEnum.ROLE_MENU_PRIVILEGE.value());
+                r2.setRoleId(roleId);
+                r2.setMenuId(menuInfo.getId());
+                r2.setPrivilegeId(privilegeInfo.getId());
+                r2.setCreateTime(new Date());
+                rs.add(r2);
+            });
+            if (!CollectionUtils.isEmpty(menuInfo.getChildren())) {
+                getRByMenuTree(roleId, menuInfo.getChildren(), rs);
+            }
+        }
     }
 
     /**

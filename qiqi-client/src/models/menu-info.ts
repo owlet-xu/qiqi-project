@@ -53,6 +53,12 @@ export class MenuInfo {
   children: MenuInfo[] = [];
 
   /**
+   * 将权限融入菜单
+   */
+  isPrivilege = false;
+
+  disabled = false;
+  /**
    * 菜单下得权限
    */
   privilegeInfos: PrivilegeInfo[] = [];

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,6 +39,21 @@ public class MenuPrivilegeController {
     @RequestMapping(value = "/menu-privilege/tree", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MenuInfo>> findMenuPrivelegeTree() {
         return ResponseEntity.status(HttpStatus.OK).body(rRoleMenuPrivilegeService.findMenuPrivelegeTree());
+    }
+
+    @ApiOperation(value = "查询角色的启用菜单权限列表", notes = "查询角色的启用菜单权限列表")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = MenuInfo.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/menu-privilege/role/list/{roleId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MenuInfo>> findRoleMenuPrivelegeList(
+            @ApiParam(value = "角色id", required = true)
+            @PathVariable String roleId
+    ) {
+        String[] roleIds = {roleId};
+        return ResponseEntity.status(HttpStatus.OK).body(rRoleMenuPrivilegeService.findRoleMenuPrivelegeList(Arrays.asList(roleIds)));
     }
 
     @ApiOperation(value = "查询所有菜单和权限树", notes = "查询所有菜单和权限树(包括禁用)")

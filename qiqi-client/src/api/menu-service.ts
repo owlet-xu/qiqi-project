@@ -30,5 +30,9 @@ export default {
   removeMenuPrivileges(menuInfo: MenuInfo) {
     const url = `${AppModule.configs.qiqiServiceUrl}${MenuUrls.removeMenuPrivileges}`;
     return httpClient.postPromise(url, menuInfo);
+  },
+  findRoleMenuPrivelegeList(roleId: string): Promise<MenuInfo[]> {
+    const url = stringFormatArr(`${AppModule.configs.qiqiServiceUrl}${MenuUrls.findRoleMenuPrivelegeList}`, [roleId]);
+    return httpClient.getPromise(url);
   }
 };

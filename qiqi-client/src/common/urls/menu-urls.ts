@@ -4,5 +4,6 @@ export const MenuUrls = {
   saveMenu: '/api/v1/menu-privilege/save',
   remove: '/api/v1/menu-privilege/remove/{id}',
   addMenuPrivileges: '/api/v1/menu-privilege/privileges/add',
-  removeMenuPrivileges: '/api/v1/menu-privilege/privileges/remove'
+  removeMenuPrivileges: '/api/v1/menu-privilege/privileges/remove',
+  findRoleMenuPrivelegeList: '/api/v1/menu-privilege/role/list/{roleId}'
 };

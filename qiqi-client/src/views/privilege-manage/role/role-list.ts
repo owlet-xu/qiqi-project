@@ -3,13 +3,14 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
 import RoleService from '@/api/role-service';
 // models
 import { RoleInfo } from '@/models/role-info';
+import { EventKeys } from '@/common/constant/event-keys';
 // components
 import RoleForm from './role-form/role-form';
 import { Tree as ElTree } from 'element-ui';
 // tools
 import _ from 'lodash';
 import { stringFormatArr } from '@/utils/string-utils';
-import { listenerCount } from 'cluster';
+import { rxevent } from '@/utils/rxevent';
 
 @Component({
   components: {
@@ -56,12 +57,29 @@ export default class RoleList extends Vue {
   findList() {
     RoleService.findList().then((res: RoleInfo[]) => {
       this.list = res;
+      this.$nextTick(() => {
+        this.defaultSelectTopOne();
+      });
     });
+  }
+
+  /**
+   * 默认选中角色
+   */
+  defaultSelectTopOne() {
+    const tree: ElTree = this.$refs['tree'] as ElTree;
+    if (this.roleSelected.id) {
+      tree.setCurrentKey(this.roleSelected.id);
+      this.nodeClick(this.roleSelected);
+    } else if (this.listFilter.length > 0) {
+      tree.setCurrentKey(this.listFilter[0].id);
+      this.nodeClick(this.listFilter[0]);
+    }
   }
 
   public nodeClick(data: RoleInfo) {
     this.roleSelected = data;
-    // rxevent.publish(EventKeys.deptChange, this.deptSelected);
+    rxevent.publish(EventKeys.roleChange, this.roleSelected);
   }
 
   /**

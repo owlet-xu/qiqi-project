@@ -115,7 +115,7 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
         List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.getMenusByRoleIds(roleIds));
         List<String> menuIds = menuInfos.stream().map(MenuInfo::getId).collect(Collectors.toList());
         // 2、查询菜单下权限关系和实体
-        List<RRoleMenuPrivilegeEntity> rAll = rRoleMenuPrivilegeRepository.findByTypeAndMenuIdIn(RRoleMenuPrivilegeTypeEnum.MENU_PRIVILEGE.value(), menuIds);
+        List<RRoleMenuPrivilegeEntity> rAll = rRoleMenuPrivilegeRepository.findByTypeAndMenuIdIn(RRoleMenuPrivilegeTypeEnum.ROLE_MENU_PRIVILEGE.value(), menuIds);
         List<String> pIds = rAll.stream().map(RRoleMenuPrivilegeEntity::getPrivilegeId).collect(Collectors.toList());
         List<PrivilegeInfo> privilegeAll = privilegeMapper.entitiesToModels(privilegeRepository.findByIdIn(pIds));
         // 3、给每个菜单设置权限
@@ -327,7 +327,7 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
     private List<PrivilegeInfo> getPrivilegeInfosByMenuId(String menuId, List<RRoleMenuPrivilegeEntity> rAll, List<PrivilegeInfo> privilegeInfoAll) {
         // 1、找出关系表中的菜单下的权限id
         List<String> pIds = rAll.stream().filter(item -> {
-            return item.getMenuId().equals(menuId) && item.getType().equals(1);
+            return item.getMenuId().equals(menuId);
         }).map(RRoleMenuPrivilegeEntity::getPrivilegeId).collect(Collectors.toList());
         // 2、返回权限数据
         return privilegeInfoAll.stream().filter(item -> pIds.contains(item.getId())).collect(Collectors.toList());

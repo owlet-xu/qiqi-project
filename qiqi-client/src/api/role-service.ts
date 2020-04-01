@@ -18,5 +18,9 @@ export default {
   remove(id: string) {
     const url = `${AppModule.configs.qiqiServiceUrl}${stringFormatArr(RoleUrls.remove, [id])}`;
     return httpClient.deletePromise(url);
+  },
+  saveRoleMenuPrivilege(roleInfo: RoleInfo) {
+    const url = `${AppModule.configs.qiqiServiceUrl}${RoleUrls.saveRoleMenuPrivilege}`;
+    return httpClient.postPromise(url, roleInfo);
   }
 };
