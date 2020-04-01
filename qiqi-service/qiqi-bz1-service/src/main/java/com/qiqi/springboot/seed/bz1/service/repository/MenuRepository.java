@@ -15,17 +15,19 @@ import java.util.List;
  */
 public interface MenuRepository extends JpaRepository<MenuEntity, String> {
 
-    @Query("update MenuEntity m set m.enable=:enable where m.id=:id")
+    @Query("update MenuEntity m set m.enable=:enable where m.id in (:ids)")
     @Modifying(clearAutomatically = true)
-    int enableMenu(@Param("id") String id, @Param("enable") Integer enable);
+    int enableMenus(@Param("ids") List<String> ids, @Param("enable") Integer enable);
 
 
     /**
-     * 查询角色的菜单
+     * 查询角色的菜单实体
      * @param roleIds
      * @return
      */
     @Query("select m from MenuEntity m where m.enable=1 and m.id in (select distinct r.menuId from RRoleMenuPrivilegeEntity r where r.roleId in(:roleIds) and r.type=0)")
     @Modifying(clearAutomatically = true)
     List<MenuEntity> getMenusByRoleIds(@Param("roleIds") List<String> roleIds);
+
+    List<MenuEntity> findByEnable(Integer enable);
 }

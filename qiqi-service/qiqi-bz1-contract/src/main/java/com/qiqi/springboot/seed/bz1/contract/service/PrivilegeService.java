@@ -15,6 +15,31 @@ public interface PrivilegeService {
 
     boolean save(PrivilegeInfo privilegeInfo);
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     boolean enablePrivilege(String id);
+
+    /**
+     * 查询所有权限（包括禁用的）
+     * @return
+     */
+    List<PrivilegeInfo> findAll();
+
+    /**
+     * 获取菜单的权限-不包括禁用的权限
+     * @param menuId
+     * @return
+     */
+    List<PrivilegeInfo> getMenuPrivileges(String menuId);
+
+    /**
+     * 获取非菜单的权限-不包括禁用的权限
+     * @param menuId
+     * @return
+     */
+    List<PrivilegeInfo> getOtherMenuPrivileges(String menuId);
 
 }

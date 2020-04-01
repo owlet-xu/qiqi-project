@@ -2,6 +2,9 @@ package com.qiqi.springboot.seed.bz1.service.repository;
 
 import com.qiqi.springboot.seed.bz1.service.entity.RRoleMenuPrivilegeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -29,4 +32,28 @@ public interface RRoleMenuPrivilegeRepository extends JpaRepository<RRoleMenuPri
      * @return
      */
     List<RRoleMenuPrivilegeEntity> findByTypeAndMenuIdIn(int type, List<String> menuIds);
+
+    /**
+     * 删除菜单的权限
+     * @param menuId
+     * @param privilegeIds
+     * @return
+     */
+    int deleteByMenuIdAndPrivilegeIdIn(String menuId, List<String> privilegeIds);
+
+    /**
+     * 清空无效的权限关联关系
+     * @return
+     */
+    @Query("delete from RRoleMenuPrivilegeEntity r where r.privilegeId not in (select distinct p.id from PrivilegeEntity p)")
+    @Modifying(clearAutomatically = true)
+   int deleteNotInPrivilege();
+
+    /**
+     * 清空无效的菜单关联关系
+     * @return
+     */
+    @Query("delete from RRoleMenuPrivilegeEntity r where r.menuId not in (select distinct m.id from MenuEntity m)")
+    @Modifying(clearAutomatically = true)
+    int deleteNotInMenu();
 }

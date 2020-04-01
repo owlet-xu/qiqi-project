@@ -77,24 +77,24 @@ export const constantRouterMap: RouteConfig[] = [
       {
         path: Path.RoleManage,
         component: () => import(/* webpackChunkName: "role-manage" */ '@/views/privilege-manage/role-manage.vue'),
-        name: RouterPrefix(RouterName.RoleList),
+        name: RouterPrefix(RouterName.RoleManage),
         meta: {
-          title: RouterPrefix(RouterName.RoleList),
+          title: RouterPrefix(RouterName.RoleManage),
           icon: 'dashboard'
         }
       },
       {
-        path: Path.MenuList,
-        component: () => import(/* webpackChunkName: "menu-list" */ '@/views/privilege-manage/menu-list.vue'),
-        name: RouterPrefix(RouterName.MenuList),
+        path: Path.MenuManage,
+        component: () => import(/* webpackChunkName: "menu-manage" */ '@/views/privilege-manage/menu-manage.vue'),
+        name: RouterPrefix(RouterName.MenuManage),
         meta: {
-          title: RouterPrefix(RouterName.MenuList),
+          title: RouterPrefix(RouterName.MenuManage),
           icon: 'dashboard'
         }
       },
       {
         path: Path.PrivilegeList,
-        component: () => import(/* webpackChunkName: "home" */ '@/views/privilege-manage/privilege-list.vue'),
+        component: () => import(/* webpackChunkName: "privilege-list" */ '@/views/privilege-manage/privilege-list.vue'),
         name: RouterPrefix(RouterName.PrivilegeList),
         meta: {
           title: RouterPrefix(RouterName.PrivilegeList),

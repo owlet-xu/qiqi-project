@@ -53,7 +53,7 @@
       ></UserForm>
       <div slot="footer">
         <el-button @click="showEditDialog = false">{{ $t('Cancel') }}</el-button>
-        <el-button type="primary" @click="save">{{ $t('Save') }}</el-button>
+        <el-button type="primary" @click="save" :loading="loadingSave">{{ $t('Save') }}</el-button>
       </div>
     </el-dialog>
   </div>

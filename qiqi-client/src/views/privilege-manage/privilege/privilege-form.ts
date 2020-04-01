@@ -1,15 +1,16 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { RoleInfo } from '@/models/role-info';
+import { PrivilegeInfo } from '@/models/privilege-info';
 import { Form as ElForm } from 'element-ui';
 // services
-import RoleService from '@/api/role-service';
+import MenuService from '@/api/menu-service';
 // tools
 import { stringFormatArr } from '@/utils/string-utils';
+import privilegeService from '@/api/privilege-service';
 
 @Component
-export default class RoleForm extends Vue {
+export default class PrivilegeForm extends Vue {
   @Prop()
-  roleInfo!: RoleInfo; // 表单数据
+  privilegeInfo!: PrivilegeInfo; // 表单数据
 
   @Prop({ default: false })
   saving!: boolean; // 是否正在保存中
@@ -19,11 +20,11 @@ export default class RoleForm extends Vue {
   };
 
   get fromData() {
-    return this.roleInfo;
+    return this.privilegeInfo;
   }
 
   set fromData(value) {
-    this.$emit('update:roleInfo', value);
+    this.$emit('update:privilegeInfo', value);
   }
 
   get savingTemp() {
@@ -69,7 +70,7 @@ export default class RoleForm extends Vue {
 
   private async save() {
     this.savingTemp = true;
-    RoleService.save(this.fromData)
+    privilegeService.save(this.fromData)
       .then((res: any) => {
         // 父组件回调函数
         this.$emit('saveSuccess', res);

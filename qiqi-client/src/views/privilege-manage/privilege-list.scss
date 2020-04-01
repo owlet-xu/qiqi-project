@@ -1,4 +1,13 @@
-.home {
+.privilege-list {
   height: 100%;
+  width: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: $margin-size;
+  .privilege-table {
+    width: 100%;
+    /deep/ .disabled-row {
+      color: $deleteColor;
+    }
+  }
 }

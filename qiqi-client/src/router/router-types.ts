@@ -17,7 +17,7 @@ export enum Path {
   // 角色管理
   RoleManage = '/privilege/role-manage',
   // 菜单列表
-  MenuList = '/privilege/menu-list',
+  MenuManage = '/privilege/menu-manage',
   // 权限列表
   PrivilegeList = '/privilege/list',
   // 用户管理
@@ -41,9 +41,9 @@ export enum RouterName {
   // 权限管理
   Privilege = 'Privilege',
   // 角色列表
-  RoleList = 'RoleList',
+  RoleManage = 'RoleManage',
   // 菜单列表
-  MenuList = 'MenuList',
+  MenuManage = 'MenuManage',
   // 权限列表
   PrivilegeList = 'PrivilegeList',
   // 用户管理

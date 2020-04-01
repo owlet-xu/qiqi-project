@@ -1,5 +1,5 @@
 <template>
-  <div class="role-list">
+  <div class="menu-tree">
     <div class="tool-container">
       <el-input :placeholder="$t('SearchTip')" v-model="search"></el-input>
       <el-tooltip effect="dark" :content="$t('Add')" placement="top">
@@ -14,30 +14,33 @@
       node-key="id"
       default-expand-all
       highlight-current
-      :data="listFilter"
+      :data="menuFilters"
       :props="defaultProps"
+      :expand-on-click-node="false"
+      :filter-node-method="searchTree"
     >
       <div class="custom-tree-node" slot-scope="{ node, data }" @click="nodeClick(data)">
         <div :title="data.name" class="ifNode">
           <span :class="{ label: true, delete: !data.enable }">{{ data.name }}</span>
         </div>
-        <div style="display:none" v-bind:class="{ showBtn: roleSelected.id === data.id }">
-          <el-button :disabled="!!data.defaultData" type="text" @click="edit(data)"><i class="el-icon-edit" :title="$t('Edit')"></i></el-button>
-          <el-button :disabled="!data.enable || !!data.defaultData" type="text" @click="removeConfirm(data)"
+        <div style="display:none" v-bind:class="{ showBtn: menuSelected.id === data.id }">
+          <el-button type="text" @click="add(data)"><i class="el-icon-plus" :title="$t('Add')"></i></el-button>
+          <el-button type="text" @click="edit(data)"><i class="el-icon-edit" :title="$t('Edit')"></i></el-button>
+          <el-button :disabled="!data.enable" type="text" @click="removeConfirm(data)"
             ><i class="el-icon-delete" :title="$t('Delete')"></i
           ></el-button>
         </div>
       </div>
     </el-tree>
     <!-- 部门add/edit -->
-    <el-dialog :title="roleEditing.id ? $t('Edit') : $t('Add')" :visible.sync="showEditDialog" :close-on-click-modal="false">
-      <RoleForm
-        ref="roleFormRef"
+    <el-dialog :title="menuEditing.id ? $t('Edit') : $t('Add')" :visible.sync="showEditDialog" :close-on-click-modal="false">
+      <MenuForm
+        ref="menuFormRef"
         v-if="showEditDialog"
-        :roleInfo.sync="roleEditing"
+        :menuInfo.sync="menuEditing"
         :saving.sync="saving"
         @saveSuccess="saveSuccess"
-      ></RoleForm>
+      ></MenuForm>
       <div slot="footer">
         <el-button @click="showEditDialog = false">{{ $t('Cancel') }}</el-button>
         <el-button type="primary" @click="save" :loading="saving">{{ $t('Save') }}</el-button>
@@ -46,5 +49,7 @@
   </div>
 </template>
 
-<script lang="ts" src="./role-list.ts"></script>
-<style lang="scss" scoped src="./role-list.scss"></style>
+<script lang="ts" src="./menu-tree.ts"></script>
+<style lang="scss" scoped src="./menu-tree.scss"></style>
+
+

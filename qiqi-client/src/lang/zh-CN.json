@@ -1,5 +1,5 @@
 {
-  "Add": "新增",
+  "Add": "添加",
   "Edit": "编辑",
   "Info": "详情",
   "Save": "保存",
@@ -41,8 +41,8 @@
   "Router": {
     "Home": "首页",
     "Privilege": "权限管理",
-    "RoleList": "角色列表",
-    "MenuList": "菜单列表",
+    "RoleManage": "角色管理",
+    "MenuManage": "菜单管理",
     "PrivilegeList": "权限列表",
     "UserManage": "用户管理",
     "DeptManage": "部门管理"
@@ -73,5 +73,13 @@
   "Error": {
     "System": "系统错误",
     "Net": "服务器请求失败"
+  },
+  "PrivilegeManage": {
+    "MenuInfo": "菜单详情",
+    "PrivilegeList": "权限列表",
+    "PrivilegeName": "权限名称",
+    "PrivilegeCode": "权限Code",
+    "AddPrivilege": "添加权限",
+    "EditPrivilege": "编辑权限"
   }
 }

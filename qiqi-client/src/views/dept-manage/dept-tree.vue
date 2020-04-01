@@ -43,7 +43,7 @@
       ></DeptForm>
       <div slot="footer">
         <el-button @click="showEditDialog = false">{{ $t('Cancel') }}</el-button>
-        <el-button type="primary" @click="save">{{ $t('Save') }}</el-button>
+        <el-button type="primary" @click="save" :loading="saving">{{ $t('Save') }}</el-button>
       </div>
     </el-dialog>
   </div>

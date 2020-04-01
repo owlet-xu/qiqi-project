@@ -318,10 +318,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     /**
-     * 获取树的子节点
+     * 获取树的子节点id
      * @param listAll 所有数据
      * @param parentId 父id
-     * @param childrenIds 子id集合
+     * @param childrenIds 子id集合，返回的数据
      */
     private void getChildrenIds(List<DepartmentEntity> listAll,String parentId, List<String> childrenIds) {
         if (StringUtils.isEmpty(parentId) || CollectionUtils.isEmpty(listAll)) {

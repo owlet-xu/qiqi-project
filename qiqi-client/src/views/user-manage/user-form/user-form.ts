@@ -47,6 +47,7 @@ export default class UserForm extends Vue {
   }
 
   created() {
+    this.savingTemp = false;
     if (this.userInfo.headImg) {
       this.headImgBase64 = AttachService.previewUrl(this.userInfo.headImg);
     }

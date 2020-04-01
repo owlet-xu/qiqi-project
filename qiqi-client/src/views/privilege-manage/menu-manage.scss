@@ -1,0 +1,25 @@
+.menu-manage {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  background-color: $contentBg;
+  padding: $margin-size;
+  .tree-container {
+    flex: 0 0 420px;
+    margin-right: 10px;
+    background-color: white;
+  }
+  .info-container {
+    flex: 1;
+    background-color: white;
+  }
+
+  .tree-container-mobile {
+    flex: 1;
+    margin-right: 0px;
+  }
+  .info-container-mobile {
+    display: none;
+  }
+}

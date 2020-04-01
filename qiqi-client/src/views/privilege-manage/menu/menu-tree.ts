@@ -1,28 +1,28 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 // models
-import { DepartmentInfo } from '@/models/department-info';
+import { MenuInfo } from '@/models/menu-info';
 import { EventKeys } from '@/common/constant/event-keys';
 // components
-import DeptForm from './dept-form/dept-form';
+import MenuForm from './menu-form';
 import { Tree as ElTree } from 'element-ui';
 // tools
 import _ from 'lodash';
 import { stringFormatArr } from '@/utils/string-utils';
 import { rxevent } from '@/utils/rxevent';
 // services
-import DeptService from '@/api/dept-service';
+import MenuService from '@/api/menu-service';
 
 @Component({
   components: {
-    DeptForm
+    MenuForm
   }
 })
-export default class DeptTree extends Vue {
+export default class MenuTree extends Vue {
   // 两份数据是由于需要在前端做数据过滤
-  private deptsAll: DepartmentInfo[] = [];
-  private depts: DepartmentInfo[] = [];
-  private deptSelected: DepartmentInfo = new DepartmentInfo(); // 选中的数据
-  private deptEditing: DepartmentInfo = new DepartmentInfo(); // 用于编辑的数据
+  private menusAll: MenuInfo[] = [];
+  private menus: MenuInfo[] = [];
+  private menuSelected: MenuInfo = new MenuInfo(); // 选中的数据
+  private menuEditing: MenuInfo = new MenuInfo(); // 用于编辑的数据
   private showEditDialog = false;
   private saving = false;
   private defaultProps = { children: 'children', label: 'name' };
@@ -30,22 +30,22 @@ export default class DeptTree extends Vue {
   private showAll = false;
 
   created() {
-    this.findDepartmentTree();
+    this.findMenuTree();
   }
 
   /**
    * 启用禁用的数据
    */
-  get deptFilters() {
+  get menuFilters() {
     if (this.showAll) {
-      return this.deptsAll;
+      return this.menusAll;
     } else {
-      return this.filterTree(this.depts);
+      return this.filterTree(this.menus);
     }
   }
 
-  filterTree(list: DepartmentInfo[]) {
-    return list.filter((item: DepartmentInfo) => {
+  filterTree(list: MenuInfo[]) {
+    return list.filter((item: MenuInfo) => {
       if (!item.enable) {
         return false;
       } else if (item.children && item.children.length) {
@@ -68,10 +68,10 @@ export default class DeptTree extends Vue {
     tree.filter(this.search);
   }
 
-  findDepartmentTree() {
-    DeptService.findDepartmentTree().then((res: DepartmentInfo[]) => {
-      this.deptsAll = res;
-      this.depts = _.cloneDeep(res);
+  findMenuTree() {
+    MenuService.findAllMenuPrivelegeTree().then((res: MenuInfo[]) => {
+      this.menusAll = res;
+      this.menus = _.cloneDeep(res);
       this.$nextTick(() => {
         this.defaultSelectTopOne();
       });
@@ -83,12 +83,12 @@ export default class DeptTree extends Vue {
    */
   defaultSelectTopOne() {
     const tree: ElTree = this.$refs['tree'] as ElTree;
-    if (this.deptSelected.id) {
-      tree.setCurrentKey(this.deptSelected.id);
-      this.nodeClick(this.deptSelected);
-    } else if (this.deptFilters.length > 0) {
-      tree.setCurrentKey(this.deptFilters[0].id);
-      this.nodeClick(this.deptFilters[0]);
+    if (this.menuSelected.id) {
+      tree.setCurrentKey(this.menuSelected.id);
+      this.nodeClick(this.menuSelected);
+    } else if (this.menuFilters.length > 0) {
+      tree.setCurrentKey(this.menuFilters[0].id);
+      this.nodeClick(this.menuFilters[0]);
     }
   }
 
@@ -98,42 +98,42 @@ export default class DeptTree extends Vue {
    * @param data
    * @param node
    */
-  searchTree(value: any, data: DepartmentInfo, node: any) {
+  searchTree(value: any, data: MenuInfo, node: any) {
     if (!value) {
       return true;
     }
     return data.name.indexOf(value) !== -1;
   }
 
-  public nodeClick(data: DepartmentInfo) {
-    this.deptSelected = data;
-    rxevent.publish(EventKeys.deptChange, this.deptSelected);
+  public nodeClick(data: MenuInfo) {
+    this.menuSelected = data;
+    rxevent.publish(EventKeys.menuChange, this.menuSelected);
   }
 
-  add(item?: DepartmentInfo) {
-    this.deptEditing = new DepartmentInfo();
+  add(item?: MenuInfo) {
+    this.menuEditing = new MenuInfo();
     if (item && item.id) {
-      this.deptSelected = item;
-      this.deptEditing.parentId = this.deptSelected.id;
-      this.deptEditing.enable = this.deptSelected.enable;
+      this.menuSelected = item;
+      this.menuEditing.parentId = this.menuSelected.id;
+      this.menuEditing.enable = this.menuSelected.enable;
     } else {
-      this.deptSelected = new DepartmentInfo();
-      this.deptEditing.parentId = '';
+      this.menuSelected = new MenuInfo();
+      this.menuEditing.parentId = '';
     }
     this.showEditDialog = true;
   }
 
-  edit(item: DepartmentInfo) {
-    this.deptSelected = item;
-    this.deptEditing = _.cloneDeep(item);
+  edit(item: MenuInfo) {
+    this.menuSelected = item;
+    this.menuEditing = _.cloneDeep(item);
     this.showEditDialog = true;
   }
 
-  removeConfirm(item: DepartmentInfo) {
+  removeConfirm(item: MenuInfo) {
     if (item && !item.enable) {
       return;
     }
-    this.deptSelected = item;
+    this.menuSelected = item;
     this.$confirm(stringFormatArr(this.$t('RemoveTip').toString(), ['']), this.$t('Tip').toString(), {
       confirmButtonText: this.$t('Comfirm').toString(),
       cancelButtonText: this.$t('Cancel').toString(),
@@ -144,20 +144,20 @@ export default class DeptTree extends Vue {
   }
 
   remove(id: string) {
-    DeptService.remove(id).then((res: any) => {
+    MenuService.remove(id).then((res: any) => {
       if (res) {
-        this.findDepartmentTree();
+        this.findMenuTree();
       }
     });
   }
 
   save() {
-    const form: DeptForm = this.$refs['deptFormRef'] as DeptForm;
+    const form: MenuForm = this.$refs['menuFormRef'] as MenuForm;
     form.saveValid();
   }
 
   saveSuccess() {
-    this.findDepartmentTree();
+    this.findMenuTree();
     this.showEditDialog = false;
   }
 }

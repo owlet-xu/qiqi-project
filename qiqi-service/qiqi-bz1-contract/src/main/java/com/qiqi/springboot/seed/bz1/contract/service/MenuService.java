@@ -23,7 +23,7 @@ public interface MenuService {
      * @param id
      * @return
      */
-    boolean enableMenu(String id);
+    boolean disableMenu(String id);
 
     /**
      * 条件查找菜单树-不包含权限数据
@@ -31,4 +31,18 @@ public interface MenuService {
      * @return
      */
     List<MenuInfo> findMenuTree(MenuInfo menuInfo);
+
+    /**
+     * 添加菜单权限
+     * @param menuInfo
+     * @return
+     */
+    boolean addMenuPrivileges(MenuInfo menuInfo);
+
+    /**
+     * 删除菜单权限
+     * @param menuInfo
+     * @return
+     */
+    boolean removeMenuPrivileges(MenuInfo menuInfo);
 }
