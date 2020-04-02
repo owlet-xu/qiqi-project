@@ -46,3 +46,5 @@ declare module 'element-ui/lib/utils/clickoutside' {
   const directive: any;
   export default directive;
 }
+
+declare module 'jsencrypt';

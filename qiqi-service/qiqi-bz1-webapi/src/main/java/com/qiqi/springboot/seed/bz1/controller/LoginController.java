@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.qiqi.springboot.seed.bz1.contract.model.LoginInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.LoginService;
+import com.qiqi.springboot.seed.common.util.MD5Utils;
+import com.qiqi.springboot.seed.common.util.RSAUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -39,6 +41,8 @@ public class LoginController {
     public ResponseEntity<LoginInfo> Login(@RequestBody JSONObject jsonObject) {
         String loginName =  jsonObject.get("loginName").toString();
         String password =  jsonObject.get("password").toString();
-        return ResponseEntity.status(HttpStatus.OK).body(loginService.login(loginName, password));
+        String decrypt = RSAUtils.decryptByPrivate(password, RSAUtils.privateKey);
+        String md5 = MD5Utils.MD5(decrypt);
+        return ResponseEntity.status(HttpStatus.OK).body(loginService.login(loginName, md5));
     }
 }
