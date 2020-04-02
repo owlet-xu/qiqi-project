@@ -1,6 +1,6 @@
 package com.qiqi.springboot.seed.bz1.service.entityfilter;
 
-import com.qiqi.springboot.seed.bz1.service.entity.UserEntity;
+import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
 
 /**
  * @author xuguoyuan
@@ -18,7 +18,7 @@ public class UserEntityFilter {
         }
         return instance;
     }
-    public  UserEntity noPassword(UserEntity user) {
+    public UserInfo noPassword(UserInfo user) {
         user.setPassword(null);
         return user;
     }

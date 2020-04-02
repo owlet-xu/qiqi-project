@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         PageRequest pageRequest = PageRequest.of(pageInfo.getPage(), pageInfo.getSize(), sort);
         Page<UserInfo> page = userRepository.findAll(filters, pageRequest).map(entity -> {
-            UserEntityFilter.getInstance().noPassword(entity);
             UserInfo userInfo = userMapper.entityToModel(entity);
+            UserEntityFilter.getInstance().noPassword(userInfo);
             userInfo.setDeptInfos(userIdDeptMap.get(userInfo.getId()));
             userInfo.setRoleInfos(userIdRoleMap.get(userInfo.getId()));
             return userInfo;
@@ -309,8 +309,6 @@ public class UserServiceImpl implements UserService {
             }
             Predicate predicateCommon = criteriaBuilder.or(predicatesCommon.toArray(new Predicate[predicatesCommon.size()]));
             Predicate predicateAdvance = criteriaBuilder.and(predicatesAdvance.toArray(new Predicate[predicatesAdvance.size()]));
-
-
 
             if (predicatesCommon.size() > 0 && predicatesAdvance.size() > 0) {
                 Predicate[] predicate = { predicateCommon, predicateAdvance };

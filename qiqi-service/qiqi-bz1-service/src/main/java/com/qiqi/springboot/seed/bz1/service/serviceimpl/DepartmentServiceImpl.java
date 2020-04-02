@@ -155,8 +155,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         PageRequest pageRequest = PageRequest.of(pageInfo.getPage(), pageInfo.getSize(), sort);
         Page<UserInfo> page = userRepository.findAll(filters, pageRequest).map(entity -> {
-            UserEntityFilter.getInstance().noPassword(entity);
-            return userMapper.entityToModel(entity);
+            UserInfo userInfo = userMapper.entityToModel(entity);
+            return UserEntityFilter.getInstance().noPassword(userInfo);
         });
         PageInfo<UserInfo> res = new PageInfo<>();
         res.setPage(pageInfo.getPage());
@@ -182,8 +182,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         PageRequest pageRequest = PageRequest.of(pageInfo.getPage(), pageInfo.getSize(), sort);
         Page<UserInfo> page = userRepository.findAll(filters, pageRequest).map(entity -> {
-            UserEntityFilter.getInstance().noPassword(entity);
-            return userMapper.entityToModel(entity);
+            return UserEntityFilter.getInstance().noPassword(userMapper.entityToModel(entity));
         });
         PageInfo<UserInfo> res = new PageInfo<>();
         res.setPage(pageInfo.getPage());

@@ -13,6 +13,7 @@ import com.qiqi.springboot.seed.bz1.service.repository.MenuRepository;
 import com.qiqi.springboot.seed.bz1.service.repository.PrivilegeRepository;
 import com.qiqi.springboot.seed.bz1.service.repository.RRoleMenuPrivilegeRepository;
 import com.qiqi.springboot.seed.bz1.service.repository.RoleRepository;
+import com.qiqi.springboot.seed.common.configs.XseedSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -121,7 +122,7 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
             return new ArrayList<>();
         }
         // 管理员
-        if (roleIds.contains("e1dc85b2-f366-45ae-9499-1e6d515983ae")) {
+        if (roleIds.contains(XseedSettings.adminRoleId)) {
             return findAdminMenuPrivelegeList();
         }
         // 1、查询角色的菜单实体

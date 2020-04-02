@@ -132,9 +132,11 @@ export default class RoleMenuTree extends Vue {
     const keys: string[] = [];
     menus.forEach((menu: MenuInfo) => {
       keys.push(menu.id);
-      menu.privilegeInfos.forEach((p: PrivilegeInfo) => {
-        keys.push(menu.id + p.id);
-      });
+      if (menu.privilegeInfos) {
+        menu.privilegeInfos.forEach((p: PrivilegeInfo) => {
+          keys.push(menu.id + p.id);
+        });
+      }
     });
     this.loading = false;
     this.canEdit = false;
