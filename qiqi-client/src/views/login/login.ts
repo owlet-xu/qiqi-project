@@ -136,7 +136,6 @@ export default class extends Vue {
     const menus: MenuInfo[] = await MenuService.findRoleMenuPrivelegeTree(roleIds);
     const routes: RouteConfig[] = [];
     this.menuInfoTree2RouteConfigTree(menus, routes);
-    debugger;
     PermissionModule.GenerateRoutes(routes);
     this.$router.push({
       path: this.redirect || '/',
