@@ -21,4 +21,8 @@ public interface RoleRepository  extends JpaRepository<RoleEntity, String> {
     int disableRole(@Param("id") String id, @Param("enable") Integer enable);
 
     List<RoleEntity> findByEnableOrderByCreateTimeDesc(int enable);
+
+    @Query("select r from RoleEntity r where r.id in (select distinct ru.roleId from RUserDepartmentRoleEntity ru where ru.userId=:userId and ru.type=1)")
+    @Modifying(clearAutomatically = true)
+    List<RoleEntity> getRoleInfosByUserId(@Param("userId") String userId);
 }

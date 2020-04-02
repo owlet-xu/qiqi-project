@@ -29,7 +29,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @ApiOperation(value = "保存用户", notes = "新增or更新用户")
+    @ApiOperation(value = "登录", notes = "登录")
     @ApiResponses({
             @ApiResponse(code = 200, message = "查询成功", response = UserInfo.class),
             @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),

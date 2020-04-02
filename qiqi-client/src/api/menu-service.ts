@@ -11,6 +11,10 @@ export default {
     const url = `${AppModule.configs.qiqiServiceUrl}${MenuUrls.findMenuPrivelegeTree}`;
     return httpClient.getPromise(url);
   },
+  findRoleMenuPrivelegeTree(roleIds: string[]): Promise<MenuInfo[]> {
+    const url = `${AppModule.configs.qiqiServiceUrl}${MenuUrls.findRoleMenuPrivelegeTree}`;
+    return httpClient.postPromise(url, roleIds);
+  },
   findAllMenuPrivelegeTree(): Promise<MenuInfo[]> {
     const url = `${AppModule.configs.qiqiServiceUrl}${MenuUrls.findAllMenuPrivelegeTree}`;
     return httpClient.getPromise(url);

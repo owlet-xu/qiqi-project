@@ -3,13 +3,17 @@ import { Route } from 'vue-router';
 import { Dictionary } from 'vue-router/types/router';
 import { Form as ElForm, Input } from 'element-ui';
 import { stringFormatArr } from '@/utils/string-utils';
-import { constantRouterMap } from '@/router';
+// import { constantRouterMap } from '@/router';
+import { RouterPrefix } from '@/router/router-types';
 // componets
 import LangSelect from '@/components/lang-select/index.vue';
 // models
 import { LoginInfo } from '@/models/login-info';
+import { MenuInfo } from '@/models/menu-info';
+import { RouteConfig } from 'vue-router';
 // services
 import LoginService from '@/api/login-service';
+import MenuService from '@/api/menu-service';
 // store
 import { PermissionModule } from '@/store/modules/permission';
 import { UserModule } from '@/store/modules/user';
@@ -110,13 +114,9 @@ export default class extends Vue {
     LoginService.login(this.loginForm.username, this.loginForm.password)
       .then((res: LoginInfo) => {
         if (res) {
-          PermissionModule.GenerateRoutes(constantRouterMap);
           UserModule.setToken(res.token);
           UserModule.setUserInfo(res.userInfo);
-          this.$router.push({
-            path: this.redirect || '/',
-            query: this.otherQuery
-          });
+          this.getMenus(res);
         }
       })
       .catch((e: any) => {
@@ -129,6 +129,39 @@ export default class extends Vue {
       .finally(() => {
         this.loading = false;
       });
+  }
+
+  private async getMenus(loginInfo: LoginInfo) {
+    const roleIds: string[] = loginInfo.userInfo.roleInfos.map((role: any) => role.id);
+    const menus: MenuInfo[] = await MenuService.findRoleMenuPrivelegeTree(roleIds);
+    const routes: RouteConfig[] = [];
+    this.menuInfoTree2RouteConfigTree(menus, routes);
+    debugger;
+    PermissionModule.GenerateRoutes(routes);
+    this.$router.push({
+      path: this.redirect || '/',
+      query: this.otherQuery
+    });
+  }
+
+  menuInfoTree2RouteConfigTree(menus: MenuInfo[], routes: RouteConfig[]) {
+    menus.forEach((item: MenuInfo) => {
+      const route: RouteConfig = {
+        path: item.url,
+        name: RouterPrefix(item.code),
+        meta: {
+          title: RouterPrefix(item.code),
+          icon: item.icon,
+          noCache: true
+        }
+      };
+      routes.push(route);
+      if (item.children && Array.isArray(item.children) && item.children.length) {
+        const children: RouteConfig[] = [];
+        route.children = children;
+        this.menuInfoTree2RouteConfigTree(item.children, children);
+      }
+    });
   }
 
   private getOtherQuery(query: Dictionary<string>) {

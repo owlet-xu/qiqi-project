@@ -8,6 +8,8 @@ export class MenuInfo {
    */
   name = '';
 
+  code = '';
+
   /**
    * 父id
    */
@@ -32,6 +34,8 @@ export class MenuInfo {
    * 图片id
    */
   imgId = '';
+
+  icon = '';
 
   /**
    * 启用禁用

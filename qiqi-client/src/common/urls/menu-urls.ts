@@ -1,5 +1,6 @@
 export const MenuUrls = {
   findMenuPrivelegeTree: '/api/v1/menu-privilege/tree',
+  findRoleMenuPrivelegeTree: '/api/v1/menu-privilege/role/tree',
   findAllMenuPrivelegeTree: '/api/v1/menu-privilege/tree/all',
   saveMenu: '/api/v1/menu-privilege/save',
   remove: '/api/v1/menu-privilege/remove/{id}',

@@ -41,6 +41,20 @@ public class MenuPrivilegeController {
         return ResponseEntity.status(HttpStatus.OK).body(rRoleMenuPrivilegeService.findMenuPrivelegeTree());
     }
 
+    @ApiOperation(value = "查询角色的启用菜单权限树", notes = "查询角色的启用菜单权限树")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = MenuInfo.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/menu-privilege/role/tree", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MenuInfo>> findRoleMenuPrivelegeTree(
+            @ApiParam(value = "角色id", required = true)
+            @RequestBody List<String> roleIds
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(rRoleMenuPrivilegeService.findRoleMenuPrivelegeTree(roleIds));
+    }
+
     @ApiOperation(value = "查询角色的启用菜单权限列表", notes = "查询角色的启用菜单权限列表")
     @ApiResponses({
             @ApiResponse(code = 200, message = "查询成功", response = MenuInfo.class),

@@ -30,4 +30,11 @@ public interface UserService {
      * @return
      */
     Boolean disableUser(String id);
+
+    /**
+     * 给用户加上角色信息
+     * @param userInfo
+     * @return
+     */
+    UserInfo addRoleInfo(UserInfo userInfo);
 }

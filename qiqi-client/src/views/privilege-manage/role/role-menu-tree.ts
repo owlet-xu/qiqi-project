@@ -16,7 +16,12 @@ import _ from 'lodash';
 
 @Component
 export default class RoleMenuTree extends Vue {
-  // 菜单权限树
+  /**
+   * 菜单权限树
+   * 这里将权限的数据也加入到树里面
+   * 权限的树id用菜单id+权限id的形式
+   * 保存的时候，从菜单树中过滤出数据
+   */
   private menuTree: MenuInfo[] = [];
   private currRoleInfo: RoleInfo = new RoleInfo();
   private defaultProps = { children: 'children', label: 'name', disabled: this.disabledTree };

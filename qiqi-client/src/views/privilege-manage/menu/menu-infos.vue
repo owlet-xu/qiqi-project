@@ -6,6 +6,8 @@
       </div>
       <div class="info" v-if="currMenuInfo.id">
         <span class="item">{{ currMenuInfo.name }}</span>
+        <span class="item">{{ currMenuInfo.code }}</span>
+        <span class="item">{{ currMenuInfo.url }}</span>
       </div>
     </div>
     <div class="privilige-list-container">

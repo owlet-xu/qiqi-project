@@ -1,42 +1,17 @@
 <template>
-  <div
-    v-if="!item.meta || !item.meta.hidden"
-    :class="[isCollapse ? 'simple-mode' : 'full-mode', {'first-level': isFirstLevel}]"
-  >
+  <div v-if="!item.meta || !item.meta.hidden" :class="[isCollapse ? 'simple-mode' : 'full-mode', { 'first-level': isFirstLevel }]">
     <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
-      <sidebar-item-link
-        v-if="theOnlyOneChild.meta"
-        :to="resolvePath(theOnlyOneChild.path)"
-      >
-        <el-menu-item
-          :index="resolvePath(theOnlyOneChild.path)"
-          :class="{'submenu-title-noDropdown': isFirstLevel}"
-        >
-          <svg-icon
-            v-if="theOnlyOneChild.meta.icon"
-            :name="theOnlyOneChild.meta.icon"
-          />
-          <span
-            v-if="theOnlyOneChild.meta.title"
-            slot="title"
-          >{{ $t(theOnlyOneChild.meta.title) }}</span>
+      <sidebar-item-link v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
+        <el-menu-item :index="resolvePath(theOnlyOneChild.path)" :class="{ 'submenu-title-noDropdown': isFirstLevel }">
+          <svg-icon v-if="theOnlyOneChild.meta.icon" :name="theOnlyOneChild.meta.icon" />
+          <span v-if="theOnlyOneChild.meta.title" slot="title">{{ $t(theOnlyOneChild.meta.title) }}</span>
         </el-menu-item>
       </sidebar-item-link>
     </template>
-    <el-submenu
-      v-else
-      :index="resolvePath(item.path)"
-      popper-append-to-body
-    >
+    <el-submenu v-else :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
-        <svg-icon
-          v-if="item.meta && item.meta.icon"
-          :name="item.meta.icon"
-        />
-        <span
-          v-if="item.meta && item.meta.title"
-          slot="title"
-        >{{ $t(item.meta.title) }}</span>
+        <svg-icon v-if="item.meta && item.meta.icon" :name="item.meta.icon" />
+        <span v-if="item.meta && item.meta.title" slot="title">{{ $t(item.meta.title) }}</span>
       </template>
       <template v-if="item.children">
         <sidebar-item
@@ -129,7 +104,7 @@ export default class extends Vue {
 }
 
 .full-mode {
-  .nest-menu .el-submenu>.el-submenu__title,
+  .nest-menu .el-submenu > .el-submenu__title,
   .el-submenu .el-menu-item {
     min-width: $sideBarWidth !important;
     background-color: $subMenuBg !important;
@@ -154,14 +129,14 @@ export default class extends Vue {
     .el-submenu {
       overflow: hidden;
 
-      &>.el-submenu__title {
+      & > .el-submenu__title {
         padding: 0px !important;
 
         .el-submenu__icon-arrow {
           display: none;
         }
 
-        &>span {
+        & > span {
           visibility: hidden;
         }
       }

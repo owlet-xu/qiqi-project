@@ -72,9 +72,9 @@ export default class MenuTree extends Vue {
     MenuService.findAllMenuPrivelegeTree().then((res: MenuInfo[]) => {
       this.menusAll = res;
       this.menus = _.cloneDeep(res);
-      this.$nextTick(() => {
-        this.defaultSelectTopOne();
-      });
+      // this.$nextTick(() => {
+      //   this.defaultSelectTopOne();
+      // });
     });
   }
 

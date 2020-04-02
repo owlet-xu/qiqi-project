@@ -193,4 +193,18 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.disableRole(id, 0);
         return true;
     }
+
+    /**
+     * 找到用户的角色
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<RoleInfo> getRoleInfosByUserId(String userId) {
+        if (StringUtils.isEmpty(userId)) {
+            return new ArrayList<>();
+        }
+        return roleMapper.entitiesToModels(roleRepository.getRoleInfosByUserId(userId));
+    }
 }

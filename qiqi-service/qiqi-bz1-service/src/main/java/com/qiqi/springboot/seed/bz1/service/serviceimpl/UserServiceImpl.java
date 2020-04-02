@@ -252,6 +252,21 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    /**
+     * 给用户加上角色信息
+     *
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public UserInfo addRoleInfo(UserInfo userInfo) {
+        if (null == userInfo || StringUtils.isEmpty(userInfo.getId())) {
+            return userInfo;
+        }
+        userInfo.setRoleInfos(roleService.getRoleInfosByUserId(userInfo.getId()));
+        return userInfo;
+    }
+
     private Specification<UserEntity> createSpecification(UserInfo userInfo, String search) {
         List<Predicate> predicatesAdvance = new ArrayList<>(); // 高接搜索，并列
         List<Predicate> predicatesCommon = new ArrayList<>(); // 模糊搜索，or

@@ -117,9 +117,19 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
      */
     @Override
     public List<MenuInfo> findRoleMenuPrivelegeList(List<String> roleIds) {
+        if(CollectionUtils.isEmpty(roleIds)) {
+            return new ArrayList<>();
+        }
+        // 管理员
+        if (roleIds.contains("e1dc85b2-f366-45ae-9499-1e6d515983ae")) {
+            return findAdminMenuPrivelegeList();
+        }
         // 1、查询角色的菜单实体
         List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.getMenusByRoleIds(roleIds));
         List<String> menuIds = menuInfos.stream().map(MenuInfo::getId).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(menuIds)) {
+            return menuInfos; //不存在菜单
+        }
         // 2、查询菜单下权限关系和实体, 查关系，然后查权限，然后确定权限和菜单的关系
         List<RRoleMenuPrivilegeEntity> rAll = rRoleMenuPrivilegeRepository.findByTypeAndMenuIdInAndRoleIdIn(RRoleMenuPrivilegeTypeEnum.ROLE_MENU_PRIVILEGE.value(), menuIds, roleIds);
         List<String> pIds = rAll.stream().map(RRoleMenuPrivilegeEntity::getPrivilegeId).collect(Collectors.toList());
@@ -131,6 +141,32 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
         }
         return menuInfos;
     }
+
+    /**
+     * 查询admin下的菜单和权限
+     * @return
+     */
+    private List<MenuInfo> findAdminMenuPrivelegeList() {
+        // 1、查询角色的菜单实体
+        List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.findByEnable(1));
+        List<String> menuIds = menuInfos.stream().map(MenuInfo::getId).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(menuIds)) {
+            return menuInfos; //不存在菜单
+        }
+        // 2、查询菜单下权限关系和实体, 查关系，然后查权限，然后确定权限和菜单的关系
+        List<RRoleMenuPrivilegeEntity> rAll = rRoleMenuPrivilegeRepository.findByTypeAndMenuIdIn(RRoleMenuPrivilegeTypeEnum.MENU_PRIVILEGE.value(), menuIds);
+        List<String> pIds = rAll.stream().map(RRoleMenuPrivilegeEntity::getPrivilegeId).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(pIds)) {
+            return menuInfos; //不存在权限
+        }
+        List<PrivilegeInfo> privilegeAll = privilegeMapper.entitiesToModels(privilegeRepository.findByIdIn(pIds));
+        // 3、给每个菜单设置权限
+        for(MenuInfo menu : menuInfos) {
+            List<PrivilegeInfo> privilegeInfos = getPrivilegeInfosByMenuId(menu.getId(), rAll, privilegeAll);
+            menu.setPrivilegeInfos(privilegeInfos);
+        }
+        return menuInfos;
+    };
 
 
     //把一个List转成树

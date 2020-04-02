@@ -53,5 +53,17 @@ public interface RoleService {
      */
     List<RoleInfo> findEnableList(boolean hasMenuPrivilege);
 
+    /**
+     * 禁用角色
+     * @param id
+     * @return
+     */
     boolean disableRole(String id);
+
+    /**
+     * 找到用户的角色
+     * @param userId
+     * @return
+     */
+    List<RoleInfo> getRoleInfosByUserId(String userId);
 }

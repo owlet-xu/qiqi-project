@@ -26,6 +26,12 @@ public class MenuEntity {
     private String name;
 
     /**
+     * 菜单的国际化key或唯一标识
+     */
+    @Column(name = "CODE", nullable = false, length = 200)
+    private String code;
+
+    /**
      * 父id
      */
     @Column(name = "PARENT_ID", length = 36)
@@ -55,6 +61,12 @@ public class MenuEntity {
      */
     @Column(name = "IMG_ID", length = 200)
     private String imgId;
+
+    /**
+     * 图标名称
+     */
+    @Column(name = "ICON", length = 200)
+    private String icon;
 
     /**
      * 启用禁用
@@ -151,5 +163,21 @@ public class MenuEntity {
 
     public void setImgId(String imgId) {
         this.imgId = imgId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

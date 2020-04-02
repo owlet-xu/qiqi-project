@@ -21,6 +21,10 @@ public class MenuInfo {
     @NotBlank
     private String name;
 
+    @Size(max = 200)
+    @NotBlank
+    private String code;
+
     /**
      * 父id
      */
@@ -49,6 +53,9 @@ public class MenuInfo {
      */
     @Size(max = 200)
     private String imgId;
+
+    @Size(max = 200)
+    private String icon;
 
     /**
      * 启用禁用
@@ -168,5 +175,21 @@ public class MenuInfo {
 
     public void setPrivilegeInfos(List<PrivilegeInfo> privilegeInfos) {
         this.privilegeInfos = privilegeInfos;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
