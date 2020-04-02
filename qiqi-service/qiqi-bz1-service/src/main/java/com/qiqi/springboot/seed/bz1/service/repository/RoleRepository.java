@@ -19,4 +19,6 @@ public interface RoleRepository  extends JpaRepository<RoleEntity, String> {
     @Query("update RoleEntity r set r.enable=:enable where r.id=:id")
     @Modifying(clearAutomatically = true)
     int disableRole(@Param("id") String id, @Param("enable") Integer enable);
+
+    List<RoleEntity> findByEnableOrderByCreateTimeDesc(int enable);
 }

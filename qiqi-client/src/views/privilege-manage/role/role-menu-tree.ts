@@ -12,6 +12,7 @@ import { Tree as ElTree } from 'element-ui';
 // tools
 import { rxevent } from '@/utils/rxevent';
 import { stringFormatArr } from '@/utils/string-utils';
+import _ from 'lodash';
 
 @Component
 export default class RoleMenuTree extends Vue {
@@ -57,7 +58,7 @@ export default class RoleMenuTree extends Vue {
       if (Array.isArray(menu.privilegeInfos) && menu.privilegeInfos.length > 0) {
         menu.privilegeInfos.forEach((p: PrivilegeInfo) => {
           const item: MenuInfo = new MenuInfo();
-          item.id = p.id;
+          item.id = menu.id + p.id;
           item.name = p.name;
           item.enable = p.enable;
           item.isPrivilege = true;
@@ -86,9 +87,11 @@ export default class RoleMenuTree extends Vue {
    */
   getSelectedTree(tree: MenuInfo[], keys: string[]) {
     return tree.filter((data: MenuInfo) => {
-      if (keys.includes(data.id)) {
+      if (data.isPrivilege === true) {
+        return false; // 权限转成的菜单过滤掉
+      } else if (keys.includes(data.id)) {
         if (Array.isArray(data.privilegeInfos)) {
-          data.privilegeInfos = data.privilegeInfos.filter((p: PrivilegeInfo) => keys.includes(p.id));
+          data.privilegeInfos = data.privilegeInfos.filter((p: PrivilegeInfo) => keys.includes(data.id + p.id));
         }
         if (Array.isArray(data.children)) {
           data.children = this.getSelectedTree(data.children, keys);
@@ -113,7 +116,7 @@ export default class RoleMenuTree extends Vue {
   }
 
   /**
-   * 当前角色的菜单和权限
+   * 当前角色的菜单和权限,并设置树显示
    */
   async findRoleMenuPrivelegeList() {
     if (!this.currRoleInfo.id) {
@@ -125,10 +128,9 @@ export default class RoleMenuTree extends Vue {
     menus.forEach((menu: MenuInfo) => {
       keys.push(menu.id);
       menu.privilegeInfos.forEach((p: PrivilegeInfo) => {
-        keys.push(p.id);
+        keys.push(menu.id + p.id);
       });
     });
-    debugger;
     this.loading = false;
     this.canEdit = false;
     this.$nextTick(() => {
@@ -174,7 +176,7 @@ export default class RoleMenuTree extends Vue {
 
   save(keys: string[]) {
     this.loadingSave = true;
-    this.currRoleInfo.menuInfos = this.getSelectedTree(this.menuTree, keys);
+    this.currRoleInfo.menuInfos = this.getSelectedTree(_.cloneDeep(this.menuTree), keys);
     RoleService.saveRoleMenuPrivilege(this.currRoleInfo)
       .then((res: any) => {
         this.canEdit = false;

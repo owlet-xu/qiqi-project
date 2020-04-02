@@ -68,6 +68,11 @@ public class UserInfo {
      * 用户部门
      */
     private List<DepartmentInfo> deptInfos;
+
+    /**
+     * 用户的角色
+     */
+    private List<RoleInfo> roleInfos;
     /**
      * 更新时间
      */
@@ -187,5 +192,13 @@ public class UserInfo {
 
     public void setDeptInfos(List<DepartmentInfo> deptInfos) {
         this.deptInfos = deptInfos;
+    }
+
+    public List<RoleInfo> getRoleInfos() {
+        return roleInfos;
+    }
+
+    public void setRoleInfos(List<RoleInfo> roleInfos) {
+        this.roleInfos = roleInfos;
     }
 }

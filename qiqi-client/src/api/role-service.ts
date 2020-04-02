@@ -11,6 +11,10 @@ export default {
     const url = `${AppModule.configs.qiqiServiceUrl}${RoleUrls.findList}`;
     return httpClient.getPromise(url);
   },
+  findEnableList(): Promise<any> {
+    const url = `${AppModule.configs.qiqiServiceUrl}${RoleUrls.findEnableList}`;
+    return httpClient.getPromise(url);
+  },
   save(roleInfo: RoleInfo): Promise<any> {
     const url = `${AppModule.configs.qiqiServiceUrl}${RoleUrls.save}`;
     return httpClient.postPromise(url, roleInfo);

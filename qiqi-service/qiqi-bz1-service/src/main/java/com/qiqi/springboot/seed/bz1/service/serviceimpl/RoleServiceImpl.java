@@ -31,6 +31,7 @@ import java.util.UUID;
  * @date 2020-03-30 13:54
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class RoleServiceImpl implements RoleService {
     // repository
     @Autowired
@@ -88,7 +89,7 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     private boolean saveMenuPrivilege(String roleId, List<MenuInfo> menus) {
-        if (!CollectionUtils.isEmpty(menus)) {
+        if (!StringUtils.isEmpty(roleId) && !CollectionUtils.isEmpty(menus)) {
             rRoleMenuPrivilegeService.deleteByRoleId(roleId);
             List<RRoleMenuPrivilegeEntity> rs = new ArrayList<>();
             getRByMenuTree(roleId, menus, rs);
@@ -155,20 +156,39 @@ public class RoleServiceImpl implements RoleService {
      * 条件查找所有角色列表
      *
      * @param roleInfo
+     * @param hasMenuPrivilege 是否携带菜单权限数据
      * @return
      */
     @Override
-    public List<RoleInfo> findList(RoleInfo roleInfo) {
+    public List<RoleInfo> findList(RoleInfo roleInfo, boolean hasMenuPrivilege) {
         // 1、查询所有角色
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         List<RoleInfo> roleInfos = roleMapper.entitiesToModels(roleRepository.findAll(sort));
-        // 携带上菜单权限数据
-        rRoleMenuPrivilegeService.addMenuPrivilege(roleInfos);
+        if (hasMenuPrivilege) {
+            // 携带上菜单权限数据
+            rRoleMenuPrivilegeService.addMenuPrivilege(roleInfos);
+        }
         return roleInfos;
     }
 
+    /**
+     * 查询启用的角色列表
+     *
+     * @param hasMenuPrivilege
+     * @return
+     */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    public List<RoleInfo> findEnableList(boolean hasMenuPrivilege) {
+        List<RoleInfo> roleInfos = roleMapper.entitiesToModels(roleRepository.findByEnableOrderByCreateTimeDesc(1));
+        if (hasMenuPrivilege) {
+            // 携带上菜单权限数据
+            rRoleMenuPrivilegeService.addMenuPrivilege(roleInfos);
+        }
+        return roleInfos;
+    }
+
+
+    @Override
     public boolean disableRole(String id) {
         roleRepository.disableRole(id, 0);
         return true;

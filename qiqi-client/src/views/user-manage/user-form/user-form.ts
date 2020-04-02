@@ -4,6 +4,7 @@ import AttachService from '@/api/attach-service';
 // services
 import UserService from '@/api/user-service';
 import DeptService from '@/api/dept-service';
+import RoleService from '@/api/role-service';
 // tools
 import { stringFormatArr } from '@/utils/string-utils';
 import { getBase64FromFile } from '@/utils/base64-utils';
@@ -13,6 +14,7 @@ import { UserModule } from '@/store/modules/user';
 import { UserInfo } from '@/models/user-info';
 import { DepartmentInfo } from '@/models/department-info';
 import { PageInfo } from '@/models/page-info';
+import { RoleInfo } from '@/models/role-info';
 
 @Component
 export default class UserForm extends Vue {
@@ -24,6 +26,7 @@ export default class UserForm extends Vue {
   private headImgBase64: any = ''; // 显示的图片
   private headImgFile: any = ''; // 上传的文件
   private depts: DepartmentInfo[] = [];
+  private roles: RoleInfo[] = [];
 
   private rules = {
     userName: [{ required: true, validator: this.validateUserName, trigger: ['blur', 'change'] }],
@@ -52,6 +55,13 @@ export default class UserForm extends Vue {
       this.headImgBase64 = AttachService.previewUrl(this.userInfo.headImg);
     }
     this.findDepartmentListPage();
+    this.findEnableRoleList();
+  }
+
+  findEnableRoleList() {
+    RoleService.findEnableList().then((res: RoleInfo[]) => {
+      this.roles = res;
+    });
   }
 
   findDepartmentListPage() {

@@ -33,7 +33,18 @@ public class RoleController {
     })
     @RequestMapping(value = "/role/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RoleInfo>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(roleService.findList(new RoleInfo()));
+        return ResponseEntity.status(HttpStatus.OK).body(roleService.findList(new RoleInfo(), true));
+    }
+
+    @ApiOperation(value = "查询所有启用角色", notes = "不携带菜单权限数据")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/role/list/enable", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<RoleInfo>> findEnableList() {
+        return ResponseEntity.status(HttpStatus.OK).body(roleService.findEnableList(false));
     }
 
     @ApiOperation(value = "保存角色", notes = "新增or更新角色")

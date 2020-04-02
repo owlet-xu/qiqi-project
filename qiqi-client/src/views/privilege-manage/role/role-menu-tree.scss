@@ -44,6 +44,9 @@
         color:$deleteColor;
       }
     }
+    .ifPrivilege {
+      color: green;
+    }
     .showBtn {
       flex: 0 0 90px;
       margin-left: 0px;

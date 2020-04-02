@@ -29,6 +29,8 @@ public interface DepartmentRepository extends JpaRepository<DepartmentEntity, St
 
     List<DepartmentEntity> findByParentId(String parentId);
 
+    List<DepartmentEntity> findByEnable(int enable);
+
     @Query("update DepartmentEntity set enable=:enable where id in :ids")
     @Modifying(clearAutomatically = true)
     int disableDepartment(@Param("ids") List<String> ids, @Param("enable") Integer enable);

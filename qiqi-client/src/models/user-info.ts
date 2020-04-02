@@ -1,4 +1,5 @@
 import { DepartmentInfo } from './department-info';
+import { RoleInfo } from './role-info';
 export class UserInfo {
     id = '';
     /**
@@ -47,4 +48,5 @@ export class UserInfo {
     createTime?: Date;
     headImg = '';
     deptInfos: DepartmentInfo[] = [];
+    roleInfos: RoleInfo[] = [];
 }

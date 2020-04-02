@@ -34,12 +34,27 @@ public interface RRoleMenuPrivilegeRepository extends JpaRepository<RRoleMenuPri
     List<RRoleMenuPrivilegeEntity> findByTypeAndMenuIdIn(int type, List<String> menuIds);
 
     /**
+     * 查找角色下的菜单下的权限
+     * @param type
+     * @param menuIds
+     * @return
+     */
+    List<RRoleMenuPrivilegeEntity> findByTypeAndMenuIdInAndRoleIdIn(int type, List<String> menuIds, List<String> roleIds);
+
+    /**
      * 删除菜单的权限
      * @param menuId
      * @param privilegeIds
      * @return
      */
     int deleteByMenuIdAndPrivilegeIdIn(String menuId, List<String> privilegeIds);
+
+    /**
+     * 删除角色的菜单和权限
+     * @param roleId
+     * @return
+     */
+    int deleteByRoleId(String roleId);
 
     /**
      * 清空无效的权限关联关系

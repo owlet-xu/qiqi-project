@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
  * @date 2020-03-23 09:20
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     DepartmentRepository departmentRepository;
@@ -127,7 +128,6 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    @Transactional
     public boolean disableDepartment(String id) {
         if (StringUtils.isEmpty(id)) {
             return false;
@@ -257,7 +257,6 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean saveDepartmentUsers(DepartmentInfo departmentInfo) {
         if (null == departmentInfo) {
             return false;
@@ -306,7 +305,6 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean deleteDepartmentUsers(DepartmentInfo departmentInfo) {
         if (null == departmentInfo) {
             return false;

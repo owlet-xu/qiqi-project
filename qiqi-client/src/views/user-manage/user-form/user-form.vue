@@ -14,8 +14,13 @@
         <el-input v-model="fromData.email"></el-input>
       </el-form-item>
       <el-form-item label="部门">
-        <el-select style="width: 100%" v-model="userInfo.deptInfos" placeholder="请选择部门" ref="selectReport" multiple filterable value-key="id">
+        <el-select style="width: 100%" v-model="userInfo.deptInfos" placeholder="请选择部门" multiple filterable value-key="id">
           <el-option v-for="(item, index) in depts" :key="index" :value="item" :label="item.name"> </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="角色">
+        <el-select style="width: 100%" v-model="userInfo.roleInfos" placeholder="请选择角色" multiple filterable value-key="id">
+          <el-option v-for="(item, index) in roles" :key="index" :value="item" :label="item.name"> </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>

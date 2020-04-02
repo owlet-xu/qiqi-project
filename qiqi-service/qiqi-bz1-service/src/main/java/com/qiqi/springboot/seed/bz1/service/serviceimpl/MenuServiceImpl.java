@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  * @date 2020-03-30 13:54
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class MenuServiceImpl implements MenuService {
 
     @Autowired
@@ -58,7 +59,6 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean disableMenu(String id) {
         if (StringUtils.isEmpty(id)) {
             return false;

@@ -20,6 +20,7 @@ import java.util.*;
  * @date 2020-03-30 13:52
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class PrivilegeServiceImpl implements PrivilegeService {
 
     @Autowired
@@ -43,7 +44,6 @@ public class PrivilegeServiceImpl implements PrivilegeService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean enablePrivilege(String id) {
         privilegeRepository.enablePrivilege(id, 0);
         return true;

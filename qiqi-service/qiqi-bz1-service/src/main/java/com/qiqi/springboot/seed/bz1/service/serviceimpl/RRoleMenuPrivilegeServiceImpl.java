@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
  * @date 2020-03-30 15:33
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService {
 
     @Autowired
@@ -75,6 +76,11 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
         return buidTree(menuInfos);
     }
 
+    /**
+     * 给菜单加上权限
+     * @param menuInfos
+     * @return
+     */
     private List<MenuInfo>  addPrivileges(List<MenuInfo> menuInfos) {
         // 1、菜单的id
         List<String> menuIds = menuInfos.stream().map(MenuInfo::getId).collect(Collectors.toList());
@@ -114,8 +120,8 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
         // 1、查询角色的菜单实体
         List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.getMenusByRoleIds(roleIds));
         List<String> menuIds = menuInfos.stream().map(MenuInfo::getId).collect(Collectors.toList());
-        // 2、查询菜单下权限关系和实体
-        List<RRoleMenuPrivilegeEntity> rAll = rRoleMenuPrivilegeRepository.findByTypeAndMenuIdIn(RRoleMenuPrivilegeTypeEnum.ROLE_MENU_PRIVILEGE.value(), menuIds);
+        // 2、查询菜单下权限关系和实体, 查关系，然后查权限，然后确定权限和菜单的关系
+        List<RRoleMenuPrivilegeEntity> rAll = rRoleMenuPrivilegeRepository.findByTypeAndMenuIdInAndRoleIdIn(RRoleMenuPrivilegeTypeEnum.ROLE_MENU_PRIVILEGE.value(), menuIds, roleIds);
         List<String> pIds = rAll.stream().map(RRoleMenuPrivilegeEntity::getPrivilegeId).collect(Collectors.toList());
         List<PrivilegeInfo> privilegeAll = privilegeMapper.entitiesToModels(privilegeRepository.findByIdIn(pIds));
         // 3、给每个菜单设置权限
@@ -179,17 +185,11 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
      * @param roleId
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean deleteByRoleId(String roleId) {
-        // 1、角色的菜单
-        List<RRoleMenuPrivilegeEntity> menus = rRoleMenuPrivilegeRepository.findByTypeAndRoleId(RRoleMenuPrivilegeTypeEnum.ROLE_MENU.value(), roleId);
-        // 2、菜单下的权限
-        List<String> menuIds = menus.stream().map(RRoleMenuPrivilegeEntity::getMenuId).collect(Collectors.toList());
-        if (!CollectionUtils.isEmpty(menuIds)) {
-            List<RRoleMenuPrivilegeEntity> privileges = rRoleMenuPrivilegeRepository.findByTypeAndMenuIdIn(RRoleMenuPrivilegeTypeEnum.MENU_PRIVILEGE.value(), menuIds);
-            menus.addAll(privileges);
+        if(StringUtils.isEmpty(roleId)) {
+            return false;
         }
-        rRoleMenuPrivilegeRepository.deleteAll(menus);
+        rRoleMenuPrivilegeRepository.deleteByRoleId(roleId);
         return true;
     }
 
@@ -229,7 +229,6 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean removeMenuPrivileges(String menuId, List<PrivilegeInfo> privilegeInfos) {
         List<String> pIds = privilegeInfos.stream().map(PrivilegeInfo::getId).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(pIds)) {

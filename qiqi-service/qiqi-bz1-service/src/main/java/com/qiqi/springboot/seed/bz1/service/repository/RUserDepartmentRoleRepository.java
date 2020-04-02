@@ -41,6 +41,10 @@ public interface RUserDepartmentRoleRepository extends JpaRepository<RUserDepart
     @Modifying(clearAutomatically = true)
     int deleteDepartmentByUserId(@Param("userId") String userId);
 
+    @Query("delete from RUserDepartmentRoleEntity r where r.type=1 and r.userId=:userId")
+    @Modifying(clearAutomatically = true)
+    int deleteRoleByUserId(@Param("userId") String userId);
+
     /**
      * 获取已关联部门的用户id
      * @return

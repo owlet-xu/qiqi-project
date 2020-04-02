@@ -1,11 +1,14 @@
 package com.qiqi.springboot.seed.bz1.service.serviceimpl;
 
 import com.qiqi.springboot.seed.bz1.contract.constant.EnableEnum;
+import com.qiqi.springboot.seed.bz1.contract.constant.RUserDepartmentRoleTypeEnum;
 import com.qiqi.springboot.seed.bz1.contract.constant.UserTypeEnum;
 import com.qiqi.springboot.seed.bz1.contract.model.DepartmentInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.PageInfo;
+import com.qiqi.springboot.seed.bz1.contract.model.RoleInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.DepartmentService;
+import com.qiqi.springboot.seed.bz1.contract.service.RoleService;
 import com.qiqi.springboot.seed.bz1.contract.service.UserService;
 import com.qiqi.springboot.seed.bz1.service.datamappers.DepartmentMapper;
 import com.qiqi.springboot.seed.bz1.service.datamappers.UserMapper;
@@ -27,6 +30,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
@@ -39,6 +43,7 @@ import java.util.stream.Collectors;
  * @date 2018/9/6
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -56,13 +61,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     DepartmentMapper departmentMapper;
 
+    // services
     @Autowired
     DepartmentService departmentService;
+    @Autowired
+    RoleService roleService;
 
     @Override
     public PageInfo<UserInfo> findUserListPage(PageInfo<UserInfo> pageInfo) {
         // 准备部门数据
-        Map<String, List<DepartmentInfo>> userIdDeptMap = getUserDepartment();
+        Map<String, List<DepartmentInfo>> userIdDeptMap = getUserDepartments();
+        // 准备角色数据
+        Map<String, List<RoleInfo>> userIdRoleMap = getUserRoles();
         // 查询用户
         Specification<UserEntity> filters = createSpecification(pageInfo.getConditions(), pageInfo.getSearch());
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
@@ -71,6 +81,7 @@ public class UserServiceImpl implements UserService {
             UserEntityFilter.getInstance().noPassword(entity);
             UserInfo userInfo = userMapper.entityToModel(entity);
             userInfo.setDeptInfos(userIdDeptMap.get(userInfo.getId()));
+            userInfo.setRoleInfos(userIdRoleMap.get(userInfo.getId()));
             return userInfo;
 
         });
@@ -85,13 +96,13 @@ public class UserServiceImpl implements UserService {
      * 构造出userId -> List<DepartmentEntity> 结构
      * @return
      */
-    private Map<String, List<DepartmentInfo>> getUserDepartment() {
+    private Map<String, List<DepartmentInfo>> getUserDepartments() {
         // 构造出用户对应的部门数据
         Map<String, List<DepartmentInfo>> userDepartments = new HashMap<>();
         // 取出所有部门数据，转换成 id ->  list 结构
-        Map<String, List<DepartmentEntity>> departmentsMap = departmentRepository.findAll().stream().collect(Collectors.groupingBy(DepartmentEntity::getId));
+        Map<String, List<DepartmentEntity>> departmentsMap = departmentRepository.findByEnable(1).stream().collect(Collectors.groupingBy(DepartmentEntity::getId));
         // 取出所有部门用户关系， 转换成 userid ->  list 结构
-        Map<String, List<RUserDepartmentRoleEntity>> rUserDeparmentsMap = rUserDepartmentRoleRepository.findByType(0).stream().collect(Collectors.groupingBy(RUserDepartmentRoleEntity::getUserId));
+        Map<String, List<RUserDepartmentRoleEntity>> rUserDeparmentsMap = rUserDepartmentRoleRepository.findByType(RUserDepartmentRoleTypeEnum.DEPARTMENT.value()).stream().collect(Collectors.groupingBy(RUserDepartmentRoleEntity::getUserId));
         // 部门数据，或者关系数据为空返回空对象
         if (departmentsMap.keySet().size() == 0 || rUserDeparmentsMap.keySet().size() == 0) {
             return userDepartments;
@@ -100,7 +111,10 @@ public class UserServiceImpl implements UserService {
         for(String userId : rUserDeparmentsMap.keySet()) {
             List<DepartmentEntity> listD = new ArrayList<>();
             for(RUserDepartmentRoleEntity entity : rUserDeparmentsMap.get(userId)) {
-                listD.add(departmentsMap.get(entity.getDeptId()).get(0));
+                List<DepartmentEntity> depts = departmentsMap.get(entity.getDeptId());
+                if (!CollectionUtils.isEmpty(depts)) {
+                    listD.add(depts.get(0));
+                }
             }
             // 按照deepId 排序
             listD = listD.stream().sorted(Comparator.comparing(DepartmentEntity::getDeepId)).collect(Collectors.toList());
@@ -109,9 +123,37 @@ public class UserServiceImpl implements UserService {
         return userDepartments;
     }
 
+    /**
+     * 构造出userId -> List<RoleInfo> 结构
+     * @return
+     */
+    private Map<String, List<RoleInfo>> getUserRoles() {
+        // 构造出用户对应的角色数据
+        Map<String, List<RoleInfo>> userRoles = new HashMap<>();
+        // 1、取出所有启用的角色数据，转换成 id ->  list 结构
+        Map<String, List<RoleInfo>> rolesMap = roleService.findEnableList(false).stream().collect(Collectors.groupingBy(RoleInfo::getId));
+        // 2、取出所有角色用户关系， 转换成 userid ->  list 结构
+        Map<String, List<RUserDepartmentRoleEntity>> rUserRolesMap = rUserDepartmentRoleRepository.findByType(RUserDepartmentRoleTypeEnum.ROLE.value()).stream().collect(Collectors.groupingBy(RUserDepartmentRoleEntity::getUserId));
+        // 3、角色数据，或者关系数据为空返回空对象
+        if (rUserRolesMap.keySet().size() == 0 || rUserRolesMap.keySet().size() == 0) {
+            return userRoles;
+        }
+        // 设置结构数据
+        for(String userId : rUserRolesMap.keySet()) {
+            List<RoleInfo> listR = new ArrayList<>();
+            for(RUserDepartmentRoleEntity entity : rUserRolesMap.get(userId)) {
+                List<RoleInfo> roles = rolesMap.get(entity.getRoleId());
+                if (!CollectionUtils.isEmpty(roles)) {
+                    listR.add(roles.get(0));
+                }
+            }
+            userRoles.put(userId, listR);
+        }
+        return userRoles;
+    }
+
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Boolean saveUser(UserInfo userInfo) {
         // 超级管理员
         if (StringUtils.isEmpty(userInfo.getUserType()) || UserTypeEnum.ADMIN.value().equals(userInfo.getUserType())) {
@@ -124,19 +166,53 @@ public class UserServiceImpl implements UserService {
             userEntity = update(userInfo);
         }
         userRepository.saveAndFlush(userEntity);
-        // 更新用户部门信息
-        if (null != userInfo.getDeptInfos()) {
-            // 删除用户部门信息
-            rUserDepartmentRoleRepository.deleteDepartmentByUserId(userEntity.getId());
-            // 添加用户部门信息
-            for (DepartmentInfo departmentInfo : userInfo.getDeptInfos()) {
-               List<String> userIds = new ArrayList<>();
-               userIds.add(userEntity.getId());
-               departmentInfo.setUserIds(userIds);
-            }
-            departmentService.saveDepartmentUsers(userInfo.getDeptInfos());
-        }
+        saveUserDeptsRoles(userInfo.getDeptInfos(),userInfo.getRoleInfos(), userEntity.getId());
         return true;
+    }
+
+    /**
+     * 保存用户的部门和角色关系
+     * @param depts
+     * @param roles
+     * @param userId
+     */
+    private void saveUserDeptsRoles(List<DepartmentInfo> depts, List<RoleInfo> roles, String userId) {
+        // 用户的部门和角色关系表
+        List<RUserDepartmentRoleEntity> rDR = new ArrayList<>();
+        // 更新用户部门信息
+        if (null != depts) {
+            // 删除用户部门信息
+            rUserDepartmentRoleRepository.deleteDepartmentByUserId(userId);
+            for (DepartmentInfo departmentInfo : depts) {
+                RUserDepartmentRoleEntity rDept = new RUserDepartmentRoleEntity();
+                rDept.setId(UUID.randomUUID().toString());
+                rDept.setType(RUserDepartmentRoleTypeEnum.DEPARTMENT.value());
+                rDept.setUserId(userId);
+                rDept.setDeptId(departmentInfo.getId());
+                rDept.setCreateTime(new Date());
+                rDR.add(rDept);
+
+            }
+        }
+        // 更新用户的角色信息
+        if (null != roles) {
+            // 删除用户角色信息
+            rUserDepartmentRoleRepository.deleteRoleByUserId(userId);
+            // 添加用户角色信息
+
+            for (RoleInfo roleInfo : roles) {
+                RUserDepartmentRoleEntity rRole = new RUserDepartmentRoleEntity();
+                rRole.setId(UUID.randomUUID().toString());
+                rRole.setType(RUserDepartmentRoleTypeEnum.ROLE.value());
+                rRole.setUserId(userId);
+                rRole.setRoleId(roleInfo.getId());
+                rRole.setCreateTime(new Date());
+                rDR.add(rRole);
+            }
+        }
+        if (!CollectionUtils.isEmpty(rDR)) {
+            rUserDepartmentRoleRepository.saveAll(rDR);
+        }
     }
 
     private UserEntity add(UserInfo userInfo) {

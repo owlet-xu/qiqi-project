@@ -45,7 +45,7 @@
     <!-- 个人信息修改 -->
     <el-dialog :title="$t('Edit')" :visible.sync="showEditDialog" :close-on-click-modal="false" :append-to-body="true">
       <UserForm
-        ref="userFormRef"
+        ref="navBarUserFormRef"
         v-if="showEditDialog"
         :userInfo.sync="userInfoSelected"
         :saving.sync="loadingSave"

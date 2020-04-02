@@ -36,7 +36,7 @@
         :check-strictly="!canEdit"
       >
         <div class="custom-tree-node" slot-scope="{ node, data }">
-          <div :title="data.name" class="ifNode">
+          <div :title="data.name" :class="{ ifNode: true, ifPrivilege: !!data.isPrivilege }">
             <span :class="{ label: true, delete: !data.enable }">{{ data.name }}</span>
           </div>
         </div>

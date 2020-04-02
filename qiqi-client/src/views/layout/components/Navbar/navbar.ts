@@ -70,7 +70,7 @@ export default class extends Vue {
   }
 
   save() {
-    const form: UserForm = this.$refs['userFormRef'] as UserForm;
+    const form: UserForm = this.$refs['navBarUserFormRef'] as UserForm;
     form.saveValid();
   }
 
