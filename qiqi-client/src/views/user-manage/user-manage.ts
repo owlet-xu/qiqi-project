@@ -2,6 +2,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
 // components
 import Pagination from '@/components/Pagination/index.vue';
 import UserForm from './user-form/user-form';
+import PasswordForm from './password-form/password-form';
 // services
 import UserService from '@/api/user-service';
 // models
@@ -10,11 +11,13 @@ import { UserInfo } from '@/models/user-info';
 // tools
 import _ from 'lodash';
 import { stringFormatArr } from '@/utils/string-utils';
+import loginService from '@/api/login-service';
 
 @Component({
   components: {
     Pagination,
-    UserForm
+    UserForm,
+    PasswordForm
   }
 })
 export default class UserManager extends Vue {
@@ -22,6 +25,7 @@ export default class UserManager extends Vue {
   private loading = true;
   private loadingSave = false;
   private showEditDialog = false;
+  private showPasswordDialog = false;
   private userInfoSelected = new UserInfo();
   private search = '';
   private searchChange: any;
@@ -90,6 +94,33 @@ export default class UserManager extends Vue {
   saveSuccess() {
     this.getUserListFirstPage();
     this.showEditDialog = false;
+  }
+
+  editPassword(item: UserInfo) {
+    this.userInfoSelected = _.cloneDeep(item);
+    this.showPasswordDialog = true;
+  }
+
+  savePassword(item: UserInfo) {
+    const form: PasswordForm = this.$refs['passwordFormRef'] as PasswordForm;
+    form.saveValid();
+  }
+
+  resetPassword() {
+    this.$confirm(stringFormatArr(this.$t('Login.ResetPasswordTip').toString(), ['']), this.$t('Tip').toString(), {
+      confirmButtonText: this.$t('Comfirm').toString(),
+      cancelButtonText: this.$t('Cancel').toString(),
+      type: 'warning'
+    }).then(async () => {
+      const res: boolean = await loginService.resetPassword();
+      if (res === true) {
+        this.showPasswordDialog = false;
+      }
+    });
+  }
+
+  savePasswordSuccess() {
+    this.showPasswordDialog = false;
   }
 
   removeConfirm(item: UserInfo) {

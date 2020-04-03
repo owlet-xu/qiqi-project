@@ -30,7 +30,13 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     List<UserEntity> findByUserName(String userName);
 
+    UserEntity findByIdAndEnable(String id, int enable);
+
     @Query("update UserEntity q set q.enable=:enable where q.id=:id")
     @Modifying(clearAutomatically = true)
     int disableUser(@Param("id") String id, @Param("enable") Integer enable);
+
+    @Query("update UserEntity u set u.password=:password where u.id=:id")
+    @Modifying(clearAutomatically = true)
+    int setUserPassword(@Param("id") String id, @Param("password") String password);
 }

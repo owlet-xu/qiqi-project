@@ -17,8 +17,6 @@ import MenuService from '@/api/menu-service';
 // store
 import { PermissionModule } from '@/store/modules/permission';
 import { UserModule } from '@/store/modules/user';
-// tools
-import { encrypt } from '@/utils/js-encrypt-utils';
 
 @Component({
   name: 'Login',
@@ -113,7 +111,7 @@ export default class extends Vue {
 
   private handleLogin() {
     this.loading = true;
-    LoginService.login(this.loginForm.username, encrypt(this.loginForm.password))
+    LoginService.login(this.loginForm.username, this.loginForm.password)
       .then((res: LoginInfo) => {
         if (res) {
           UserModule.setToken(res.token);

@@ -16,7 +16,6 @@ import { UserInfo } from '@/models/user-info';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 // tools
-import { Path } from '@/router/router-types';
 import _ from 'lodash';
 /**
  * 头部
@@ -61,7 +60,6 @@ export default class extends Vue {
 
   private async LogOut() {
     await UserModule.LogOut();
-    this.$router.push(`${Path.Login}?redirect=${this.$route.fullPath}`);
   }
 
   edit() {

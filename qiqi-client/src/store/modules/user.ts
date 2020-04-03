@@ -1,6 +1,8 @@
 import store from '@/store';
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
 import { UserInfo } from '@/models/user-info';
+import { Vue } from 'vue-property-decorator';
+import { Path } from '@/router/router-types';
 // store
 import { TagsViewModule } from './tags-view';
 import { CookiesKeys, Cookies } from '@/strorage/cookies';
@@ -45,14 +47,14 @@ class User extends VuexModule implements IUserState {
   }
 
   @Action
-  public async LogOut() {
-    // if (this.token === '') {
-    //   throw Error('LogOut: token is undefined!');
-    // }
+  public async LogOut(v?: Vue) {
     this.SET_TOKEN('');
-    // Reset visited views and cached views
     TagsViewModule.delAllViews();
     this.SET_TOKEN('');
+    if (v) {
+      v.$message(v.$t('TokenValid') as string);
+      v.$router.push(`${Path.Login}?redirect=${v.$route.fullPath}`);
+    }
   }
   // #endregion
 }

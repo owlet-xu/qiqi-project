@@ -27,6 +27,7 @@
   "LoadingData": "数据加载中，请稍后...",
   "CreateTime": "创建时间",
   "TokenValid": "token失效，请重新登录",
+  "PleaseInput": "请输入{0}",
   "Login": {
     "Title": "后台管理系统",
     "Login": "登录",
@@ -36,7 +37,15 @@
     "UserName": "账号",
     "Password": "密码",
     "UserNotExit": "账号不存在",
-    "UserError": "账号或密码错误"
+    "UserError": "账号或密码错误",
+    "ChangePassword": "修改密码",
+    "ResetPassword": "重置密码",
+    "OldPassword": "旧密码",
+    "OldPasswordError": "旧密码错误",
+    "NewPassword": "新密码",
+    "ConfirmPassword": "确认密码",
+    "ConfirmPasswordError": "密码不一致",
+    "ResetPasswordTip": "是否重置密码"
   },
   "Router": {
     "Home": "首页",

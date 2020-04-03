@@ -16,4 +16,27 @@ public interface LoginService {
      * @return
      */
     LoginInfo login(String loginName, String password);
+
+    /**
+     * 验证用户密码是否正确
+     * @param token
+     * @param passwordMd5
+     * @return
+     */
+    boolean newPassword(String token, String passwordMd5);
+
+    /**
+     * 设置用户新密码
+     * @param token
+     * @param passwordMd5
+     * @return
+     */
+    boolean validePassword(String token, String passwordMd5);
+
+    /**
+     * 重置用户密码
+     * @param token
+     * @return
+     */
+    boolean resetPassword(String token);
 }

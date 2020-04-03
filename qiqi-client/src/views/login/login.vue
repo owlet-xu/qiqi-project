@@ -1,13 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      autocomplete="on"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">
           {{ $t('Login.Title') }}
@@ -28,12 +21,7 @@
           autocomplete="on"
         />
       </el-form-item>
-      <el-tooltip
-        v-model="capsTooltip"
-        :content="$t('Login.CapsOn')"
-        placement="right"
-        manual
-      >
+      <el-tooltip v-model="capsTooltip" :content="$t('Login.CapsOn')" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon name="password" />
@@ -51,20 +39,12 @@
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
           />
-          <span
-            class="show-pwd"
-            @click="showPwd"
-          >
+          <span class="show-pwd" @click="showPwd">
             <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-button
-        :loading="loading"
-        type="primary"
-        class="login-btn"
-        @click.native.prevent="validForm"
-      >
+      <el-button :loading="loading" type="primary" class="login-btn" @click.native.prevent="validForm">
         {{ $t('Login.Login') }}
       </el-button>
     </el-form>
