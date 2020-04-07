@@ -44,7 +44,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public boolean save(MenuInfo menuInfo) {
         if (StringUtils.isEmpty(menuInfo.getId())) {
+            long maxOrder = menuRepository.getMaxOrder();
             menuInfo.setId(UUID.randomUUID().toString());
+            menuInfo.setOrderNum(maxOrder + 1);
             menuInfo.setCreateTime(new Date());
         }
         menuInfo.setUpdateTime(new Date());
@@ -122,5 +124,43 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public boolean removeMenuPrivileges(MenuInfo menuInfo) {
         return rRoleMenuPrivilegeService.removeMenuPrivileges(menuInfo.getId(), menuInfo.getPrivilegeInfos());
+    }
+
+    /**
+     * 菜单排序
+     *
+     * @param menuId
+     * @param isUp   true 上移动,false 下移动
+     * @return
+     */
+    @Override
+    public boolean orderMenu(String menuId, boolean isUp) {
+        // 1、取出父id相同的菜单
+        List<MenuEntity> menus = menuRepository.getBySameParentId(menuId);
+        // 2、取出相邻的菜单
+        MenuEntity current = null;
+        MenuEntity change = null;
+        for(int i = 0; i < menus.size(); i++) {
+            if (menuId.equals(menus.get(i).getId())) {
+                current = menus.get(i);
+                if (isUp) {
+                    change = i == 0 ? null : menus.get(i - 1); // 前面一个菜单
+                } else {
+                    change = i == menus.size() - 1 ? null : menus.get(i + 1); // 后一个菜单
+                }
+                break;
+            }
+        }
+        // 3、互换顺序
+        if (null != current && null != change) {
+            long orderTemp = current.getOrderNum();
+            current.setOrderNum(change.getOrderNum());
+            change.setOrderNum(orderTemp);
+            List<MenuEntity> changeMenus = new ArrayList();
+            changeMenus.add(current);
+            changeMenus.add(change);
+            menuRepository.saveAll(changeMenus);
+        }
+        return true;
     }
 }

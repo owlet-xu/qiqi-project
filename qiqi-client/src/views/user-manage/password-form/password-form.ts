@@ -152,6 +152,6 @@ export default class PasswordForm extends Vue {
   }
 
   private LogOut() {
-    UserModule.LogOut(this);
+    UserModule.LogOut(this, true);
   }
 }

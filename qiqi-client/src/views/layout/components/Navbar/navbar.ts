@@ -1,6 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 // components
 import UserForm from '@/views/user-manage/user-form/user-form';
+import PasswordForm from '@/views/user-manage/password-form/password-form';
 import Breadcrumb from '@/components/Breadcrumb/index.vue';
 import ErrorLog from '@/components/ErrorLog/index.vue';
 import Hamburger from '@/components/Hamburger/index.vue';
@@ -30,12 +31,14 @@ import _ from 'lodash';
     LangSelect,
     Screenfull,
     SizeSelect,
-    UserForm
+    UserForm,
+    PasswordForm
   }
 })
 export default class extends Vue {
   private loadingSave = false;
   private showEditDialog = false;
+  private showPasswordDialog = false;
   private userInfoSelected = new UserInfo();
 
   get sidebar() {
@@ -59,7 +62,7 @@ export default class extends Vue {
   }
 
   private async LogOut() {
-    await UserModule.LogOut();
+    await UserModule.LogOut(this, false);
   }
 
   edit() {
@@ -74,5 +77,19 @@ export default class extends Vue {
 
   saveSuccess() {
     this.showEditDialog = false;
+  }
+
+  editPassword(item: UserInfo) {
+    this.showPasswordDialog = true;
+  }
+
+  savePassword() {
+    const form: PasswordForm = this.$refs['navBarPasswordFormRef'] as PasswordForm;
+    form.saveValid();
+  }
+
+  savePasswordSuccess() {
+    this.showPasswordDialog = false;
+    this.LogOut();
   }
 }

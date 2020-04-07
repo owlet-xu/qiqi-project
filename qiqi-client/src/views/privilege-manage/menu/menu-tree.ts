@@ -11,6 +11,7 @@ import { stringFormatArr } from '@/utils/string-utils';
 import { rxevent } from '@/utils/rxevent';
 // services
 import MenuService from '@/api/menu-service';
+import menuService from '@/api/menu-service';
 
 @Component({
   components: {
@@ -25,6 +26,7 @@ export default class MenuTree extends Vue {
   private menuEditing: MenuInfo = new MenuInfo(); // 用于编辑的数据
   private showEditDialog = false;
   private saving = false;
+  private loading = true;
   private defaultProps = { children: 'children', label: 'name' };
   private search = '';
   private showAll = false;
@@ -69,12 +71,35 @@ export default class MenuTree extends Vue {
   }
 
   findMenuTree() {
+    this.loading = true;
     MenuService.findAllMenuPrivelegeTree().then((res: MenuInfo[]) => {
       this.menusAll = res;
       this.menus = _.cloneDeep(res);
       // this.$nextTick(() => {
       //   this.defaultSelectTopOne();
       // });
+    }).finally(() => {
+      this.loading = false;
+    });
+  }
+
+  moveTop(item: MenuInfo) {
+    if (item && !item.enable) {
+      return;
+    }
+    this.loading = true;
+    menuService.orderMenu(item.id, true).then((res: any) => {
+      this.findMenuTree();
+    });
+  }
+
+  moveDown(item: MenuInfo) {
+    if (item && !item.enable) {
+      return;
+    }
+    this.loading = true;
+    menuService.orderMenu(item.id, false).then((res: any) => {
+      this.findMenuTree();
     });
   }
 
@@ -111,6 +136,9 @@ export default class MenuTree extends Vue {
   }
 
   add(item?: MenuInfo) {
+    if (item && !item.enable) {
+      return;
+    }
     this.menuEditing = new MenuInfo();
     if (item && item.id) {
       this.menuSelected = item;
@@ -118,12 +146,15 @@ export default class MenuTree extends Vue {
       this.menuEditing.enable = this.menuSelected.enable;
     } else {
       this.menuSelected = new MenuInfo();
-      this.menuEditing.parentId = '';
+      this.menuEditing.parentId = ''; // parentId不能为null，否则排序有问题
     }
     this.showEditDialog = true;
   }
 
   edit(item: MenuInfo) {
+    if (item && !item.enable) {
+      return;
+    }
     this.menuSelected = item;
     this.menuEditing = _.cloneDeep(item);
     this.showEditDialog = true;

@@ -15,6 +15,7 @@ import com.qiqi.springboot.seed.bz1.service.repository.RRoleMenuPrivilegeReposit
 import com.qiqi.springboot.seed.bz1.service.repository.RoleRepository;
 import com.qiqi.springboot.seed.common.configs.XseedSettings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -60,7 +61,7 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
      */
     @Override
     public List<MenuInfo> findMenuPrivelegeTree() {
-        List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.findByEnable(1));
+        List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.findByEnableOrderByOrderNumAsc(1));
         addPrivileges(menuInfos);
         return buidTree(menuInfos);
     }
@@ -72,7 +73,8 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
      */
     @Override
     public List<MenuInfo> findAllMenuPrivelegeTree() {
-        List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.findAll());
+        Sort sort = new Sort(Sort.Direction.ASC, "orderNum");
+        List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.findAll(sort));
         addPrivileges(menuInfos);
         return buidTree(menuInfos);
     }
@@ -149,7 +151,7 @@ public class RRoleMenuPrivilegeServiceImpl implements RRoleMenuPrivilegeService 
      */
     private List<MenuInfo> findAdminMenuPrivelegeList() {
         // 1、查询角色的菜单实体
-        List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.findByEnable(1));
+        List<MenuInfo> menuInfos = menuMapper.entitiesToModels(menuRepository.findByEnableOrderByOrderNumAsc(1));
         List<String> menuIds = menuInfos.stream().map(MenuInfo::getId).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(menuIds)) {
             return menuInfos; //不存在菜单

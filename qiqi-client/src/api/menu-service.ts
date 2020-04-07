@@ -38,5 +38,9 @@ export default {
   findRoleMenuPrivelegeList(roleId: string): Promise<MenuInfo[]> {
     const url = stringFormatArr(`${AppModule.configs.qiqiServiceUrl}${MenuUrls.findRoleMenuPrivelegeList}`, [roleId]);
     return httpClient.getPromise(url);
+  },
+  orderMenu(menuId: string, isUp: boolean): Promise<MenuInfo[]> {
+    const url = stringFormatArr(`${AppModule.configs.qiqiServiceUrl}${isUp ? MenuUrls.orderMenuUp : MenuUrls.orderMenuDown}`, [menuId]);
+    return httpClient.putPromise(url);
   }
 };

@@ -29,6 +29,11 @@
               {{ $t('Router.Home') }}
             </el-dropdown-item>
           </router-link>
+          <el-dropdown-item @click.native="editPassword">
+            <span style="display:block;">
+              {{ $t('Login.ChangePassword') }}
+            </span>
+          </el-dropdown-item>
           <el-dropdown-item @click.native="edit">
             <span style="display:block;">
               {{ $t('Navbar.EditSelfInfo') }}
@@ -54,6 +59,20 @@
       <div slot="footer">
         <el-button @click="showEditDialog = false">{{ $t('Cancel') }}</el-button>
         <el-button type="primary" @click="save" :loading="loadingSave">{{ $t('Save') }}</el-button>
+      </div>
+    </el-dialog>
+    <!-- 个人密码修改 -->
+    <el-dialog :title="$t('Login.ChangePassword')" :visible.sync="showPasswordDialog" :close-on-click-modal="false" :append-to-body="true">
+      <PasswordForm
+        ref="navBarPasswordFormRef"
+        v-if="showPasswordDialog"
+        :userInfo.sync="userInfoSelected"
+        :saving.sync="loadingSave"
+        @saveSuccess="savePasswordSuccess"
+      ></PasswordForm>
+      <div slot="footer">
+        <el-button @click="showPasswordDialog = false">{{ $t('Cancel') }}</el-button>
+        <el-button type="primary" @click="savePassword" :loading="loadingSave">{{ $t('Save') }}</el-button>
       </div>
     </el-dialog>
   </div>

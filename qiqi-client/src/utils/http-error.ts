@@ -10,7 +10,7 @@ export const ErrorShow = (errorCode: number, message: string) => {
     if (errorCode === 29999) {
         // token失效，重新登录
         ElMessage.error(i18n.t('TokenValid').toString());
-        UserModule.LogOut();
+        UserModule.LogOut(null, true);
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             const url = window.location.href;

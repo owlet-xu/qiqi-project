@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-tree">
+  <div class="menu-tree" v-loading="loading">
     <div class="tool-container">
       <el-input :placeholder="$t('SearchTip')" v-model="search"></el-input>
       <el-tooltip effect="dark" :content="$t('Add')" placement="top">
@@ -24,8 +24,10 @@
           <span :class="{ label: true, delete: !data.enable }">{{ data.name }}</span>
         </div>
         <div style="display:none" v-bind:class="{ showBtn: menuSelected.id === data.id }">
-          <el-button type="text" @click="add(data)"><i class="el-icon-plus" :title="$t('Add')"></i></el-button>
-          <el-button type="text" @click="edit(data)"><i class="el-icon-edit" :title="$t('Edit')"></i></el-button>
+          <el-button :disabled="!data.enable" type="text" @click="moveDown(data)"><i class="el-icon-bottom" :title="$t('MoveDown')"></i></el-button>
+          <el-button :disabled="!data.enable" type="text" @click="moveTop(data)"><i class="el-icon-top" :title="$t('MoveTop')"></i></el-button>
+          <el-button :disabled="!data.enable" type="text" @click="add(data)"><i class="el-icon-plus" :title="$t('Add')"></i></el-button>
+          <el-button :disabled="!data.enable" type="text" @click="edit(data)"><i class="el-icon-edit" :title="$t('Edit')"></i></el-button>
           <el-button :disabled="!data.enable" type="text" @click="removeConfirm(data)"
             ><i class="el-icon-delete" :title="$t('Delete')"></i
           ></el-button>

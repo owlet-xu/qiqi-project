@@ -25,9 +25,26 @@ public interface MenuRepository extends JpaRepository<MenuEntity, String> {
      * @param roleIds
      * @return
      */
-    @Query("select m from MenuEntity m where m.enable=1 and m.id in (select distinct r.menuId from RRoleMenuPrivilegeEntity r where r.roleId in(:roleIds) and r.type=0)")
+    @Query("select m from MenuEntity m where m.enable=1 and m.id in (select distinct r.menuId from RRoleMenuPrivilegeEntity r where r.roleId in(:roleIds) and r.type=0) order by m.orderNum asc")
     @Modifying(clearAutomatically = true)
     List<MenuEntity> getMenusByRoleIds(@Param("roleIds") List<String> roleIds);
 
-    List<MenuEntity> findByEnable(Integer enable);
+    List<MenuEntity> findByEnableOrderByOrderNumAsc(Integer enable);
+
+    /**
+     * 查找父id相同的菜单,启用的
+     * @param menuId
+     * @return
+     */
+    @Query("select m from MenuEntity m where m.enable=1 and m.parentId=(select r.parentId from MenuEntity r where r.id=:menuId) order by m.orderNum asc")
+    @Modifying(clearAutomatically = true)
+    List<MenuEntity> getBySameParentId(@Param("menuId") String menuId);
+
+
+    /**
+     * 查找最大的order
+     * @return
+     */
+    @Query("select max(m.orderNum) from MenuEntity m")
+    long getMaxOrder();
 }

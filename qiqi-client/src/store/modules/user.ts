@@ -47,13 +47,14 @@ class User extends VuexModule implements IUserState {
   }
 
   @Action
-  public async LogOut(v?: Vue) {
-    this.SET_TOKEN('');
+  public async LogOut(v: Vue | null, isTokenValid: boolean) {
     TagsViewModule.delAllViews();
     this.SET_TOKEN('');
-    if (v) {
+    if (v && isTokenValid) {
       v.$message(v.$t('TokenValid') as string);
       v.$router.push(`${Path.Login}?redirect=${v.$route.fullPath}`);
+    } else if (v) {
+      v.$router.push(`${Path.Login}`);
     }
   }
   // #endregion

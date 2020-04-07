@@ -45,4 +45,12 @@ public interface MenuService {
      * @return
      */
     boolean removeMenuPrivileges(MenuInfo menuInfo);
+
+    /**
+     * 菜单排序
+     * @param menuId
+     * @param isUp true 上移动,false 下移动
+     * @return
+     */
+    boolean orderMenu(String menuId, boolean isUp);
 }

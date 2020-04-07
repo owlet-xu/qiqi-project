@@ -138,4 +138,32 @@ public class MenuPrivilegeController {
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(menuService.removeMenuPrivileges(menuInfo));
     }
+
+    @ApiOperation(value = "菜单排序升序", notes = "菜单排序升序")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/menu-privilege/order/{id}/up", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> orderMenuUp(
+            @ApiParam(value = "菜单id", required = true)
+            @PathVariable String id
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(menuService.orderMenu(id, true));
+    }
+
+    @ApiOperation(value = "菜单排序降序", notes = "菜单排序降序")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/menu-privilege/order/{id}/down", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> orderMenuDown(
+            @ApiParam(value = "菜单id", required = true)
+            @PathVariable String id
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(menuService.orderMenu(id, false));
+    }
 }
