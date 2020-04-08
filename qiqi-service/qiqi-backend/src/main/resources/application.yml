@@ -6,11 +6,11 @@
 # ---------------------------------------------------------------
 
 server:
-  port: 8666      #以内嵌容器形式运行时，服务绑定的端口;当服务以war包形式部署在tomcat等容器中时，会忽略server.port配置节点
+  port: 32100      #以内嵌容器形式运行时，服务绑定的端口;当服务以war包形式部署在tomcat等容器中时，会忽略server.port配置节点
 
 spring:
   profiles:
-    active: dev
+    active: pro
 
 # 开发环境
 ---
@@ -75,3 +75,67 @@ app:
   rest-connect-timeout: 10000
   rest-read-timeout: 10000
   file-path: D:/pictures/
+
+# 生产环境
+---
+spring:
+  profiles: pro
+  application:
+    name: qiqi-service
+
+  datasource:
+    url: jdbc:sqlserver://127.0.0.1:1433;databaseName=qiqi_sql  #业务数据库访问url
+    username: sa      #业务数据库访问用户名
+    password: p@ssw0rd #业务数据库访问用户密码
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
+    hikari:
+          maximum-pool-size: 20 # 最大连接数, 默认10
+          minimum-idle: 10 # 最小空闲连接数
+          max-lifetime: 1800000 # 最大生存期, 默认1800000(30分钟)
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
+  jpa:
+    show-sql: true                    #是否显示JPA查询的SQL。为true，日志中则会记录JPA查询数据库使用的SQL语句
+    hibernate:
+      ddl-auto: none
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+#    cluster:
+#      nodes:
+#      - 127.0.0.1:6379
+#      - 127.0.0.1:6380
+#      - 127.0.0.1:6381
+#      - 127.0.0.1:6382
+#    jedis:
+    lettuce:
+      pool:
+         # 连接池中的最大空闲连接 默认8
+        max-idle: 8
+        # 连接池中的最小空闲连接 默认0
+        min-idle: 0
+        # 连接池最大连接数 默认8 ，负数表示没有限制
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认-1
+        max-wait: -1ms
+    timeout: 3000ms
+# log配置
+logging:
+  config: classpath:logback-spring.xml
+
+# 种子工程扩展配置
+xseed:
+  url1: http://localhost:8666/test1
+  url2: http://localhost:8666/test2
+
+# app相关配置
+app:
+  language: en_US
+  check-token: false
+  check-token-url: http://192.168.1.100:31025/v3/oauth/check-token
+  check-token-timeout: 3600        #token超时时间，单位是秒
+  rest-connect-timeout: 10000
+  rest-read-timeout: 10000
+  file-path: C:/pictures/

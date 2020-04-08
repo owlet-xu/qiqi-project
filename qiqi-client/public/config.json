@@ -1,4 +1,4 @@
 {
   "lang": "zh",
-  "qiqiServiceUrl": "http://localhost:8666"
+  "qiqiServiceUrl": "http://192.168.226.194:32100"
 }
