@@ -70,7 +70,7 @@ xseed:
 app:
   language: en_US
   check-token: false
-  check-token-url: http://172.22.3.61:31025/v3/oauth/check-token
+  check-token-url: http://192.168.1.100:31025/v3/oauth/check-token
   check-token-timeout: 3600        #token超时时间，单位是秒
   rest-connect-timeout: 10000
   rest-read-timeout: 10000

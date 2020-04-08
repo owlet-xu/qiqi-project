@@ -15,18 +15,17 @@ ext {
 
     dockerConfig = [
             // docker远端构建进程配置地址
-            url : 'http://172.22.3.101:2375/',
-            // url : 'http://172.22.24.202:3557/',
+            url : 'http://192.168.1.100:2375/',
             // docker发布仓库地址及认证信息
             registryCredentials : [
                     // 发布的镜像仓库地址
-                    url : 'http://172.22.3.4',
+                    url : 'http://192.168.1.100',
                     username : 'admin',
                     password : 'aaaa',
                     email : 'admin@example.com'
             ],
             // image镜像对应的前缀域名  --依据实际项目修改
-            imageDomain:'172.22.3.4/pdd',
+            imageDomain:'192.168.1.100/pdd',
             // 发布类型 jar or war，暂时只支持jar  --依据实际项目修改
             publishType: 'jar'
     ]

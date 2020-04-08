@@ -2,7 +2,7 @@
  <div class="privilege-list" v-loading="loading" :element-loading-text="$t('LoadingData')">
     <div class="tool-container">
       <el-input :placeholder="$t('SearchTip')" v-model="search"></el-input>
-      <el-tooltip v-if="$privileges($route.name, 'add')" effect="dark" :content="$t('Add')" placement="top">
+      <el-tooltip v-if="$privileges($route.name, -1)" effect="dark" :content="$t('Add')" placement="top">
         <el-button type="primary" @click="add">
           <i class="el-icon-plus"></i>
         </el-button>
@@ -20,7 +20,7 @@
               <i class="el-icon-edit"></i>
             </el-button>
           </el-tooltip>
-          <el-tooltip v-if="$privileges($route.name, 'delete')" effect="dark" :content="$t('Remove')" placement="top">
+          <el-tooltip v-if="$privileges($route.name, -1)" effect="dark" :content="$t('Remove')" placement="top">
             <el-button :disabled="row.enable != 1" size="mini" type="danger" @click="removeConfirm(row)"> <i class="el-icon-delete"></i></el-button>
           </el-tooltip>
         </template>

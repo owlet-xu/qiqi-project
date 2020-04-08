@@ -1,5 +1,5 @@
 # 基础镜像
-FROM 172.22.3.4/library/openjdk:8-jre
+FROM 192.168.1.100/library/openjdk:8-jre
 
 # VOLUME命令用于让你的容器访问宿主机上的目录。
 VOLUME /tmp

@@ -21,7 +21,7 @@ apply plugin: org.sonarqube.gradle.SonarQubePlugin
 //     issues  ？
 sonarqube {
     properties {
-        property 'sonar.host.url', 'http://172.16.41.100:9000/'
+        property 'sonar.host.url', 'http://192.168.1.100:9000/'
         property 'sonar.login', 'admin'
         property 'sonar.password', 'admin'
         property 'sonar.sourceEncoding', 'UTF-8'
