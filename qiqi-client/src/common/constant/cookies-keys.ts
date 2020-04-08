@@ -5,5 +5,6 @@ export const CookiesKeys = {
   size: 'size',
   menus: 'menus',
   token: 'token',
-  userInfo: 'userInfo'
+  userInfo: 'userInfo',
+  admin: 'admin'
 };

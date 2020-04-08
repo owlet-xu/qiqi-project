@@ -20,7 +20,7 @@ spring:
     name: qiqi-service
 
   datasource:
-    url: jdbc:sqlserver://192.168.226.189:1433;databaseName=qiqi_sql  #业务数据库访问url
+    url: jdbc:sqlserver://192.168.226.194:1433;databaseName=qiqi_sql  #业务数据库访问url
     username: sa      #业务数据库访问用户名
     password: p@ssw0rd #业务数据库访问用户密码
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
@@ -36,7 +36,7 @@ spring:
       ddl-auto: none
   redis:
     database: 0
-    host: 192.168.226.189
+    host: 192.168.226.194
     port: 6379
     password:
 #    cluster:

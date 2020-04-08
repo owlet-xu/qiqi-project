@@ -3,6 +3,8 @@ package com.qiqi.springboot.seed.bz1.contract.service;
 import com.qiqi.springboot.seed.bz1.contract.model.PageInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.UserInfo;
 
+import java.util.List;
+
 /**
  * @author xuguoyuan
  * @description
@@ -37,4 +39,11 @@ public interface UserService {
      * @return
      */
     UserInfo addRoleInfo(UserInfo userInfo);
+
+    /**
+     * 获取用户的角色Id
+     * @param userId
+     * @return
+     */
+    List<String> getUserRoleIds(String userId);
 }

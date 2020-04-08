@@ -21,7 +21,7 @@ public interface RUserDepartmentRoleRepository extends JpaRepository<RUserDepart
     @Modifying(clearAutomatically = true)
     List<String> getDeptIdsByUserId(@Param("userId") String userId);
 
-    @Query("select r.deptId from RUserDepartmentRoleEntity r where r.type=1 and r.userId=:userId")
+    @Query("select distinct r.roleId from RUserDepartmentRoleEntity r where r.type=1 and r.userId=:userId")
     @Modifying(clearAutomatically = true)
     List<String> getRoleIdsByUserId(@Param("userId") String userId);
 

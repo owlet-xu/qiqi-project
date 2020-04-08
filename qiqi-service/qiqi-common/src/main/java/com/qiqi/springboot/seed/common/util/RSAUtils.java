@@ -26,31 +26,35 @@ public class RSAUtils {
     public static final String KEY_RSA_PRIVATEKEY = "RSAPrivateKey";
     //定义签名算法
     private final static String KEY_RSA_SIGNATURE = "MD5withRSA";
-    // 公钥和私钥
+    // js端公钥加密，java私钥解密
     public final static String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCP0DWooqqmjw4jT0jZpLO22QexHRMGaMKXNas/TJHiQRat/32/qIN/ouJ5oLp7IlxTdRpu4b6moe12lxNqRkBrKUw4Qs3Vp7qZ+pYVjCIPeC05KvayTT3mAIAxRKvDdAHRt9t9iGLezy+ynMa7ipInHRcBnxx1w5AF9t4G+uFrcQIDAQAB";
     public final static String privateKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAI/QNaiiqqaPDiNPSNmks7bZB7EdEwZowpc1qz9MkeJBFq3/fb+og3+i4nmgunsiXFN1Gm7hvqah7XaXE2pGQGspTDhCzdWnupn6lhWMIg94LTkq9rJNPeYAgDFEq8N0AdG3232IYt7PL7KcxruKkicdFwGfHHXDkAX23gb64WtxAgMBAAECgYAqVPRmhjNLQdK8jAr6naOUz/+Wn+NIwK9+yPp2cHiEq/ocD5eZQeYrPOwDN0+NDUk1+8NjHin7bLC0drXtU26Eak8aNDxAGesiKd/JKRR9cAtWdUddL81ATaYWsnpcEpo8XrBavrEo1n0s8XegyZNY4NhGP4DPsBaeM+Si0y7FTQJBAOCfYwLl4jCZ92agRktsDpVRv2o8BYdo1/MOnQXHGAsmzOIBBSPZGzhaKkqIedLlL1np6lPR9/EFj9/2Wnf8rrcCQQCj5wsptjxKj+7iBH/e7P1BmROx6/foZVsx5HGCaZecUG+jCAI4B8XnJYjDkK0PMUE5mXgr1tmx6wbBymBhlw8XAkEA1zJ8RjN9bzii2FRm5C1DD3VBIIMefOtKMNdoQjfK5iwnD8MQbJa8SFHBwKRdqlnd8pNy5xj7JJNCkrvPUrLnowJABmUUVWtLzOjyvBTK3GrIss+DKjT3tjSGK1srZpgyFyI4SNceJwt+mDcpr9+sMOSOE+499w/p7HwsBlGcExKuvwJBALMcE8KR5kwJRtciMpdjEe458gEAEmTKzbZoOPydZ1+BRP9pQv3l0tY2eLMJM2TAL1nmBSIf05TYZvqDIVdJwZg=";
+
+    // js端私钥解密，java公钥加密
+    public final static String jsPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCI0qDAkpqDsTHvxOxD8XpgqmaDH3dad8raOMsHvcrEwIFhnTPealS28U2iD9GWPsUpZkePr656aH9QNzWS4emvbRKF3yVh8wh63xps+TUsTKp2wMiDb+0OvO/cgRpZA3z3cn8Imc1f3HVsBSwcmjA5uv6JPEaN9MSVd2e1metYpQIDAQAB";
+    public final static String jsPrivateKey = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAIjSoMCSmoOxMe/E7EPxemCqZoMfd1p3yto4ywe9ysTAgWGdM95qVLbxTaIP0ZY+xSlmR4+vrnpof1A3NZLh6a9tEoXfJWHzCHrfGmz5NSxMqnbAyINv7Q6879yBGlkDfPdyfwiZzV/cdWwFLByaMDm6/ok8Ro30xJV3Z7WZ61ilAgMBAAECgYAw+DHQuqfSunjE+BYXuzWxo0tNYtW062sO74S7IJKSGNQ1u630zNnFIFhIyKCaxZyLVLAIHTi1VvE6JIhoKbMZK+stXGwKndX+YDMTg1J1T3ECTi2t480jnepLvkS/LUZk537rBrjCuZn7lQYRpqp1HeA3bYwZ/3ZFxC3F8J/3gQJBAPHZ5myF8ITdQC81noWFFqOs0G/BvmwRV7suLiT5jE9NzEj3Yiqs32cEVaS9FQCPFwM/OWkZOLsfEZuP7welQeMCQQCQ08NWZ9XoDOLIgAHlemFtMz2M7ET/uLV9PTXGeCPRz0aZ8lGBPyH2AGXXgoPLQ+6Wr1zyOMaa6Nz6XRQfTmHXAkALs7Jdf+GSXC412o9QAI+G3d67+ZDgI7qt+N8MtPJgB/Chey7Jx9GLZ39JWEjC3SmM46tAdZL0It20PDOhmBJnAkAjPiTuxd3b1ibpu5y6hwlmVW3I+UXhJMWlcFvBrEKrL9FybPFAjmhpQLeHtg70S9ene40WtJI/6CK+GiBnbd+JAkBOTL+uOSNmbgtVpGsCHo5OutA4fpxDJI8mEsRQZYVOCz93ttE6IFFA9DC5VtXVrhx2ZjklW0+JHyBQbLDWTDms";
     /**
      * 测试方法
      */
     public static void main(String[] args) {
-        String str = "你好goldlone, RSA!";
-        // 公钥加密，私钥解密
-        String enStr1 = RSAUtils.encryptByPublic(str, publicKey);
-        System.out.println("公钥加密后："+enStr1);
-        String deStr1 = RSAUtils.decryptByPrivate(enStr1, privateKey);
-        System.out.println("私钥解密后："+deStr1);
-        // 私钥加密，公钥解密
-        String enStr2 = RSAUtils.encryptByPrivate(str, privateKey);
-        System.out.println("私钥加密后："+enStr2);
-        String deStr2 = RSAUtils.decryptByPublic(enStr2, publicKey);
-        System.out.println("公钥解密后："+deStr2);
-        // 产生签名
-        String sign = sign(enStr2, privateKey);
-        System.out.println("签名:"+sign);
-        // 验证签名
-        boolean status = verify(enStr2, publicKey, sign);
-        System.out.println("状态:"+status);
-
+//        String str = "4b7a9560-a6f0-4b15-b850-38e7769f21f0";
+//        // 公钥加密，私钥解密
+//        String enStr1 = RSAUtils.encryptByPublic(str, publicKey);
+//        System.out.println("公钥加密后："+enStr1);
+//        String deStr1 = RSAUtils.decryptByPrivate(enStr1, privateKey);
+//        System.out.println("私钥解密后："+deStr1);
+//        // 私钥加密，公钥解密
+//        String enStr2 = RSAUtils.encryptByPrivate(str, privateKey);
+//        System.out.println("私钥加密后："+enStr2);
+//        String deStr2 = RSAUtils.decryptByPublic(enStr2, publicKey);
+//        System.out.println("公钥解密后："+deStr2);
+//        // 产生签名
+//        String sign = sign(enStr2, privateKey);
+//        System.out.println("签名:"+sign);
+//        // 验证签名
+//        boolean status = verify(enStr2, publicKey, sign);
+//        System.out.println("状态:"+status);
+        getPublickKeyPrivateKey();
     }
 
     /**

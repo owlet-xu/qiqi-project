@@ -267,6 +267,11 @@ public class UserServiceImpl implements UserService {
         return userInfo;
     }
 
+    @Override
+    public List<String> getUserRoleIds(String userId) {
+        return rUserDepartmentRoleRepository.getRoleIdsByUserId(userId);
+    }
+
     private Specification<UserEntity> createSpecification(UserInfo userInfo, String search) {
         List<Predicate> predicatesAdvance = new ArrayList<>(); // 高接搜索，并列
         List<Predicate> predicatesCommon = new ArrayList<>(); // 模糊搜索，or

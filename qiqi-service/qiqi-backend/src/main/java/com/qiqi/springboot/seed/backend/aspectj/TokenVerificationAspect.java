@@ -84,8 +84,10 @@ public class TokenVerificationAspect {
             return;
         }
         String clientToken = HttpServletContextHolder.getHeader(XseedSettings.authorizationHeadName);
-        if (redisUtil.hasKey(clientToken)) {
+        Object userIdO = redisUtil.get(clientToken);
+        if (null != userIdO) {
             redisUtil.expire(clientToken, checkTokenTimeout);
+            redisUtil.expire((String) userIdO, checkTokenTimeout);
         } else {
             String errorMessage = "Check Token Failed";
             this.logger.warn("Check Token Failed, token: {}", clientToken);

@@ -8,6 +8,7 @@ package com.qiqi.springboot.seed.bz1.contract.model;
 public class LoginInfo {
     private String token;
     private UserInfo userInfo;
+    private String admin; // 加密后的token
 
     public String getToken() {
         return token;
@@ -23,5 +24,13 @@ public class LoginInfo {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
     }
 }

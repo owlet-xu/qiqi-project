@@ -10,7 +10,7 @@ public class XseedSettings {
     // 用户默认密码
     public static String defaultPassword = "80a0580d894583d17e880506abe93eb9"; // 77@qiqi的md5值
     // 超级管理员的角色Id
-    public static String adminRoleId = "e1dc85b2-f366-45ae-9499-1e6d515983ae";
+    public static String adminRoleId = "e1dc85b2-f366-45ae-9499-1e6d515983ae"; // 超级管理员的角色id
     // http请求头的字段
     public static String authorizationHeadName = "Authorization";
     private String url1;

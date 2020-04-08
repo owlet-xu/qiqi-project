@@ -2,12 +2,12 @@
  <div class="privilege-list" v-loading="loading" :element-loading-text="$t('LoadingData')">
     <div class="tool-container">
       <el-input :placeholder="$t('SearchTip')" v-model="search"></el-input>
-      <el-tooltip effect="dark" :content="$t('Add')" placement="top">
+      <el-tooltip v-if="$privileges($route.name, 'add')" effect="dark" :content="$t('Add')" placement="top">
         <el-button type="primary" @click="add">
           <i class="el-icon-plus"></i>
         </el-button>
       </el-tooltip>
-      <el-switch v-model="showAll" inactive-text="全部"> </el-switch>
+      <el-switch v-model="showAll" :inactive-text="$t('All')"> </el-switch>
     </div>
     <el-table class="privilege-table" :data="listFilter" stripe fit highlight-current-row :cell-class-name="disabledRow">
       <el-table-column :label="$t('PrivilegeManage.PrivilegeName')" prop="name"></el-table-column>
@@ -20,7 +20,7 @@
               <i class="el-icon-edit"></i>
             </el-button>
           </el-tooltip>
-          <el-tooltip effect="dark" :content="$t('Remove')" placement="top">
+          <el-tooltip v-if="$privileges($route.name, 'delete')" effect="dark" :content="$t('Remove')" placement="top">
             <el-button :disabled="row.enable != 1" size="mini" type="danger" @click="removeConfirm(row)"> <i class="el-icon-delete"></i></el-button>
           </el-tooltip>
         </template>

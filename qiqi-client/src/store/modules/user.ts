@@ -15,6 +15,7 @@ export interface IUserState {
 class User extends VuexModule implements IUserState {
   public userInfo = Cookies.getJSON(CookiesKeys.userInfo) || new UserInfo();
   public token = Cookies.get(CookiesKeys.token) || '';
+  public admin = Cookies.get(CookiesKeys.admin) || '';
 
   get isLogin() {
     return this.token ? true : false;
@@ -31,6 +32,12 @@ class User extends VuexModule implements IUserState {
   private SET_USER_INFO(userInfo: UserInfo) {
     this.userInfo = userInfo;
     Cookies.set(CookiesKeys.userInfo, userInfo);
+  }
+
+  @Mutation
+  private SET_ADMIN(admin: string) {
+    this.admin = admin;
+    Cookies.set(CookiesKeys.admin, admin);
   }
 
   // #endregion
@@ -56,6 +63,11 @@ class User extends VuexModule implements IUserState {
     } else if (v) {
       v.$router.push(`${Path.Login}`);
     }
+  }
+
+  @Action
+  public setAdmin(admin: string) {
+    this.SET_ADMIN(admin);
   }
   // #endregion
 }

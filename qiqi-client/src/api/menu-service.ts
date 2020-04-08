@@ -5,6 +5,7 @@ import { MenuUrls } from '@/common/urls/menu-urls';
 import { MenuInfo } from '@/models/menu-info';
 // tools
 import { stringFormatArr } from '@/utils/string-utils';
+import { encrypt } from '@/utils/js-encrypt-utils';
 
 export default {
   findMenuPrivelegeTree(): Promise<MenuInfo[]> {
@@ -12,6 +13,8 @@ export default {
     return httpClient.getPromise(url);
   },
   findRoleMenuPrivelegeTree(roleIds: string[]): Promise<MenuInfo[]> {
+    // 加密
+    roleIds = roleIds.map((id: string) => encrypt(id));
     const url = `${AppModule.configs.qiqiServiceUrl}${MenuUrls.findRoleMenuPrivelegeTree}`;
     return httpClient.postPromise(url, roleIds);
   },

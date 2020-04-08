@@ -6,6 +6,7 @@ import ElementUI from 'element-ui';
 import SvgIcon from 'vue-svgicon';
 import config from './utils/appconfig';
 import i18n from '@/lang';
+import PrivilegesMixin from '@/common/mixin/privileges-mixin'; // 权限管理
 import '@/venders/http-client';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/fonts/iconfont';
@@ -19,8 +20,8 @@ config().then(() => {
     defaultWidth: '1em',
     defaultHeight: '1em'
   });
+  Vue.mixin(PrivilegesMixin);
   router.afterEach(() => {});
-
   new Vue({
     router,
     store,

@@ -3,14 +3,17 @@ package com.qiqi.springboot.seed.bz1.controller;
 import com.qiqi.springboot.seed.bz1.contract.model.MenuInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.MenuService;
 import com.qiqi.springboot.seed.bz1.contract.service.RRoleMenuPrivilegeService;
+import com.qiqi.springboot.seed.common.util.RSAUtils;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,10 +52,14 @@ public class MenuPrivilegeController {
     })
     @RequestMapping(value = "/menu-privilege/role/tree", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MenuInfo>> findRoleMenuPrivelegeTree(
-            @ApiParam(value = "角色id", required = true)
+            @ApiParam(value = "角色id，加密", required = true)
             @RequestBody List<String> roleIds
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(rRoleMenuPrivilegeService.findRoleMenuPrivelegeTree(roleIds));
+        List<String> roleIdsDe = new ArrayList<>();
+        for(String roleId : roleIds) {
+            roleIdsDe.add(RSAUtils.decryptByPrivate(roleId, RSAUtils.privateKey));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(rRoleMenuPrivilegeService.findRoleMenuPrivelegeTree(roleIdsDe));
     }
 
     @ApiOperation(value = "查询角色的启用菜单权限列表", notes = "查询角色的启用菜单权限列表")

@@ -115,6 +115,7 @@ export default class extends Vue {
       .then((res: LoginInfo) => {
         if (res) {
           UserModule.setToken(res.token);
+          UserModule.setAdmin(res.admin);
           UserModule.setUserInfo(res.userInfo);
           this.getMenus(res);
         }
@@ -141,6 +142,7 @@ export default class extends Vue {
       path: this.redirect || '/',
       query: this.otherQuery
     });
+    LoginService.checkAdmin();
   }
 
   menuInfoTree2RouteConfigTree(menus: MenuInfo[], routes: RouteConfig[]) {
@@ -151,7 +153,8 @@ export default class extends Vue {
         meta: {
           title: RouterPrefix(item.code),
           icon: item.icon,
-          noCache: true
+          noCache: true,
+          privilegeInfos: item.privilegeInfos
         }
       };
       routes.push(route);

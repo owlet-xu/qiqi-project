@@ -18,6 +18,13 @@ public interface LoginService {
     LoginInfo login(String loginName, String password);
 
     /**
+     * 通过token获取登录信息
+     * @param token
+     * @return
+     */
+    LoginInfo getLoginInfo(String token);
+
+    /**
      * 验证用户密码是否正确
      * @param token
      * @param passwordMd5
@@ -39,4 +46,11 @@ public interface LoginService {
      * @return
      */
     boolean resetPassword(String token);
+
+    /**
+     * 是否是超级管理员
+     * @param token
+     * @return
+     */
+    boolean checkAdmin(String token);
 }
