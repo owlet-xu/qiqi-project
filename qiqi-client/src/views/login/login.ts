@@ -3,7 +3,6 @@ import { Route } from 'vue-router';
 import { Dictionary } from 'vue-router/types/router';
 import { Form as ElForm, Input } from 'element-ui';
 import { stringFormatArr } from '@/utils/string-utils';
-// import { constantRouterMap } from '@/router';
 import { RouterPrefix } from '@/router/router-types';
 // componets
 import LangSelect from '@/components/lang-select/index.vue';
