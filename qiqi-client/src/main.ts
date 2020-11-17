@@ -1,27 +1,20 @@
 import Vue from 'vue';
 import App from './App.vue';
-import router from './router';
 import store from '@/store';
-import ElementUI from 'element-ui';
-import SvgIcon from 'vue-svgicon';
 import config from './utils/appconfig';
 import i18n from '@/lang';
-import PrivilegesMixin from '@/common/mixin/privileges-mixin'; // 权限管理
+import router from '@/router';
 import '@/venders/http-client';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/fonts/iconfont';
 import '@/assets/styles/index.scss';
 import '@/icons';
+import { initPrivileges, initElementUi, initSvgIcon } from '@/common/app-init';
 
 config().then(() => {
-  Vue.use(ElementUI);
-  Vue.use(SvgIcon, {
-    tagName: 'svg-icon',
-    defaultWidth: '1em',
-    defaultHeight: '1em'
-  });
-  Vue.mixin(PrivilegesMixin);
-  router.afterEach(() => {});
+  initElementUi();
+  initSvgIcon();
+  initPrivileges();
   new Vue({
     router,
     store,

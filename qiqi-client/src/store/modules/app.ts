@@ -1,6 +1,7 @@
 import store from '@/store';
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
 import { CookiesKeys, Cookies } from '@/strorage/cookies';
+import axios from 'axios';
 // models
 import { DeviceType } from '@/models/enums/device-type';
 
@@ -72,8 +73,10 @@ class App extends VuexModule implements IAppState {
   }
 
   @Action
-  public setConfigs(configs: any) {
-    this.SET_CONFIGS(configs);
+  public async setConfigs() {
+    const configPath = '/config.json';
+    const configs = await axios.get(configPath);
+    this.SET_CONFIGS(configs.data);
   }
 
   @Action
