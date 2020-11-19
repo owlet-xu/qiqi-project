@@ -55,6 +55,13 @@ public class AttachServiceImpl implements AttachService {
     @Autowired
     private SpecialFileRepository specialFileRepository;
 
+    /**
+     * 上传多个文件
+     *
+     * @param multipartFiles    文件数据
+     * @param metadata 文件元数据
+     * @return 文件DTO对象
+     */
     @Override
     public List<FileInfo> batchUpload(MultipartFile[] multipartFiles, String metadata) {
         MetadataEntity metadataEntity = checkAndReturnMetadataEntity(metadata);
@@ -81,6 +88,12 @@ public class AttachServiceImpl implements AttachService {
         return fileMapper.entitiesToModels(fileEntitiesCopy);
     }
 
+    /**
+     * 上传单个文件
+     *
+     * @param base64FileInfo Base64文件DTO对象
+     * @return 文件DTO对象
+     */
     @Override
     public FileInfo uploadFileString(Base64FileInfo base64FileInfo) {
         MetadataEntity metadataEntity = checkAndReturnMetadataEntity(base64FileInfo.getMetadata());
@@ -113,6 +126,13 @@ public class AttachServiceImpl implements AttachService {
         }
     }
 
+    /**
+     * 处理下载或者预览请求
+     *
+     * @param fileId     文件ID
+     * @param isDownload 是否是下载, true: 下载, false: 预览
+     * @return ResponseEntity
+     */
     @Override
     public ResponseEntity<InputStreamResource> handleDownload(String fileId, boolean isDownload) {
         HttpHeaders headers = new HttpHeaders();
@@ -153,6 +173,59 @@ public class AttachServiceImpl implements AttachService {
             }
             throw new SystemException(ResultStatus.SYSTEM_INNER_ERROR);
         }
+    }
+
+    /**
+     * 根据文件ID和所属模块删除文件
+     *
+     * @param fileId 文件ID
+     * @param module 文件所属模块
+     * @return 是否删除成功
+     */
+    @Override
+    public Boolean deleteByFileIdAndModule(String fileId, String module) {
+        Long deleteCount = specialFileRepository.deleteByFileIdAndModule(fileId, module);
+        if (deleteCount == null || deleteCount == 0) {
+            return false;
+        }
+        gridFsTemplate.delete(query(where("_id").is(fileId)));
+        return true;
+    }
+
+    /**
+     * 根据文件ID和所属模块查找文件详情
+     *
+     * @param fileId 文件ID
+     * @param module 所属模块
+     * @return 文件DTO对象
+     */
+    @Override
+    public FileInfo findByFileIdAndModule(String fileId, String module) {
+        FileEntity fileEntity = specialFileRepository.findByFileIdAndModule(fileId, module);
+        return fileMapper.entityToModel(fileEntity);
+    }
+
+    /**
+     * 根据所属模块查询文件集合
+     *
+     * @param module 所属模块
+     * @return 文件DTO对象
+     */
+    @Override
+    public List<FileInfo> findByModule(String module) {
+        List<FileEntity> fileEntitys = specialFileRepository.findByModule(module);
+        return fileMapper.entitiesToModels(fileEntitys);
+    }
+
+    /**
+     * 根据id更新metadata数据
+     *
+     * @param fileInfo
+     */
+    @Override
+    public FileInfo updateMetadataById(FileInfo fileInfo) {
+        FileEntity fileEntity = fileMapper.modelToEntity(fileInfo);
+        return fileMapper.entityToModel(specialFileRepository.updateMetadataById(fileEntity));
     }
 
     /**

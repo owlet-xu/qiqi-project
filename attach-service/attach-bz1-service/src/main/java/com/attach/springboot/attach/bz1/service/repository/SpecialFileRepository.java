@@ -8,11 +8,15 @@ public interface SpecialFileRepository {
 
     FileEntity save(FileEntity fileEntity);
 
+    FileEntity updateMetadataById(FileEntity fileEntity);
+
     List<FileEntity> saveAll(List<FileEntity> fileEntities);
 
     Long deleteByFileIdAndModule(String fileId, String module);
 
     FileEntity findByFileIdAndModule(String fileId, String module);
+
+    List<FileEntity> findByModule(String module);
 
     Long deleteByModuleAndFileIds(String module, List<String> fileIds);
 }

@@ -55,7 +55,10 @@ create table qiqi.C_ROLE
    ID                   varchar(50)                    not null,
    CODE                 integer                        null,
    NAME                 varchar(200)                   null,
-   CREATE_TIME          varchar(255)                   null,
+   CREATE_TIME         	datetime2                   null,
+   UPDATE_TIME         	datetime2                   null,
+   DEFAULT_DATA         	integer                   null,
+   ENABLE         	integer                   null,
    constraint PK_C_ROLE primary key (ID)
 );
 
@@ -115,9 +118,9 @@ ID ASC
 );
 
 /*==============================================================*/
-/* Table: R_USER_DEPARTMENT                                     */
+/* Table: R_USER_DEPARTMENT_ROLE                                     */
 /*==============================================================*/
-create table qiqi.R_USER_DEPARTMENT 
+create table qiqi.R_USER_DEPARTMENT_ROLE 
 (
    ID                   varchar(50)                    not null,
    USER_ID              varchar(50)                    null,
@@ -131,7 +134,7 @@ create table qiqi.R_USER_DEPARTMENT
 /*==============================================================*/
 /* Index: R_USER_DEPARTMENT_PK                                  */
 /*==============================================================*/
-create unique index R_USER_DEPARTMENT_PK on qiqi.R_USER_DEPARTMENT (
+create unique index R_USER_DEPARTMENT_PK on qiqi.R_USER_DEPARTMENT_ROLE (
 ID ASC
 );
 

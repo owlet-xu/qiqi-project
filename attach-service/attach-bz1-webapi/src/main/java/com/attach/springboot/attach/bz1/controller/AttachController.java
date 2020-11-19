@@ -62,4 +62,63 @@ public class AttachController {
         return attachService.handleDownload(fileId, false);
     }
 
+    @ApiOperation(value = "根据fileId下载文件")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "下载成功"),
+            @ApiResponse(code = 400, message = "参数校验失败"),
+            @ApiResponse(code = 500, message = "服务端异常")
+    })
+    @GetMapping("/attaches/{fileId}/download")
+    public ResponseEntity<InputStreamResource> download(@PathVariable("fileId") String fileId) {
+        return attachService.handleDownload(fileId, true);
+    }
+
+    @ApiOperation(value = "根据fileId和所属模块删除文件")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "删除成功"),
+            @ApiResponse(code = 400, message = "参数校验失败"),
+            @ApiResponse(code = 500, message = "服务端异常")
+    })
+    @DeleteMapping("/attaches/{fileId}/metadata/{moduleName}")
+    public ResponseEntity<Void> deleteByFileIdAndModule(@PathVariable("fileId") String fileId,
+                                                        @PathVariable("moduleName") String module) {
+        attachService.deleteByFileIdAndModule(fileId, module);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @ApiOperation(value = "根据fileId和所属模块查询文件")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功"),
+            @ApiResponse(code = 400, message = "参数校验失败"),
+            @ApiResponse(code = 500, message = "服务端异常")
+    })
+    @GetMapping("/attaches/{fileId}/metadata/{moduleName}")
+    public ResponseEntity<FileInfo> findByFileIdAndModule(@PathVariable("fileId") String fileId,
+                                                          @PathVariable("moduleName") String module) {
+        FileInfo result = attachService.findByFileIdAndModule(fileId, module);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "根据所属模块查询文件集合")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功"),
+            @ApiResponse(code = 400, message = "参数校验失败"),
+            @ApiResponse(code = 500, message = "服务端异常")
+    })
+    @GetMapping("/attaches/metadata/{moduleName}")
+    public ResponseEntity<List<FileInfo>> findByModule(@PathVariable("moduleName") String module) {
+        return ResponseEntity.status(HttpStatus.OK).body(attachService.findByModule(module));
+    }
+
+    @ApiOperation(value = "根据id更新metadata数据")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "上传成功"),
+            @ApiResponse(code = 400, message = "参数校验失败"),
+            @ApiResponse(code = 500, message = "服务端异常")
+    })
+    @PostMapping(value = "/attaches/metadata/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FileInfo> updateMetadataById(@RequestBody FileInfo fileInfo) {
+        return ResponseEntity.status(HttpStatus.OK).body(attachService.updateMetadataById(fileInfo));
+    }
+
 }

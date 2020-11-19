@@ -4,6 +4,7 @@ import com.attach.springboot.attach.bz1.service.entity.FileEntity;
 import com.attach.springboot.attach.bz1.service.repository.SpecialFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
@@ -15,7 +16,9 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 @Repository
 public class SpecialFileRepositoryImpl implements SpecialFileRepository {
 
+    public static final String ID = "_id";
     public static final String FILE_ID = "fileId";
+    public static final String MODULE = "module";
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -25,6 +28,27 @@ public class SpecialFileRepositoryImpl implements SpecialFileRepository {
 
         String collectionName = getCollectionNameByModule(fileEntity.getModule());
         mongoTemplate.insert(fileEntity, collectionName);
+        return fileEntity;
+    }
+
+    @Override
+    public FileEntity updateMetadataById(FileEntity fileEntity) {
+        String module = fileEntity == null ? null : fileEntity.getModule();
+        String collectionName = getCollectionNameByModule(module);
+        Update update = new Update();
+        if (null != fileEntity.getRemark()) {
+            update.set("remark", fileEntity.getRemark());
+        }
+        if (null != fileEntity.getSystem()) {
+            update.set("system", fileEntity.getSystem());
+        }
+        if (null != fileEntity.getBusinessId()) {
+            update.set("businessId", fileEntity.getBusinessId());
+        }
+        if (null != fileEntity.getModule()) {
+            update.set("module", fileEntity.getModule());
+        }
+        mongoTemplate.updateFirst(query(where(ID).is(fileEntity.getId())), update, FileEntity.class, collectionName);
         return fileEntity;
     }
 
@@ -53,6 +77,14 @@ public class SpecialFileRepositoryImpl implements SpecialFileRepository {
 
         String collectionName = getCollectionNameByModule(module);
         return mongoTemplate.findOne(query(where(FILE_ID).is(fileId)), FileEntity.class, collectionName);
+    }
+
+    @Override
+    public List<FileEntity> findByModule(String module) {
+        Assert.notNull(module, "The given module must not be null!");
+
+        String collectionName = getCollectionNameByModule(module);
+        return mongoTemplate.find(query(where(MODULE).is(module)), FileEntity.class, collectionName);
     }
 
     @Override

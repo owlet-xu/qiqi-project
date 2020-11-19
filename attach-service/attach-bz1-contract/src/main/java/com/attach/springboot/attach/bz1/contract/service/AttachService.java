@@ -36,4 +36,35 @@ public interface AttachService {
      */
     ResponseEntity<InputStreamResource> handleDownload(String fileId, boolean isDownload);
 
+    /**
+     * 根据文件ID和所属模块删除文件
+     *
+     * @param fileId 文件ID
+     * @param module 文件所属模块
+     * @return 是否删除成功
+     */
+    Boolean deleteByFileIdAndModule(String fileId, String module);
+
+    /**
+     * 根据文件ID和所属模块查找文件详情
+     *
+     * @param fileId 文件ID
+     * @param module 所属模块
+     * @return 文件DTO对象
+     */
+    FileInfo findByFileIdAndModule(String fileId, String module);
+
+    /**
+     * 根据所属模块查询文件集合
+     * @param module 所属模块
+     * @return 文件DTO对象
+     */
+    List<FileInfo> findByModule(String module);
+
+    /**
+     * 根据id更新metadata数据
+     * @param fileInfo
+     */
+    FileInfo updateMetadataById(FileInfo fileInfo);
+
 }
