@@ -1,0 +1,20 @@
+group 'com.attach.springboot.attach'
+archivesBaseName = 'attach-backend'
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies{
+    // 依赖模块
+    compile project(":attach-common")
+    compile project(":attach-bz1-webapi")
+    //系统提供的依赖
+   /* providedCompile(
+            "javax.servlet:javax.servlet-api:3.1.0",
+            "javax.servlet.jsp:jsp-api:2.2.1-b03",
+            "javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1"
+    )*/
+}
+apply from: "../scripts/gradle/publish.gradle"
+apply from: "../scripts/gradle/jarbuild.gradle"
+

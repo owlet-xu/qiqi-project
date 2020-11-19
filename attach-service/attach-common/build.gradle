@@ -1,0 +1,12 @@
+
+group 'com.attach.springboot.attach'
+archivesBaseName = 'attach-common'
+
+apply from: "../scripts/gradle/publish.gradle"
+
+dependencies{
+    // 依赖模块
+    compile 'com.alibaba:fastjson:1.2.48'
+    compile 'org.springframework.boot:spring-boot-starter-data-redis:2.0.2.RELEASE'
+    compile 'org.apache.commons:commons-pool2:2.5.0'
+}

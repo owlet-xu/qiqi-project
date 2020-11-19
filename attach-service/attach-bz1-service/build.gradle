@@ -1,0 +1,44 @@
+group 'com.attach.springboot.attach'
+
+apply plugin: "net.ltgt.apt"
+
+archivesBaseName = 'attach-bz1-service'
+
+apply from: "../scripts/gradle/publish.gradle"
+
+apply from: "../scripts/gradle/jacoco.gradle"
+
+dependencies{
+    // 依赖模块
+    compile project(":attach-common")
+    compile project(":attach-bz1-contract")
+
+    compile 'org.mapstruct:mapstruct-jdk8:1.2.0.Final'
+
+    apt 'org.mapstruct:mapstruct-processor:1.2.0.Final'
+
+
+    test {
+        useTestNG()
+    }
+}
+
+/*bootRepackage{
+    enabled = false
+}*/
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true'
+    ]
+}
+
+
+
+
+
+
+
+
+
+
