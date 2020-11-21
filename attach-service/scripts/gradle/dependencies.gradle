@@ -16,6 +16,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion")
+//    compile("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
 
     compile("io.springfox:springfox-swagger2:2.5.0")
     compile("io.springfox:springfox-swagger-ui:2.5.0")

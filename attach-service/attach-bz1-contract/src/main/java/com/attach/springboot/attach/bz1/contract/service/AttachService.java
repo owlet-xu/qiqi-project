@@ -46,6 +46,15 @@ public interface AttachService {
     Boolean deleteByFileIdAndModule(String fileId, String module);
 
     /**
+     * 根据文件模块及文件ID集合批量删除文件
+     *
+     * @param module  文件所属模块
+     * @param fileIds 文件ID集合
+     * @return 是否删除成功
+     */
+    Boolean batchDeleteByModuleAndFileIds(String module, List<String> fileIds);
+
+    /**
      * 根据文件ID和所属模块查找文件详情
      *
      * @param fileId 文件ID
@@ -60,6 +69,13 @@ public interface AttachService {
      * @return 文件DTO对象
      */
     List<FileInfo> findByModule(String module);
+
+    /**
+     * 根据系统ID查询文件集合
+     * @param system 所属模块
+     * @return 文件DTO对象
+     */
+    List<FileInfo> findBySystem(String system);
 
     /**
      * 根据id更新metadata数据

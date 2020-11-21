@@ -193,6 +193,23 @@ public class AttachServiceImpl implements AttachService {
     }
 
     /**
+     * 根据文件模块及文件ID集合批量删除文件
+     *
+     * @param module  文件所属模块
+     * @param fileIds 文件ID集合
+     * @return 是否删除成功
+     */
+    @Override
+    public Boolean batchDeleteByModuleAndFileIds(String module, List<String> fileIds) {
+        Long deleteCount = specialFileRepository.deleteByModuleAndFileIds(module, fileIds);
+        if (deleteCount == null || deleteCount == 0) {
+            return false;
+        }
+        gridFsTemplate.delete(query(where("_id").in(fileIds)));
+        return true;
+    }
+
+    /**
      * 根据文件ID和所属模块查找文件详情
      *
      * @param fileId 文件ID
@@ -215,6 +232,17 @@ public class AttachServiceImpl implements AttachService {
     public List<FileInfo> findByModule(String module) {
         List<FileEntity> fileEntitys = specialFileRepository.findByModule(module);
         return fileMapper.entitiesToModels(fileEntitys);
+    }
+
+    /**
+     * 根据系统ID查询文件集合
+     *
+     * @param system 所属模块
+     * @return 文件DTO对象
+     */
+    @Override
+    public List<FileInfo> findBySystem(String system) {
+        return fileMapper.entitiesToModels(specialFileRepository.findBySystem(system));
     }
 
     /**

@@ -18,5 +18,7 @@ public interface SpecialFileRepository {
 
     List<FileEntity> findByModule(String module);
 
+    List<FileEntity> findBySystem(String system);
+
     Long deleteByModuleAndFileIds(String module, List<String> fileIds);
 }

@@ -19,6 +19,7 @@ public class SpecialFileRepositoryImpl implements SpecialFileRepository {
     public static final String ID = "_id";
     public static final String FILE_ID = "fileId";
     public static final String MODULE = "module";
+    public static final String SYSTEM = "system";
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -85,6 +86,14 @@ public class SpecialFileRepositoryImpl implements SpecialFileRepository {
 
         String collectionName = getCollectionNameByModule(module);
         return mongoTemplate.find(query(where(MODULE).is(module)), FileEntity.class, collectionName);
+    }
+
+    @Override
+    public List<FileEntity> findBySystem(String system) {
+        Assert.notNull(system, "The given system must not be null!");
+
+        String collectionName = getCollectionNameByModule(system);
+        return mongoTemplate.find(query(where(SYSTEM).is(system)), FileEntity.class, collectionName);
     }
 
     @Override
