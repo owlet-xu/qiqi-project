@@ -6,6 +6,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface AttachService {
@@ -82,5 +83,7 @@ public interface AttachService {
      * @param fileInfo
      */
     FileInfo updateMetadataById(FileInfo fileInfo);
+
+    void previewVideo(HttpServletResponse response, String fileId);
 
 }

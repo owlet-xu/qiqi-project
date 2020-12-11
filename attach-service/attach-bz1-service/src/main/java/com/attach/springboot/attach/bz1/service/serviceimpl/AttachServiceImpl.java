@@ -18,6 +18,7 @@ import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import io.netty.util.internal.StringUtil;
+import org.apache.tika.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +27,17 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,6 +48,8 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 public class AttachServiceImpl implements AttachService {
 
     private static final Logger logger = LoggerFactory.getLogger(AttachServiceImpl.class);
+
+    private static final String FILE_PATH = "c:\\files\\video\\";
 
     @Autowired
     private FileMapper fileMapper;
@@ -160,7 +165,6 @@ public class AttachServiceImpl implements AttachService {
                 headers.add("Content-Disposition", "attachment; filename="
                         + URLEncoder.encode(filename, "UTF-8"));
             }
-
             return ResponseEntity.ok().headers(headers)
                     .contentLength(gridFsResource.contentLength())
                     .contentType(MediaType.parseMediaType(gridFsResource.getContentType()))
@@ -184,6 +188,12 @@ public class AttachServiceImpl implements AttachService {
      */
     @Override
     public Boolean deleteByFileIdAndModule(String fileId, String module) {
+        // 删除磁盘的文件
+        String fullPath = FILE_PATH + fileId;
+        File file = new File(fullPath);
+        if (file.isFile() && file.exists()) {
+            file.delete();
+        }
         Long deleteCount = specialFileRepository.deleteByFileIdAndModule(fileId, module);
         if (deleteCount == null || deleteCount == 0) {
             return false;
@@ -202,6 +212,15 @@ public class AttachServiceImpl implements AttachService {
     @Override
     public Boolean batchDeleteByModuleAndFileIds(String module, List<String> fileIds) {
         Long deleteCount = specialFileRepository.deleteByModuleAndFileIds(module, fileIds);
+        // 删除磁盘的文件
+        for(String id : fileIds) {
+            String fullPath = FILE_PATH + id;
+            File file = new File(fullPath);
+            if (file.isFile() && file.exists()) {
+                file.delete();
+            }
+        }
+
         if (deleteCount == null || deleteCount == 0) {
             return false;
         }
@@ -256,6 +275,74 @@ public class AttachServiceImpl implements AttachService {
         return fileMapper.entityToModel(specialFileRepository.updateMetadataById(fileEntity));
     }
 
+    @Override
+    public void previewVideo(HttpServletResponse response, String fileId) {
+        GridFSFile gridFSFile = gridFsTemplate.findOne(query(where("_id").is(fileId)));
+        if (gridFSFile.getId() == null) {
+            throw new BusinessException(ResultStatus.DATA_NOT_EXIST);
+        }
+        GridFSDownloadStream gridFSDownloadStream = gridFSBucket.openDownloadStream(gridFSFile.getObjectId());
+        GridFsResource gridFsResource = new GridFsResource(gridFSFile, gridFSDownloadStream);
+
+        try {
+            response.setContentType(gridFsResource.getContentType());
+            response.setContentLengthLong(gridFsResource.contentLength());
+            InputStream in = gridFsResource.getInputStream();
+            ServletOutputStream out = response.getOutputStream();
+
+            byte[] b = new byte[1024];
+            int i = 0;
+            while (-1!=(i=in.read(b))){
+                out.write(b, 0, i);
+            }
+            in.close();
+            out.flush();
+            out.close();
+
+     //       byte[] f = getBytes(in);
+
+
+//            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Download\\aaa.mp4");
+//            fileOutputStream.write(f);
+//            int aa = in.available();
+//            int bb = in.read();
+//
+//            byte[] b = null;
+//            while(in.available() >0) {
+//                if(in.available()>10240) {
+//                    b = new byte[10240];
+//                }else {
+//                    b = new byte[in.available()];
+//                }
+//                in.read(b, 0, b.length);
+//                out.write(b, 0, b.length);
+//            }
+//            in.close();
+//            out.flush();
+//            out.close();
+ //           int temp = 0;
+//            while((temp=input.read())==-1){//边读边写的操作
+//                os.write(temp);
+//            }
+//            IOUtils.copy(gridFsResource.getInputStream(), out);
+//            response.flushBuffer();
+        } catch (Exception e) {
+            logger.error("previewVideo error: {}", e.getMessage(), e);
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            throw new SystemException(ResultStatus.SYSTEM_INNER_ERROR);
+        }
+    }
+
+    private byte[] getBytes(InputStream inputStream) throws Exception{
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] b = new byte[1024];
+        int i = 0;
+        while (-1!=(i=inputStream.read(b))){
+            bos.write(b,0,i);
+        }
+        return bos.toByteArray();
+    }
+
     /**
      * 校验文件元数据JSON字符串并转换为文件元数据实体对象
      *
@@ -298,14 +385,34 @@ public class AttachServiceImpl implements AttachService {
      * @return 文件实体对象
      */
     private FileEntity storeFileAndReturnFileEntity(InputStream inputStream, String fileName, String contentType, MetadataEntity metadataEntity) {
-        ObjectId objectId = gridFsTemplate.store(inputStream, fileName, contentType, metadataEntity);
-
+        // 1、存分布式文件
+        // ObjectId objectId = gridFsTemplate.store(inputStream, fileName, contentType, metadataEntity);
+        // String id = objectId.toString();
+        // 2、存硬盘
+        String[] names = fileName.split("\\.");
+        FileOutputStream fos = null;
+        String id = UUID.randomUUID().toString() + "." + names[names.length - 1];
+        try {
+            byte[] bs = getBytes(inputStream);
+            fos = new FileOutputStream(FILE_PATH + id);
+            fos.write(bs);// 写入数据
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(null != inputStream) inputStream.close();
+                if(null != fos) fos.close();// 保存数据
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         FileEntity fileEntity = new FileEntity();
-        fileEntity.setFileId(objectId.toString());
+        fileEntity.setFileId(id);
         fileEntity.setFileName(fileName);
         fileEntity.setContentType(contentType);
 
         return assembleFileMetadata(metadataEntity, fileEntity);
+
     }
 
     /**

@@ -16,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Api(value = "/api/v1", description = "AttachController Api")   // NOSONAR
@@ -147,6 +150,17 @@ public class AttachController {
     @PostMapping(value = "/attaches/metadata/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FileInfo> updateMetadataById(@RequestBody FileInfo fileInfo) {
         return ResponseEntity.status(HttpStatus.OK).body(attachService.updateMetadataById(fileInfo));
+    }
+
+    @ApiOperation(value = "根据fileId预览视频")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "预览成功"),
+            @ApiResponse(code = 400, message = "参数校验失败"),
+            @ApiResponse(code = 500, message = "服务端异常")
+    })
+    @GetMapping("/attaches/{fileId}/video/preview")
+    public void previewVideo(@PathVariable("fileId") String fileId, HttpServletRequest request, HttpServletResponse response) {
+        attachService.previewVideo(response, fileId);
     }
 
 }

@@ -25,17 +25,11 @@ spring:
       database: qiqi_db
   servlet:
     multipart:
-      max-file-size: 50MB
-      max-request-size: 100MB
+      max-file-size: 100MB
+      max-request-size: 110MB
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
-  security:
-    basic:
-      enabled: true
-      path: /swagger-ui.html
-    user:
-      name: admin
-      password: p@ssw0rd
 attach:
   file:
     # 默认的文件存储集合名(当匹配不到下面的映射关系时, 会默认存储于默认文件集合中)
