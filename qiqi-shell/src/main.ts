@@ -3,7 +3,7 @@ import { app } from 'electron';
 import logger from './common/logger';
 import { startGlobalErrorHandle } from './common/error-handler';
 import { startAllListeners } from './ipc/ipc-handler';
-import { createCadWindow, openCadWindow, getCadWindow } from './ui/cad-window';
+import { createMainWindow, openMainWindow, getMainWindow } from './ui/main-window';
 import { InnoSetupUpdater } from './lib/inno-setup-updater';
 
 startGlobalErrorHandle();
@@ -13,10 +13,9 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   app.once('ready', () => {
     logger.info('app ready');
-    createCadWindow();
-    openCadWindow();
+    createMainWindow();
+    openMainWindow();
     startAllListeners();
-
     InnoSetupUpdater();
   });
 }
@@ -28,8 +27,8 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  if (getCadWindow() === null) {
-    createCadWindow();
-    openCadWindow();
+  if (getMainWindow() === null) {
+    createMainWindow();
+    openMainWindow();
   }
 });

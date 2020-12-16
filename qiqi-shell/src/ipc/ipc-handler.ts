@@ -4,14 +4,14 @@ import { ipcMain, BrowserWindow } from 'electron';
 import { eventQueue } from './event-queue';
 import { IpcEventType } from './ipc-event-type';
 import {
-  closeCadWindow,
-  getCadWindow,
+  closeMainWindow,
+  getMainWindow,
   getIncidentWindow
-} from '../ui/cad-window';
+} from '../ui/main-window';
 
 export function startAllListeners() {
   ipcMain.on(IpcEventType.BASE.APP_EXIT, (event: any, args: any) => {
-    closeCadWindow();
+    closeMainWindow();
   });
 
   ipcMain.on(IpcEventType.BASE.LOGIN_SUCCESS, (event: any, args: any) => {
@@ -41,26 +41,12 @@ export function startAllListeners() {
   });
 
   ipcMain.on(IpcEventType.BASE.WINDOW_MAX, (event: any, args: any) => {
-    getCadWindow().maximize();
+    getMainWindow().maximize();
   });
 
   ipcMain.on(IpcEventType.BASE.WINDOW_MIN, (event: any, args: any) => {
-    getCadWindow().minimize();
+    getMainWindow().minimize();
   });
-
-  ipcMain.on(
-    IpcEventType.INCIDENT_CHANGE.INCIDENT_SELECTED,
-    (event: any, args: any) => {
-      if (args) {
-        const [message] = args;
-        const win: BrowserWindow = getCadWindow();
-        win.webContents.send(
-          IpcEventType.INCIDENT_CHANGE.INCIDENT_SELECTED,
-          message
-        );
-      }
-    }
-  );
 
   ipcMain.on(IpcEventType.SWITCH.CHANGE_LANGUAGE, (event: any, args: any) => {
     if (args) {
@@ -68,5 +54,9 @@ export function startAllListeners() {
       const win: BrowserWindow = getIncidentWindow();
       win.webContents.send(IpcEventType.SWITCH.CHANGE_LANGUAGE, command);
     }
+  });
+
+  ipcMain.on(IpcEventType.BASE.CREATE_VIDEO_PREVIEW, (event: any, args: any) => {
+    console.log(args, '---CREATE_VIDEO_PREVIEW---');
   });
 }

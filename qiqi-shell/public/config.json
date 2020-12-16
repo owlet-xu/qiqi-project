@@ -1,5 +1,5 @@
 {
-  "cadWindowConfig": {
+  "mainWindowConfig": {
     "loadURL": "http://localhost:8080",
     "loadPath": "quality/index.html",
     "openDevTools": false,
