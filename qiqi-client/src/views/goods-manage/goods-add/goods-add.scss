@@ -5,4 +5,18 @@
   overflow-x: hidden;
   padding: $margin-size;
   @include scrollBar();
+  .form-title {
+    padding: 10px 0px;
+    color: #1f2d3d;
+    font-size: 14px;
+  }
+  .form-title::before {
+    content: '*';
+    color: red;
+    padding-right: 5px;
+  }
+  .footer {
+    text-align: right;
+    padding: 10px 0px;
+  }
 }

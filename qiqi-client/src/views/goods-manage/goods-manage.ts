@@ -2,33 +2,33 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
 // components
 import Pagination from '@/components/Pagination/index.vue';
 // services
-import UserService from '@/api/user-service';
+import GoodsService from '@/api/goods-service';
 // models
 import { PageInfo } from '@/models/page-info';
-import { UserInfo } from '@/models/user-info';
+import { GoodsInfo } from '@/models/goods/goods-info';
 // tools
 import _ from 'lodash';
 import { stringFormatArr } from '@/utils/string-utils';
 import loginService from '@/api/login-service';
+import { Path } from '@/router/router-types';
 
 @Component({
   components: {
     Pagination
   }
 })
-export default class UserManager extends Vue {
-  private pageInfo: PageInfo<UserInfo> = new PageInfo();
+export default class GoodsManage extends Vue {
+  private pageInfo: PageInfo<GoodsInfo> = new PageInfo();
   private loading = true;
   private loadingSave = false;
-  private showEditDialog = false;
   private showPasswordDialog = false;
-  private userInfoSelected = new UserInfo();
+  private goodsInfoSelected = new GoodsInfo();
   private search = '';
   private searchChange: any;
-  private showAll = false; // 是否显示所有用户
+  private showAll = false; // 是否显示所有商品
 
   created() {
-    this.pageInfo.conditions = new UserInfo();
+    this.pageInfo.conditions = new GoodsInfo();
     this.getUserListFirstPage();
     this.searchChange = _.debounce(() => {
       this.getUserListFirstPage();
@@ -43,13 +43,13 @@ export default class UserManager extends Vue {
 
   getUserListFirstPage() {
     this.pageInfo.page = 1;
-    this.getUserList();
+    this.getGoodsList();
   }
 
-  getUserList() {
+  getGoodsList() {
     this.loading = true;
-    UserService.findUserListPage(this.getPageConditions())
-      .then((res: PageInfo<UserInfo>) => {
+    GoodsService.findGoodsListPage(this.getPageConditions())
+      .then((res: PageInfo<GoodsInfo>) => {
         this.pageInfo.contents = res.contents;
         this.pageInfo.page = res.page + 1;
         this.pageInfo.totalCount = res.totalCount;
@@ -64,7 +64,7 @@ export default class UserManager extends Vue {
    * 获取查询条件
    */
   getPageConditions() {
-    const condition: PageInfo<UserInfo> = new PageInfo();
+    const condition: PageInfo<GoodsInfo> = new PageInfo();
     condition.page = this.pageInfo.page - 1;
     condition.size = this.pageInfo.size;
     condition.conditions = this.pageInfo.conditions;
@@ -72,14 +72,24 @@ export default class UserManager extends Vue {
     return condition;
   }
 
-  edit(item: UserInfo) {
-    this.userInfoSelected = _.cloneDeep(item);
-    this.showEditDialog = true;
+  edit(item: GoodsInfo) {
+    this.goodsInfoSelected = _.cloneDeep(item);
+    this.$router.push({
+      path: Path.GoodsManageAdd,
+      query: {
+        id: item.id
+      }
+    });
   }
 
   add() {
-    this.userInfoSelected = new UserInfo();
-    this.showEditDialog = true;
+    this.goodsInfoSelected = new GoodsInfo();
+    this.$router.push({
+      path: Path.GoodsManageAdd,
+      query: {
+        id: ''
+      }
+    });
   }
 
   save() {
@@ -89,15 +99,14 @@ export default class UserManager extends Vue {
 
   saveSuccess() {
     this.getUserListFirstPage();
-    this.showEditDialog = false;
   }
 
-  editPassword(item: UserInfo) {
-    this.userInfoSelected = _.cloneDeep(item);
+  editPassword(item: GoodsInfo) {
+    this.goodsInfoSelected = _.cloneDeep(item);
     this.showPasswordDialog = true;
   }
 
-  savePassword(item: UserInfo) {
+  savePassword(item: GoodsInfo) {
     // const form: PasswordForm = this.$refs['passwordFormRef'] as PasswordForm;
     // form.saveValid();
   }
@@ -119,7 +128,7 @@ export default class UserManager extends Vue {
     this.showPasswordDialog = false;
   }
 
-  removeConfirm(item: UserInfo) {
+  removeConfirm(item: GoodsInfo) {
     if (item.enable !== 1) {
       return;
     }
@@ -133,16 +142,16 @@ export default class UserManager extends Vue {
   }
 
   remove(id: string) {
-    UserService.remove(id).then((res: any) => {
-      if (res) {
-        this.getUserList();
-      }
-    });
+    // GoodsService.remove(id).then((res: any) => {
+    //   if (res) {
+    //     this.getUserList();
+    //   }
+    // });
   }
 
   // 分页改变
   pagination(data: any) {
-    this.getUserList();
+    this.getGoodsList();
   }
 
   disabledRow(data: any) {

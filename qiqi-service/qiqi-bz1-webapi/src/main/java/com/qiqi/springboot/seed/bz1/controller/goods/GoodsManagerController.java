@@ -37,7 +37,7 @@ public class GoodsManagerController {
             @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
     })
     @RequestMapping(value = "/goods-manager/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> saveUser(
+    public ResponseEntity<Boolean> saveGoods(
             @ApiParam(value = "商品model", required = true)
             @RequestBody @Valid GoodsInfo goodsInfo
     ) {

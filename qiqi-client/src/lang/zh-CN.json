@@ -20,6 +20,7 @@
   "SearchTip": "输入关键字搜索",
   "Search": "搜索",
   "NotEmptyTip": "{0}不能为空",
+  "FomateErrorTip": "{0}格式错误",
   "MaxStringLenTip": "{0}长度不能大于{1}",
   "MinStringLenTip": "{0}长度不能小于{1}",
   "NoRepeatTip": "{0}不能重复",
@@ -96,5 +97,11 @@
     "PrivilegeCode": "权限Code",
     "AddPrivilege": "添加权限",
     "EditPrivilege": "编辑权限"
+  },
+  "Goods": {
+    "Name": "商品名称",
+    "Price": "商品价格",
+    "Discount": "商品折扣",
+    "Description": "简单文字描述"
   }
 }

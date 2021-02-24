@@ -2,6 +2,8 @@
 @import './themes/variables.scss';
 // 样式初始化
 @import './base/reset.scss';
+// 全局公用样式
+@import './base/global.scss';
 // 特殊样式修改
 @import './special/element-ui.scss';
 // 封装样式

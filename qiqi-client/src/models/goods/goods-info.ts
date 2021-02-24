@@ -6,7 +6,7 @@ export class GoodsInfo {
 
   price = 0;
 
-  discount = 0;
+  discount = 1;
 
   description = '';
 

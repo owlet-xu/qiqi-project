@@ -35,7 +35,7 @@ public class GoodsShowController {
             @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
     })
     @RequestMapping(value = "/goods-show/list/page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PageInfo<GoodsInfo>> findUserListPage(
+    public ResponseEntity<PageInfo<GoodsInfo>> findGoodsListPage(
             @ApiParam(value = "分页查询model", required = true)
             @RequestBody PageInfo<GoodsInfo> pageInfo
     ) {
