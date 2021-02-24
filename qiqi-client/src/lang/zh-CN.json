@@ -6,6 +6,7 @@
   "Info": "详情",
   "Save": "保存",
   "Cancel": "取消",
+  "Clear": "清空",
   "Refresh": "刷新",
   "Enable": "启用",
   "Disenable": "禁用",
@@ -56,7 +57,10 @@
     "MenuManage": "菜单管理",
     "PrivilegeList": "权限列表",
     "UserManage": "用户管理",
-    "DeptManage": "部门管理"
+    "DeptManage": "部门管理",
+    "GoodsManage": "商品管理",
+    "GoodsManageList": "商品列表",
+    "GoodsManageAdd": "商品添加"
   },
   "Navbar": {
     "LoginOut": "退出",

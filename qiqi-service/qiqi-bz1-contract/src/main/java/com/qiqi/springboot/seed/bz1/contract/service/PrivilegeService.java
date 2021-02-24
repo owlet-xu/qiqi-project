@@ -16,7 +16,7 @@ public interface PrivilegeService {
     boolean save(PrivilegeInfo privilegeInfo);
 
     /**
-     *
+     * 禁用权限
      * @param id
      * @return
      */

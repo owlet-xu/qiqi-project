@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author xuguoyuan
- * @description
+ * @description 菜单和权限
  * @date 2020-03-30 15:33
  */
 @Service

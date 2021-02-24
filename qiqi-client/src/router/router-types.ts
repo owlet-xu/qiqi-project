@@ -25,7 +25,13 @@ export enum Path {
   // 部门管理
   DeptManage = '/dept-manage',
   // error
-  Error = '/404'
+  Error = '/404',
+  // 商品管理
+  GoodsManage = '/goods-manage',
+  // 商品列表
+  GoodsManageList = '/goods-manage/list',
+  // 商品添加
+  GoodsManageAdd = '/goods-manage/add'
 }
 
 export const PathPackAge = (args: string[]) => {
@@ -51,7 +57,13 @@ export enum RouterName {
   // 部门管理
   DeptManage = 'DeptManage',
   // error
-  Error = '404'
+  Error = '404',
+  // 商品管理
+  GoodsManage = 'GoodsManage',
+  // 商品列表
+  GoodsManageList = 'GoodsManageList',
+  // 商品添加
+  GoodsManageAdd = 'GoodsManageAdd'
 }
 
 export const RouterPrefix = (routerName: string) => {

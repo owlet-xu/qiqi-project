@@ -6,11 +6,11 @@ import SvgIcon from 'vue-svgicon';
 
 export const initElementUi = () => {
     Vue.use(ElementUI);
-}
+};
 
 export const initPrivileges = () => {
     Vue.mixin(PrivilegesMixin);
-}
+};
 
 export const initSvgIcon = () => {
     Vue.use(SvgIcon, {
@@ -18,4 +18,4 @@ export const initSvgIcon = () => {
         defaultWidth: '1em',
         defaultHeight: '1em'
       });
-}
+};

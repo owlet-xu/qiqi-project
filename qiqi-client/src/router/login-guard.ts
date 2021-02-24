@@ -1,3 +1,4 @@
+// 路由钩子，一般做登录验证
 import { Route, RawLocation } from 'vue-router';
 import { UserModule } from '@/store/modules/user';
 import { MenuInfo } from '@/models/menu-info';

@@ -136,7 +136,7 @@ export default class extends Vue {
     const menus: MenuInfo[] = await MenuService.findRoleMenuPrivelegeTree(roleIds);
     const routes: RouteConfig[] = [];
     this.menuInfoTree2RouteConfigTree(menus, routes);
-    PermissionModule.GenerateRoutes(routes);
+    PermissionModule.GenerateRoutes(routes); // 注册可用菜单
     this.$router.push({
       path: this.redirect || '/',
       query: this.otherQuery
@@ -144,6 +144,11 @@ export default class extends Vue {
     LoginService.checkAdmin();
   }
 
+  /**
+   * 路由权限配置
+   * @param menus 服务器返回的路由
+   * @param routes 返回的权限路由
+   */
   menuInfoTree2RouteConfigTree(menus: MenuInfo[], routes: RouteConfig[]) {
     menus.forEach((item: MenuInfo) => {
       const route: RouteConfig = {

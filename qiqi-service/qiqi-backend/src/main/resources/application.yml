@@ -20,9 +20,9 @@ spring:
     name: qiqi-service
 
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=qiqi_sql  #业务数据库访问url
+    url: jdbc:sqlserver://169.254.59.111:1433;databaseName=qiqi_sql  #业务数据库访问url
     username: sa      #业务数据库访问用户名
-    password: qiqi@77 #业务数据库访问用户密码
+    password: p@ssw0rd #业务数据库访问用户密码
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver #数据库访问驱动名称
     hikari:
           maximum-pool-size: 20 # 最大连接数, 默认10
@@ -36,7 +36,7 @@ spring:
       ddl-auto: none
   redis:
     database: 0
-    host: localhost
+    host: 169.254.59.111
     port: 6379
     password:
     lettuce:
