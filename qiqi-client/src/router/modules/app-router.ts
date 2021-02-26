@@ -22,7 +22,8 @@ export const appRouterMap: RouteConfig[] = [
                 meta: {
                     title: RouterPrefix(RouterName.Home),
                     icon: 'dashboard',
-                    affix: true
+                    affix: true,
+                    noCache: false
                 }
             }
         ]
@@ -77,7 +78,8 @@ export const appRouterMap: RouteConfig[] = [
                 name: RouterPrefix(RouterName.RoleManage),
                 meta: {
                     title: RouterPrefix(RouterName.RoleManage),
-                    icon: 'dashboard'
+                    icon: 'dashboard',
+                    noCache: true
                 }
             },
             {
@@ -86,7 +88,8 @@ export const appRouterMap: RouteConfig[] = [
                 name: RouterPrefix(RouterName.MenuManage),
                 meta: {
                     title: RouterPrefix(RouterName.MenuManage),
-                    icon: 'dashboard'
+                    icon: 'dashboard',
+                    noCache: true
                 }
             },
             {
@@ -95,7 +98,8 @@ export const appRouterMap: RouteConfig[] = [
                 name: RouterPrefix(RouterName.PrivilegeList),
                 meta: {
                     title: RouterPrefix(RouterName.PrivilegeList),
-                    icon: 'dashboard'
+                    icon: 'dashboard',
+                    noCache: true
                 }
             }
         ]

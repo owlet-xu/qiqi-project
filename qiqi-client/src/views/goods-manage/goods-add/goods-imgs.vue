@@ -8,7 +8,7 @@
       :auto-upload="false"
       :show-file-list="false"
     >
-      <img v-if="headImgBase64_1" :src="headImgBase64_1" class="avatar" />
+      <img v-if="headImgBase64[0]" :src="headImgBase64[0]" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
     <el-upload
@@ -19,35 +19,42 @@
       :auto-upload="false"
       :show-file-list="false"
     >
-      <img v-if="headImgBase64_2" :src="headImgBase64_2" class="avatar" />
+      <img v-if="headImgBase64[1]" :src="headImgBase64[1]" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { getBase64FromFile } from '@/utils/base64-utils';
 
 @Component
 export default class GoodsImgs extends Vue {
-  private headImgBase64_1 = '';
-  private headImgBase64_2 = '';
-  public headImgFile1: any = ''; // 上传的文件
-  public headImgFile2: any = ''; // 上传的文件
+  @Prop({ default: ['', ''] })
+  imgUrls!: string[];
+  public headImgFile: any = [{}, {}]; // 上传的文件
+
+  get headImgBase64() {
+      return this.imgUrls;
+  }
+
+  set headImgBase64(val: any) {
+      this.$emit('update:imgUrls', val);
+  }
 
   private onUploadChange1(file: any, fileList: any) {
-    this.onUploadChange(file, 1);
+    this.onUploadChange(file, 0);
   }
 
   private onUploadChange2(file: any, fileList: any) {
-    this.onUploadChange(file, 2);
+    this.onUploadChange(file, 1);
   }
 
   /**
    * 获取上传文件和显示数据
    */
-  private onUploadChange(file: any, type: 1 | 2) {
+  private onUploadChange(file: any, index: 0 | 1) {
     const isIMAGE = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/gif';
     const isLt1M = file.size / 1024 / 1024 < 1;
     if (!isIMAGE) {
@@ -58,10 +65,10 @@ export default class GoodsImgs extends Vue {
       this.$message.error('上传文件大小不能超过 1MB!');
       return false;
     }
-    const _this: any = this;
-    _this['headImgFile' + type] = file.raw;
+    this.headImgFile[index] = file.raw;
     getBase64FromFile(file.raw).then((res: any) => {
-      _this['headImgBase64_' + type] = res;
+      this.headImgBase64[index] = res;
+      this.$forceUpdate();
     });
   }
 }

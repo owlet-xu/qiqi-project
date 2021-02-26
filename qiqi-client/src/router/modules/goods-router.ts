@@ -20,7 +20,8 @@ export const goodsRouterMap: RouteConfig[] = [
                 name: RouterPrefix(RouterName.GoodsManageList),
                 meta: {
                     title: RouterPrefix(RouterName.GoodsManageList),
-                    icon: 'dashboard'
+                    icon: 'dashboard',
+                    noCache: false
                 }
             },
             {
@@ -29,7 +30,8 @@ export const goodsRouterMap: RouteConfig[] = [
                 name: RouterPrefix(RouterName.GoodsManageAdd),
                 meta: {
                     title: RouterPrefix(RouterName.GoodsManageAdd),
-                    icon: 'dashboard'
+                    icon: 'dashboard',
+                    noCache: false
                 }
             }
         ]

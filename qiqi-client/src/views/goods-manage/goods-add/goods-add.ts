@@ -1,10 +1,11 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 // components
-import goodsImgs from './goods-imgs.vue';
+import GoodsImgs from './goods-imgs.vue';
 import Tinymce from '@/components/Tinymce/index.vue';
 import { Form as ElForm } from 'element-ui';
 // services
 import GoodsService from '@/api/goods-service';
+import AttachService from '@/api/attach-service';
 // models
 import { GoodsInfo } from '@/models/goods/goods-info';
 // tools
@@ -14,7 +15,7 @@ import { stringFormatArr } from '@/utils/string-utils';
 @Component({
   components: {
     Tinymce,
-    goodsImgs
+    GoodsImgs
   }
 })
 export default class GoodsAdd extends Vue {
@@ -90,8 +91,10 @@ export default class GoodsAdd extends Vue {
     }).catch(() => { });
   }
 
-  save() {
-    this.loading = true;
+  async save() {
+    const imgs: any = await this.uploadHeadImg().then();
+    this.fromData.pic1 = imgs[0] ? AttachService.previewUrl(imgs[0].fileName) : '';
+    this.fromData.pic2 = imgs[1] ? AttachService.previewUrl(imgs[1].fileName) : '';
     GoodsService.saveGoods(this.fromData).then((res: boolean) => {
       if (res) {
         this.$message.success('保存成功');
@@ -100,5 +103,20 @@ export default class GoodsAdd extends Vue {
     }).finally(() => {
       this.loading = false;
     });
+  }
+
+  uploadHeadImg() {
+    const headImgFile = (this.$refs['goodsImgsRef'] as any).headImgFile;
+    if (!headImgFile.length) {
+      this.$message.warning('至少上传一张图片');
+      return Promise.reject();
+    }
+    const requests: any = [];
+    headImgFile.forEach((file: any) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      requests.push(AttachService.uploadSingle(formData));
+    });
+    return Promise.all(requests);
   }
 }

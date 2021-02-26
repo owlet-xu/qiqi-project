@@ -49,9 +49,7 @@ public class GoodsQueryServiceImpl implements GoodsQueryService {
         Specification<GoodsEntity> filters = createSpecification(pageInfo.getConditions(), pageInfo.getSearch());
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         PageRequest pageRequest = PageRequest.of(pageInfo.getPage(), pageInfo.getSize(), sort);
-        Page<GoodsInfo> page = goodsRepository.findAll(filters, pageRequest).map(item -> {
-            return GoodsEntityFilter.getInstance().forList(item);
-        });
+        Page<GoodsInfo> page = goodsRepository.findAll(filters, pageRequest).map(item -> GoodsEntityFilter.getInstance().forList(item));
         pageInfo.setContents(page.getContent());
         pageInfo.setTotalCount(page.getTotalElements());
         pageInfo.setTotalPage(page.getTotalPages());

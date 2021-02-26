@@ -2,7 +2,7 @@
   <div class="goods-add" v-loading="loading" :element-loading-text="$t('LoadingData')">
     <el-form ref="formRef" :model="fromData">
       <div class="form-item-row">
-        <goodsImgs></goodsImgs>
+        <goods-imgs ref="goodsImgsRef" :imgUrls="[fromData.pic1, fromData.pic2]"></goods-imgs>
         <div class="form-item-row-item">
           <div class="form-item-row">
             <el-form-item :label="$t('Goods.Name')" prop="name" :rules="rules.name">

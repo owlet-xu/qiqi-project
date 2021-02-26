@@ -16,6 +16,9 @@ export default {
     return httpClient.getPromise(url);
   },
   previewUrl(fileId: string) {
+    if (!fileId) {
+      return '';
+    }
     return stringFormatArr(`${AppModule.configs.qiqiServiceUrl}${AttachUrls.preview}`, [fileId]);
   }
 };

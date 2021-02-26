@@ -148,10 +148,17 @@ public class FileUploadServiceImpl implements FileUploadService {
         List<String> depts = departmentRepository.getImages();
         // 3 商品图片链接
         List<String> urlImages = new ArrayList<>();
-        List<String> goods = goodsRepository.getImages();
-        Pattern pattern = Pattern.compile("@.*\\(.*\\)"); //匹配@xxx(xxx)形态的字符串
-        for (String good : goods) {
-            urlImages.addAll(getUrlImgs(good));
+        List<Object[]> goods = goodsRepository.getImages();
+        for (Object[] good : goods) {
+            if (null != good[0]) {
+                urlImages.addAll(getUrlImgs(String.valueOf(good[0])));
+            }
+            if (null != good[1]) {
+                urlImages.addAll(getUrlImgs(String.valueOf(good[1])));
+            }
+            if (null != good[2]) {
+                urlImages.addAll(getUrlImgs(String.valueOf(good[2])));
+            }
         }
         // 4 删除文件夹文件
         File file = new File(filePath);
@@ -172,7 +179,7 @@ public class FileUploadServiceImpl implements FileUploadService {
      * @return
      */
     public List<String>  getUrlImgs(String urls) {
-        String regex = "\"(ht|f)tp(s?)\\:\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\&%\\+\\$#_=]*)?\"";
+        String regex = "(ht|f)tp(s?)\\:\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\&%\\+\\$#_=]*)?";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(urls);
 
@@ -180,7 +187,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         while (matcher.find()) {
             String url = matcher.group(0);
             int index = url.indexOf("/upload/preview/");
-            urlImgs.add(url.substring(index + 16, url.length() - 1));
+            urlImgs.add(url.substring(index + 16, url.length()));
         }
         return urlImgs;
     }
