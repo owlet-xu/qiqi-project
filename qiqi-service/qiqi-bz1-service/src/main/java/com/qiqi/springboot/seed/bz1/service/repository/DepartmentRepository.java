@@ -34,4 +34,8 @@ public interface DepartmentRepository extends JpaRepository<DepartmentEntity, St
     @Query("update DepartmentEntity set enable=:enable where id in :ids")
     @Modifying(clearAutomatically = true)
     int disableDepartment(@Param("ids") List<String> ids, @Param("enable") Integer enable);
+
+    @Query("select d.imgId from DepartmentEntity d where d.imgId is not null")
+    @Modifying(clearAutomatically = true)
+    List<String> getImages();
 }

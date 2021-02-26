@@ -16,4 +16,6 @@ public interface GoodsQueryService {
      * @return
      */
     PageInfo<GoodsInfo> findGoodsListPage(PageInfo<GoodsInfo> pageInfo);
+
+    GoodsInfo findGoodsById(String id);
 }

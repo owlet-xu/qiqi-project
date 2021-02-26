@@ -30,4 +30,10 @@ public interface FileUploadService {
      * @return
      */
     ResponseEntity<InputStreamResource> handleDownload(String fileId, boolean isDownload);
+
+    /**
+     * 清除无用图片，慎用
+     * @return
+     */
+    boolean clearFiles();
 }

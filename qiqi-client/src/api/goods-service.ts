@@ -15,5 +15,9 @@ export default {
   findGoodsListPage(pageInfo: PageInfo<GoodsInfo>): Promise<any> {
     const url = `${AppModule.configs.qiqiServiceUrl}${GoodsUrls.findGoodsListPage}`;
     return httpClient.postPromise(url, pageInfo);
+  },
+  findGoodsById(id: string) {
+    const url = stringFormatArr(`${AppModule.configs.qiqiServiceUrl}${GoodsUrls.findGoodsById}`, [id]);
+    return httpClient.getPromise(url);
   }
 };

@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author xuguoyuan
@@ -41,5 +40,19 @@ public class GoodsShowController {
     ) {
         PageInfo<GoodsInfo> result = goodsQueryService.findGoodsListPage(pageInfo);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "获取商品详情", notes = "获取商品详情")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/goods-show/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GoodsInfo> findGoodsById(
+            @ApiParam(value = "商品id", required = true)
+            @PathVariable String id
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(goodsQueryService.findGoodsById(id));
     }
 }

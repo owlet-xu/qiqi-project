@@ -5,7 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 /**
  * @author xuguoyuan
@@ -20,5 +24,10 @@ public interface GoodsRepository extends JpaRepository<GoodsEntity, String> {
      * @param pageable 分数参数
      * @return Page<T>
      */
-    Page<GoodsEntity> findAll(@Nullable Specification<GoodsEntity> spec, Pageable pageable);
+    @Query("select g.id, g.name, g.price, g.description, g.updateTime, g.createTime from GoodsEntity g")
+    Page<Object[]> findAll(@Nullable Specification<GoodsEntity> spec, Pageable pageable);
+
+    @Query("select g.detail from GoodsEntity g where g.detail is not null")
+    @Modifying(clearAutomatically = true)
+    List<String> getImages();
 }

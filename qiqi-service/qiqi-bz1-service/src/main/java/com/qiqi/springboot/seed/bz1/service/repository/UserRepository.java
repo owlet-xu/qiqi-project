@@ -39,4 +39,8 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     @Query("update UserEntity u set u.password=:password where u.id=:id")
     @Modifying(clearAutomatically = true)
     int setUserPassword(@Param("id") String id, @Param("password") String password);
+
+    @Query("select u.headImg from UserEntity u where u.headImg is not null")
+    @Modifying(clearAutomatically = true)
+    List<String> getImages();
 }

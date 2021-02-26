@@ -15,6 +15,15 @@ import java.util.Date;
 @Entity
 @Table(name= "B_GOODS", schema= "qiqi")
 public class GoodsEntity {
+
+    public GoodsEntity() {
+    }
+
+    public GoodsEntity(String id, String name, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
     @Id
     @Column(name = "ID", nullable = false, length = 36)
     private String id;

@@ -6,6 +6,7 @@ import com.qiqi.springboot.seed.bz1.contract.model.goods.GoodsInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.goods.GoodsQueryService;
 import com.qiqi.springboot.seed.bz1.service.datamappers.goods.GoodsMapper;
 import com.qiqi.springboot.seed.bz1.service.entity.goods.GoodsEntity;
+import com.qiqi.springboot.seed.bz1.service.entityfilter.GoodsEntityFilter;
 import com.qiqi.springboot.seed.bz1.service.repository.goods.GoodsRepository;
 import com.qiqi.springboot.seed.common.util.RepositoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,14 +49,18 @@ public class GoodsQueryServiceImpl implements GoodsQueryService {
         Specification<GoodsEntity> filters = createSpecification(pageInfo.getConditions(), pageInfo.getSearch());
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         PageRequest pageRequest = PageRequest.of(pageInfo.getPage(), pageInfo.getSize(), sort);
-        Page<GoodsInfo> page = goodsRepository.findAll(filters, pageRequest).map(entity -> {
-            GoodsInfo userInfo = goodsMapper.entityToModel(entity);
-            return userInfo;
+        Page<GoodsInfo> page = goodsRepository.findAll(filters, pageRequest).map(item -> {
+            return GoodsEntityFilter.getInstance().forList(item);
         });
         pageInfo.setContents(page.getContent());
         pageInfo.setTotalCount(page.getTotalElements());
         pageInfo.setTotalPage(page.getTotalPages());
         return  pageInfo;
+    }
+
+    @Override
+    public GoodsInfo findGoodsById(String id) {
+        return goodsMapper.entityToModel(goodsRepository.findById(id).orElse(null));
     }
 
     private Specification<GoodsEntity> createSpecification(GoodsInfo goodsInfo, String search) {

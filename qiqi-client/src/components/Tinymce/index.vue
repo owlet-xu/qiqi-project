@@ -40,7 +40,9 @@ export default {
       type: Array,
       required: false,
       default() {
-        return []
+        return ['code undo redo restoredraft | cut copy paste pastetext | forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright alignjustify outdent indent | \
+    styleselect formatselect fontselect fontsizeselect | bullist numlist | blockquote subscript superscript removeformat | \
+    table image media charmap emoticons hr pagebreak insertdatetime print preview | fullscreen | bdmap indent2em lineheight formatpainter axupimgs'] // 修改后 第一步
       }
     },
     menubar: {
@@ -50,7 +52,7 @@ export default {
     height: {
       type: [Number, String],
       required: false,
-      default: 360
+      default: 300
     },
     width: {
       type: [Number, String],
@@ -132,6 +134,7 @@ export default {
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,
         plugins: plugins,
+        fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
         end_container_on_empty_block: true,
         powerpaste_word_import: 'clean',
         code_dialog_height: 450,
@@ -209,11 +212,16 @@ export default {
     setContent(value) {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
+    setBackgroudImg(value) {
+      const temp = window.tinymce.get(this.tinymceId);
+      temp.getBody().style.backgroundColor = value;
+    },
     getContent() {
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(arr) {
-      arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
+      // arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
+      arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<div class="wscnph" style="background-image: url(${v.url})"></div>`))
     }
   }
 }

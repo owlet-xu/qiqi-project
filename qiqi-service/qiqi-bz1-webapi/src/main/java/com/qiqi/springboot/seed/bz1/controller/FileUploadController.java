@@ -3,12 +3,11 @@ package com.qiqi.springboot.seed.bz1.controller;
 import com.qiqi.springboot.seed.bz1.contract.model.FileMeta;
 import com.qiqi.springboot.seed.bz1.contract.service.FileUploadService;
 import com.qiqi.springboot.seed.bz1.contract.service.LoginService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -50,6 +49,17 @@ public class FileUploadController {
     @GetMapping("/upload/preview/{fileId}")
     public ResponseEntity<InputStreamResource> preview(@PathVariable("fileId") String fileId) {
         return fileUploadService.handleDownload(fileId, false);
+    }
+
+    @ApiOperation(value = "删除无用图片", notes = "删除无用图片")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = ResponseEntity.class)
+    })
+    @RequestMapping(value = "/upload/remove", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> clearFiles() {
+        return ResponseEntity.status(HttpStatus.OK).body(fileUploadService.clearFiles());
     }
 
 }
