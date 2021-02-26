@@ -71,7 +71,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 
-    @ApiOperation(value = "删除用户", notes = "删除用户")
+    @ApiOperation(value = "删除用户(逻辑删除)", notes = "删除用户(逻辑删除)")
     @ApiResponses({
             @ApiResponse(code = 200, message = "查询成功", response = Boolean.class),
             @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),

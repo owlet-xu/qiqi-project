@@ -1,5 +1,6 @@
 package com.qiqi.springboot.seed.bz1.service.serviceimpl.goods;
 
+import com.qiqi.springboot.seed.bz1.contract.constant.EnableEnum;
 import com.qiqi.springboot.seed.bz1.contract.model.goods.GoodsInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.goods.GoodsManagerService;
 import com.qiqi.springboot.seed.bz1.service.datamappers.goods.GoodsMapper;
@@ -42,6 +43,12 @@ public class GoodsManagerServiceImpl implements GoodsManagerService {
         }
         goodsInfo.setUpdateTime(new Date());
         goodsRepository.saveAndFlush(goodsMapper.modelToEntity(goodsInfo));
+        return true;
+    }
+
+    @Override
+    public Boolean disableGoods(String id) {
+        goodsRepository.disableGoods(id, EnableEnum.DISABLED.value());
         return true;
     }
 }

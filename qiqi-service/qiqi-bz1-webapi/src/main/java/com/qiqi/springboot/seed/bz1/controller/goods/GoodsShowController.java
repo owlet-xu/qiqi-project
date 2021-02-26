@@ -27,7 +27,7 @@ public class GoodsShowController {
     @Autowired
     OrdersManagerService ordersManagerService;
 
-    @ApiOperation(value = "查询所有启用商品", notes = "查询所有启用商品")
+    @ApiOperation(value = "查询所有商品", notes = "查询所有商品")
     @ApiResponses({
             @ApiResponse(code = 200, message = "查询成功", response = GoodsInfo.class),
             @ApiResponse(code = 400, message = "参数非法", response = ResponseEntity.class),

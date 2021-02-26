@@ -31,6 +31,7 @@ public class GoodsEntityFilter {
         info.setDescription(null == item[3] ? null : String.valueOf(item[3]));
         info.setUpdateTime(null == item[4] ? null : (Date) item[4]);
         info.setCreateTime(null == item[5] ? null : (Date) item[5]);
+        info.setEnable(null == item[6] ? null : (Integer) item[6]);
         return info;
     }
 }

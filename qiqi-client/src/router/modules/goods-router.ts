@@ -31,7 +31,7 @@ export const goodsRouterMap: RouteConfig[] = [
                 meta: {
                     title: RouterPrefix(RouterName.GoodsManageAdd),
                     icon: 'dashboard',
-                    noCache: false
+                    noCache: true
                 }
             }
         ]

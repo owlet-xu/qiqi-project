@@ -15,4 +15,6 @@ public interface GoodsManagerService {
      * @return
      */
     Boolean saveGoods(GoodsInfo goodsInfo);
+
+    Boolean disableGoods(String id);
 }

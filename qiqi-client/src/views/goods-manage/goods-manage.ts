@@ -21,7 +21,6 @@ export default class GoodsManage extends Vue {
   private pageInfo: PageInfo<GoodsInfo> = new PageInfo();
   private loading = true;
   private loadingSave = false;
-  private showPasswordDialog = false;
   private goodsInfoSelected = new GoodsInfo();
   private search = '';
   private searchChange: any;
@@ -101,33 +100,6 @@ export default class GoodsManage extends Vue {
     this.getUserListFirstPage();
   }
 
-  editPassword(item: GoodsInfo) {
-    this.goodsInfoSelected = _.cloneDeep(item);
-    this.showPasswordDialog = true;
-  }
-
-  savePassword(item: GoodsInfo) {
-    // const form: PasswordForm = this.$refs['passwordFormRef'] as PasswordForm;
-    // form.saveValid();
-  }
-
-  resetPassword() {
-    this.$confirm(stringFormatArr(this.$t('Login.ResetPasswordTip').toString(), ['']), this.$t('Tip').toString(), {
-      confirmButtonText: this.$t('Comfirm').toString(),
-      cancelButtonText: this.$t('Cancel').toString(),
-      type: 'warning'
-    }).then(async () => {
-      const res: boolean = await loginService.resetPassword();
-      if (res === true) {
-        this.showPasswordDialog = false;
-      }
-    });
-  }
-
-  savePasswordSuccess() {
-    this.showPasswordDialog = false;
-  }
-
   removeConfirm(item: GoodsInfo) {
     if (item.enable !== 1) {
       return;
@@ -142,11 +114,11 @@ export default class GoodsManage extends Vue {
   }
 
   remove(id: string) {
-    // GoodsService.remove(id).then((res: any) => {
-    //   if (res) {
-    //     this.getUserList();
-    //   }
-    // });
+    GoodsService.disableGoods(id).then((res: any) => {
+      if (res) {
+        this.getGoodsList();
+      }
+    });
   }
 
   // 分页改变

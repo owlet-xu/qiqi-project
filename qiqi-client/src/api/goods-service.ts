@@ -19,5 +19,9 @@ export default {
   findGoodsById(id: string) {
     const url = stringFormatArr(`${AppModule.configs.qiqiServiceUrl}${GoodsUrls.findGoodsById}`, [id]);
     return httpClient.getPromise(url);
+  },
+  disableGoods(id: string) {
+    const url = stringFormatArr(`${AppModule.configs.qiqiServiceUrl}${GoodsUrls.disableGoods}`, [id]);
+    return httpClient.deletePromise(url);
   }
 };

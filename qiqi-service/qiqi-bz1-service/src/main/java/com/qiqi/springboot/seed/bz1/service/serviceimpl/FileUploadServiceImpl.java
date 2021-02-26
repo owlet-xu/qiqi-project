@@ -131,7 +131,10 @@ public class FileUploadServiceImpl implements FileUploadService {
                     .body(new InputStreamResource(inputStream));
 
         } catch (IOException e) {
-            throw new BusinessException(ResultStatus.PARAM_TYPE_ERROR);
+            // 读取图片报错
+            // throw new BusinessException(ResultStatus.PARAM_TYPE_ERROR);
+        } finally {
+            return null;
         }
     }
 
