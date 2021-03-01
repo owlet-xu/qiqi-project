@@ -133,7 +133,6 @@ public class FileUploadServiceImpl implements FileUploadService {
         } catch (IOException e) {
             // 读取图片报错
             // throw new BusinessException(ResultStatus.PARAM_TYPE_ERROR);
-        } finally {
             return null;
         }
     }

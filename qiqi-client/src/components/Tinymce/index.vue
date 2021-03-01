@@ -1,5 +1,5 @@
 <template>
-  <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
+  <div :class="{ fullscreen: fullscreen }" class="tinymce-container" :style="{ width: containerWidth }">
     <textarea :id="tinymceId" class="tinymce-textarea" />
     <div class="editor-custom-btn-container">
       <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
@@ -13,23 +13,26 @@
  * docs:
  * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
  */
-import editorImage from './components/EditorImage'
-import plugins from './plugins'
-import toolbar from './toolbar'
-import load from './dynamicLoadScript'
-import { AppModule } from '@/store/modules/app'
+import editorImage from './components/EditorImage';
+import load from './dynamicLoadScript';
+import { AppModule } from '@/store/modules/app';
+// 富文本插件
+// import './tinymce.min.js';
+// import './langs/zh_CN'; // 国际化
+import plugins from './plugins';
+import toolbar from './toolbar';
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
-
+// const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js';
+const tinymceCDN = window.location.origin + '/tinymce/js/tinymce/tinymce.min.js';
 export default {
   name: 'Tinymce',
   components: { editorImage },
   props: {
     id: {
       type: String,
-      default: function() {
-        return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
+      default: function () {
+        return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '');
       }
     },
     value: {
@@ -40,9 +43,7 @@ export default {
       type: Array,
       required: false,
       default() {
-        return ['code undo redo restoredraft | cut copy paste pastetext | forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright alignjustify outdent indent | \
-    styleselect formatselect fontselect fontsizeselect | bullist numlist | blockquote subscript superscript removeformat | \
-    table image media charmap emoticons hr pagebreak insertdatetime print preview | fullscreen | bdmap indent2em lineheight formatpainter axupimgs'] // 修改后 第一步
+        return []; // 修改后 第一步
       }
     },
     menubar: {
@@ -67,50 +68,50 @@ export default {
       tinymceId: this.id,
       fullscreen: false,
       languageTypeList: {
-        'en': 'en',
-        'zh': 'zh_CN',
-        'es': 'es_MX',
-        'ja': 'ja'
+        en: 'en',
+        zh: 'zh_CN',
+        es: 'es_MX',
+        ja: 'ja'
       }
-    }
+    };
   },
   computed: {
     language() {
-      return this.languageTypeList[AppModule.language]
+      return this.languageTypeList[AppModule.language];
     },
     containerWidth() {
-      const width = this.width
-      if (/^[\d]+(\.[\d]+)?$/.test(width)) { // matches `100`, `'100'`
-        return `${width}px`
+      const width = this.width;
+      if (/^[\d]+(\.[\d]+)?$/.test(width)) {
+        // matches `100`, `'100'`
+        return `${width}px`;
       }
-      return width
+      return width;
     }
   },
   watch: {
     value(val) {
       if (!this.hasChange && this.hasInit) {
-        this.$nextTick(() =>
-          window.tinymce.get(this.tinymceId).setContent(val || ''))
+        this.$nextTick(() => window.tinymce.get(this.tinymceId).setContent(val || ''));
       }
     },
     language() {
-      this.destroyTinymce()
-      this.$nextTick(() => this.initTinymce())
+      this.destroyTinymce();
+      this.$nextTick(() => this.initTinymce());
     }
   },
   mounted() {
-    this.init()
+    this.init();
   },
   activated() {
     if (window.tinymce) {
-      this.initTinymce()
+      this.initTinymce();
     }
   },
   deactivated() {
-    this.destroyTinymce()
+    this.destroyTinymce();
   },
   destroyed() {
-    this.destroyTinymce()
+    this.destroyTinymce();
   },
   methods: {
     init() {
@@ -120,11 +121,12 @@ export default {
           this.$message.error(err.message)
           return
         }
+        window.tinymce.baseURL = window.location.origin + '/tinymce/js/tinymce';
         this.initTinymce()
       })
     },
     initTinymce() {
-      const _this = this
+      const _this = this;
       window.tinymce.init({
         language: this.language,
         selector: `#${this.tinymceId}`,
@@ -141,93 +143,71 @@ export default {
         code_dialog_width: 1000,
         advlist_bullet_styles: 'square',
         advlist_number_styles: 'default',
-        imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
-        init_instance_callback: editor => {
+        init_instance_callback: (editor) => {
           if (_this.value) {
-            editor.setContent(_this.value)
+            editor.setContent(_this.value);
           }
-          _this.hasInit = true
+          _this.hasInit = true;
           editor.on('NodeChange Change KeyUp SetContent', () => {
-            this.hasChange = true
-            this.$emit('input', editor.getContent())
-          })
+            this.hasChange = true;
+            this.$emit('input', editor.getContent());
+          });
         },
         setup(editor) {
           editor.on('FullscreenStateChanged', (e) => {
-            _this.fullscreen = e.state
-          })
+            _this.fullscreen = e.state;
+          });
         },
         // it will try to keep these URLs intact
         // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
         // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
         convert_urls: false
-        // 整合七牛上传
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
-      })
+      });
     },
     destroyTinymce() {
-      const tinymce = window.tinymce.get(this.tinymceId)
+      const tinymce = window.tinymce.get(this.tinymceId);
       if (this.fullscreen) {
-        tinymce.execCommand('mceFullScreen')
+        tinymce.execCommand('mceFullScreen');
       }
 
       if (tinymce) {
-        tinymce.destroy()
+        tinymce.destroy();
       }
     },
     setContent(value) {
-      window.tinymce.get(this.tinymceId).setContent(value)
+      window.tinymce.get(this.tinymceId).setContent(value);
     },
     setBackgroudImg(value) {
       const temp = window.tinymce.get(this.tinymceId);
       temp.getBody().style.backgroundColor = value;
     },
     getContent() {
-      window.tinymce.get(this.tinymceId).getContent()
+      window.tinymce.get(this.tinymceId).getContent();
     },
-    imageSuccessCBK(arr) {
-      // arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
-      arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<div class="wscnph" style="background-image: url(${v.url})"></div>`))
+    imageSuccessCBK(data) {
+      let html = '';
+      if (data.type === 'bg') {
+        data.arr.forEach((v) => {
+          // const bodyStyle = window.tinymce.get(this.tinymceId).getBody().style;
+          // bodyStyle.backgroundImage = `url(${v.url})`;
+          // bodyStyle.backgroundRepeat = `no-repeat`;
+          // bodyStyle.backgroundSize = `cover`;
+          data.arr.forEach((v) => (html += `<img style="z-index: -100;position: absolute;" src="${v.url}" >`));
+        });
+      } else if (data.type === 'pic') {
+        data.arr.forEach((v) => (html += `<img class="wscnph" src="${v.url}" >`));
+      }
+      window.tinymce.get(this.tinymceId).insertContent(html);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
+// @import url('./skins/lightgray/skin.min.css');
 .tinymce-container {
   position: relative;
   line-height: normal;
@@ -250,7 +230,7 @@ export default {
   position: absolute;
   right: 4px;
   top: 4px;
-  /*z-index: 2005;*/
+  z-index: 2005;
 }
 
 .fullscreen .editor-custom-btn-container {

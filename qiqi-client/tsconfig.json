@@ -36,7 +36,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/components/Tinymce/plugins.js"  ],
   "exclude": [
     "node_modules"
   ]

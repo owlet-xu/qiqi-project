@@ -25,7 +25,8 @@
       </el-upload>
       <div class="footer">
         <el-button @click="dialogVisible = false"> 取消 </el-button>
-        <el-button type="primary" @click="handleSubmit"> 确认 </el-button>
+        <el-button type="primary" @click="handleSubmit('bg')"> 背景图片 </el-button>
+        <el-button type="primary" @click="handleSubmit('pic')"> 普通图片 </el-button>
       </div>
     </el-dialog>
   </div>
@@ -54,7 +55,7 @@ export default {
     checkAllSuccess() {
       return Object.keys(this.listObj).every((item) => this.listObj[item].hasSuccess);
     },
-    handleSubmit() {
+    handleSubmit(type) {
       const arr = Object.keys(this.listObj).map((v) => this.listObj[v]);
       if (!this.checkAllSuccess()) {
         this.$message(
@@ -62,7 +63,7 @@ export default {
         );
         return;
       }
-      this.$emit('successCBK', arr);
+      this.$emit('successCBK', {type, arr});
       this.listObj = {};
       this.fileList = [];
       this.dialogVisible = false;
