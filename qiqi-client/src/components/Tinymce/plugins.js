@@ -12,7 +12,6 @@ str += 'preview fullscreen '; // 预览与全屏
 str += 'table '; // 表格插件
 str += 'emoticons '; // 表情插件
 str += 'template '; // 内容模板
-str += 'lists '; // 导入word 插件
 str += 'letterspacing '; // 文字间距
 const plugins = [str];
 

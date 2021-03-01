@@ -15,7 +15,6 @@ str += 'forecolor backcolor '; // 字体颜色与背景颜色
 str += 'preview '; // 预览
 str += 'table '; // 表格
 str += 'template '; // 内容模板
-str += 'numlist bullist '; // 导入word 插件
 str += 'letterspacing '; // 文字间距
 const toolbar = [str]
 

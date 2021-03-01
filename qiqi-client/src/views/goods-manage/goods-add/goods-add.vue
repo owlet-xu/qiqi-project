@@ -48,7 +48,7 @@
     </el-form>
     <div>
       <div class="form-title">商品详情</div>
-      <tinymce ref="tinymce" v-model="fromData.detail" :height="320" />
+      <tinymce ref="tinymce" v-model="fromData.detail" :height="450" />
     </div>
     <div class="footer">
       <el-button @click="clear">{{ $t('Clear') }}</el-button>
