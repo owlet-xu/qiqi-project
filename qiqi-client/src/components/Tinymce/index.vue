@@ -59,6 +59,11 @@ export default {
       type: [Number, String],
       required: false,
       default: 'auto'
+    },
+    bgFile: {
+      type: [String],
+      required: false,
+      default: ''
     }
   },
   data() {
@@ -86,6 +91,14 @@ export default {
         return `${width}px`;
       }
       return width;
+    },
+    bgFileTemp: {
+      get() {
+        return this.bgFile;
+      },
+      set(val) {
+        this.$emit('update:bgFile', val);
+      }
     }
   },
   watch: {
@@ -118,12 +131,12 @@ export default {
       // dynamic load tinymce from cdn
       load(tinymceCDN, (err) => {
         if (err) {
-          this.$message.error(err.message)
-          return
+          this.$message.error(err.message);
+          return;
         }
         window.tinymce.baseURL = window.location.origin + '/tinymce/js/tinymce';
-        this.initTinymce()
-      })
+        this.initTinymce();
+      });
     },
     initTinymce() {
       const _this = this;
@@ -149,6 +162,7 @@ export default {
         init_instance_callback: (editor) => {
           if (_this.value) {
             editor.setContent(_this.value);
+            this.setContentBg(this.bgFileTemp);
           }
           _this.hasInit = true;
           editor.on('NodeChange Change KeyUp SetContent', () => {
@@ -180,10 +194,6 @@ export default {
     setContent(value) {
       window.tinymce.get(this.tinymceId).setContent(value);
     },
-    setBackgroudImg(value) {
-      const temp = window.tinymce.get(this.tinymceId);
-      temp.getBody().style.backgroundColor = value;
-    },
     getContent() {
       window.tinymce.get(this.tinymceId).getContent();
     },
@@ -191,23 +201,31 @@ export default {
       let html = '';
       if (data.type === 'bg') {
         data.arr.forEach((v) => {
-          // const bodyStyle = window.tinymce.get(this.tinymceId).getBody().style;
-          // bodyStyle.backgroundImage = `url(${v.url})`;
-          // bodyStyle.backgroundRepeat = `no-repeat`;
-          // bodyStyle.backgroundSize = `cover`;
-          data.arr.forEach((v) => (html += `<img style="z-index: -100;position: absolute;" src="${v.url}" >`));
+          this.setContentBg(v.url);
         });
+        // data.arr.forEach((v) => (html += `<img style="z-index: -100;position: absolute;" src="${v.url}" >`));
       } else if (data.type === 'pic') {
         data.arr.forEach((v) => (html += `<img class="wscnph" src="${v.url}" >`));
       }
       window.tinymce.get(this.tinymceId).insertContent(html);
+    },
+    setContentBg(url) {
+      const bodyStyle = window.tinymce.get(this.tinymceId).getBody().style;
+      if (!url) {
+        bodyStyle.backgroundImage = '';
+        return;
+      } else {
+        bodyStyle.backgroundImage = `url(${url})`;
+        bodyStyle.backgroundRepeat = `no-repeat`;
+        bodyStyle.backgroundSize = `100% auto`;
+        this.bgFileTemp = url;
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-// @import url('./skins/lightgray/skin.min.css');
 .tinymce-container {
   position: relative;
   line-height: normal;
@@ -230,7 +248,7 @@ export default {
   position: absolute;
   right: 4px;
   top: 4px;
-  z-index: 2005;
+  z-index: 100;
 }
 
 .fullscreen .editor-custom-btn-container {

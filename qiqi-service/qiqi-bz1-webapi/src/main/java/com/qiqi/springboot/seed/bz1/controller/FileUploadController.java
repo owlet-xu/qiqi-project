@@ -34,7 +34,7 @@ public class FileUploadController {
      * @return
      */
     @RequestMapping(value = "/upload/head", method = RequestMethod.POST)
-    public @ResponseBody
+    @ResponseBody
     FileMeta  uploadHeadImg(MultipartHttpServletRequest request, HttpServletResponse response) {
         FileMeta fileMeta = fileUploadService.upload(request, response, null);
         return fileMeta;

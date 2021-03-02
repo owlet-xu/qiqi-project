@@ -12,13 +12,23 @@ export class GoodsInfo {
 
   detail = '';
 
+  detailBg = '';
+
   type1 = '';
 
   type2 = '';
 
-  pic1 = '';
+  file1 = '';
 
-  pic2 = '';
+  file2 = '';
+
+  file3 = '';
+
+  file4 = '';
+
+  file5 = '';
+
+  file6 = '';
 
   /**
    * 启用禁用

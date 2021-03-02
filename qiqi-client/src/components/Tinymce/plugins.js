@@ -13,6 +13,7 @@ str += 'table '; // 表格插件
 str += 'emoticons '; // 表情插件
 str += 'template '; // 内容模板
 str += 'letterspacing '; // 文字间距
+str += 'importword '; // 导入word 插件 
 const plugins = [str];
 
 export default plugins;

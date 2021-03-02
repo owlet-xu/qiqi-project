@@ -63,6 +63,9 @@ export default {
         );
         return;
       }
+      if (arr.length > 1 && type === 'bg') {
+        this.$message.warning('背景图片只能上传一张');
+      }
       this.$emit('successCBK', {type, arr});
       this.listObj = {};
       this.fileList = [];

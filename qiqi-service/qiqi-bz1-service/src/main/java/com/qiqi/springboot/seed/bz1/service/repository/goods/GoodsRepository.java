@@ -28,7 +28,7 @@ public interface GoodsRepository extends JpaRepository<GoodsEntity, String> {
     @Query("select g.id, g.name, g.price, g.description, g.updateTime, g.createTime, g.enable from GoodsEntity g")
     Page<Object[]> findAll(@Nullable Specification<GoodsEntity> spec, Pageable pageable);
 
-    @Query("select g.detail, g.pic1, g.pic2 from GoodsEntity g where g.detail is not null")
+    @Query("select g.detail, g.detailBg, g.file1, g.file2, g.file3, g.file4, g.file5, g.file6 from GoodsEntity g where g.detail is not null")
     @Modifying(clearAutomatically = true)
     List<Object[]> getImages();
 

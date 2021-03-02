@@ -16,6 +16,7 @@ str += 'preview '; // 预览
 str += 'table '; // 表格
 str += 'template '; // 内容模板
 str += 'letterspacing '; // 文字间距
+str += 'importword '; // 导入word 插件 
 const toolbar = [str]
 
 export default toolbar

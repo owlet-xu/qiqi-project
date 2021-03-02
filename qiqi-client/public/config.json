@@ -1,4 +1,6 @@
 {
   "lang": "zh",
-  "qiqiServiceUrl": "http://localhost:32100"
+  "qiqiServiceUrl": "http://localhost:32100",
+  "attachUrl": "http://localhost:32101",
+  "nginxUrl": "http://localhost:9001"
 }

@@ -18,9 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * 文件系统
+ * 数据库为mongodb
+ * 文件可以存服务器
+ */
 @Api(value = "/api/v1", description = "AttachController Api")   // NOSONAR
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")

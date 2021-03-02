@@ -23,6 +23,7 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
@@ -49,7 +50,8 @@ public class AttachServiceImpl implements AttachService {
 
     private static final Logger logger = LoggerFactory.getLogger(AttachServiceImpl.class);
 
-    private static final String FILE_PATH = "c:\\files\\video\\";
+    @Value("${app.file-path}")
+    private String FILE_PATH;
 
     @Autowired
     private FileMapper fileMapper;
@@ -391,7 +393,7 @@ public class AttachServiceImpl implements AttachService {
         // 2、存硬盘
         String[] names = fileName.split("\\.");
         FileOutputStream fos = null;
-        String id = UUID.randomUUID().toString() + "." + names[names.length - 1];
+        String id = UUID.randomUUID().toString().replaceAll("-", "") + "." + names[names.length - 1];
         try {
             byte[] bs = getBytes(inputStream);
             fos = new FileOutputStream(FILE_PATH + id);

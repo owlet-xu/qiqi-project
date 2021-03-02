@@ -70,9 +70,8 @@ export default class GoodsAdd extends Vue {
   }
 
   setBackgroudImg() {
-    this.fromData.detail = `<div style="background-color: red">${this.fromData.detail}</div>`;
-    (this.$refs['tinymce'] as any).setContent(this.fromData.detail);
-    // (this.$refs['tinymce'] as any).setBackgroudImg('red');
+    this.fromData.detailBg = '';
+    (this.$refs['tinymce'] as any).setContentBg(this.fromData.detailBg);
   }
 
   saveValidate() {
@@ -92,9 +91,13 @@ export default class GoodsAdd extends Vue {
   }
 
   async save() {
-    const imgs: any = await this.uploadHeadImg().then();
-    this.fromData.pic1 = imgs[0] ? AttachService.previewUrl(imgs[0].fileName) : '';
-    this.fromData.pic2 = imgs[1] ? AttachService.previewUrl(imgs[1].fileName) : '';
+    const imgs: any = await this.uploadHeadImg();
+    this.fromData.file1 = imgs[0] ? AttachService.previewUrl(imgs[0][0].fileId) : this.fromData.file1;
+    this.fromData.file2 = imgs[1] ? AttachService.previewUrl(imgs[1][0].fileId) : this.fromData.file2;
+    this.fromData.file3 = imgs[2] ? AttachService.previewUrl(imgs[2][0].fileId) : this.fromData.file3;
+    this.fromData.file4 = imgs[3] ? AttachService.previewUrl(imgs[3][0].fileId) : this.fromData.file4;
+    this.fromData.file5 = imgs[4] ? AttachService.previewUrl(imgs[4][0].fileId) : this.fromData.file5;
+    this.fromData.file6 = imgs[5] ? AttachService.previewUrl(imgs[5][0].fileId) : this.fromData.file6;
     GoodsService.saveGoods(this.fromData).then((res: boolean) => {
       if (res) {
         this.$message.success('保存成功');
@@ -113,9 +116,13 @@ export default class GoodsAdd extends Vue {
     }
     const requests: any = [];
     headImgFile.forEach((file: any) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      requests.push(AttachService.uploadSingle(formData));
+      if (!file) {
+        requests.push(Promise.resolve(''));
+      } else {
+        const formData = new FormData();
+        formData.append('file', file);
+        requests.push(AttachService.uploadSingle(formData));
+      }
     });
     return Promise.all(requests);
   }
