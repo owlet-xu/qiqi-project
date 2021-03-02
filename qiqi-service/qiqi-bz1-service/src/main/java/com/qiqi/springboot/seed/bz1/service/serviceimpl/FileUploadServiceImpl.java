@@ -170,9 +170,6 @@ public class FileUploadServiceImpl implements FileUploadService {
             if (null != good[5]) {
                 urlImages.addAll(getUrlImgs(String.valueOf(good[5])));
             }
-            if (null != good[6]) {
-                urlImages.addAll(getUrlImgs(String.valueOf(good[6])));
-            }
         }
         // 4 删除文件夹文件
         File file = new File(filePath);

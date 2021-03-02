@@ -5,8 +5,10 @@ import com.qiqi.springboot.seed.bz1.contract.model.PageInfo;
 import com.qiqi.springboot.seed.bz1.contract.model.goods.GoodsInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.goods.GoodsQueryService;
 import com.qiqi.springboot.seed.bz1.service.datamappers.goods.GoodsMapper;
+import com.qiqi.springboot.seed.bz1.service.entity.goods.GoodsDetailEntity;
 import com.qiqi.springboot.seed.bz1.service.entity.goods.GoodsEntity;
 import com.qiqi.springboot.seed.bz1.service.entityfilter.GoodsEntityFilter;
+import com.qiqi.springboot.seed.bz1.service.repository.goods.GoodsDetailRepository;
 import com.qiqi.springboot.seed.bz1.service.repository.goods.GoodsRepository;
 import com.qiqi.springboot.seed.common.util.RepositoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,8 @@ public class GoodsQueryServiceImpl implements GoodsQueryService {
 
     @Autowired
     GoodsRepository goodsRepository;
-
+    @Autowired
+    GoodsDetailRepository goodsDetailRepository;
     @Autowired
     GoodsMapper goodsMapper;
 
@@ -49,7 +52,7 @@ public class GoodsQueryServiceImpl implements GoodsQueryService {
         Specification<GoodsEntity> filters = createSpecification(pageInfo.getConditions(), pageInfo.getSearch());
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         PageRequest pageRequest = PageRequest.of(pageInfo.getPage(), pageInfo.getSize(), sort);
-        Page<GoodsInfo> page = goodsRepository.findAll(filters, pageRequest).map(item -> GoodsEntityFilter.getInstance().forList(item));
+        Page<GoodsInfo> page = goodsRepository.findAll(filters, pageRequest).map(item -> goodsMapper.entityToModel(item));
         pageInfo.setContents(page.getContent());
         pageInfo.setTotalCount(page.getTotalElements());
         pageInfo.setTotalPage(page.getTotalPages());
@@ -58,7 +61,17 @@ public class GoodsQueryServiceImpl implements GoodsQueryService {
 
     @Override
     public GoodsInfo findGoodsById(String id) {
-        return goodsMapper.entityToModel(goodsRepository.findById(id).orElse(null));
+        GoodsInfo info = goodsMapper.entityToModel(goodsRepository.findById(id).orElse(null));
+        // 商品详情
+        GoodsDetailEntity detail = goodsDetailRepository.findById(id).orElse(null);
+        if (null == detail) {
+            info.setDetail("");
+            info.setDetailBg("");
+        } else {
+            info.setDetail(detail.getDetail());
+            info.setDetailBg(detail.getDetailBg());
+        }
+        return info;
     }
 
     private Specification<GoodsEntity> createSpecification(GoodsInfo goodsInfo, String search) {

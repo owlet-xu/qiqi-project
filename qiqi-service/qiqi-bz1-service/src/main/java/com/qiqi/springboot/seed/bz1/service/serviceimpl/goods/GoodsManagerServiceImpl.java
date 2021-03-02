@@ -4,6 +4,8 @@ import com.qiqi.springboot.seed.bz1.contract.constant.EnableEnum;
 import com.qiqi.springboot.seed.bz1.contract.model.goods.GoodsInfo;
 import com.qiqi.springboot.seed.bz1.contract.service.goods.GoodsManagerService;
 import com.qiqi.springboot.seed.bz1.service.datamappers.goods.GoodsMapper;
+import com.qiqi.springboot.seed.bz1.service.entity.goods.GoodsDetailEntity;
+import com.qiqi.springboot.seed.bz1.service.repository.goods.GoodsDetailRepository;
 import com.qiqi.springboot.seed.bz1.service.repository.goods.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class GoodsManagerServiceImpl implements GoodsManagerService {
 
     @Autowired
     GoodsRepository goodsRepository;
+    @Autowired
+    GoodsDetailRepository goodsDetailRepository;
 
     @Autowired
     GoodsMapper goodsMapper;
@@ -43,6 +47,15 @@ public class GoodsManagerServiceImpl implements GoodsManagerService {
         }
         goodsInfo.setUpdateTime(new Date());
         goodsRepository.saveAndFlush(goodsMapper.modelToEntity(goodsInfo));
+        // 保存详情
+        GoodsDetailEntity detail = new GoodsDetailEntity();
+        detail.setId(goodsInfo.getId());
+        detail.setGoodsId(goodsInfo.getId());
+        detail.setDetail(goodsInfo.getDetail());
+        detail.setDetailBg(goodsInfo.getDetailBg());
+        detail.setUpdateTime(goodsInfo.getUpdateTime());
+        detail.setCreateTime(goodsInfo.getCreateTime());
+        goodsDetailRepository.saveAndFlush(detail);
         return true;
     }
 

@@ -15,15 +15,6 @@ import java.util.Date;
 @Entity
 @Table(name= "B_GOODS", schema= "qiqi")
 public class GoodsEntity {
-
-    public GoodsEntity() {
-    }
-
-    public GoodsEntity(String id, String name, BigDecimal price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
     @Id
     @Column(name = "ID", nullable = false, length = 36)
     private String id;
@@ -42,12 +33,6 @@ public class GoodsEntity {
 
     @Column(name = "DESCRIPTION", length = 500)
     private String description;
-
-    @Column(name = "DETAIL", length = 2000)
-    private String detail;
-
-    @Column(name = "DETAIL_BG", length = 200)
-    private String detailBg;
 
     @Column(name = "TYPE1", length = 50)
     private String type1;
@@ -131,14 +116,6 @@ public class GoodsEntity {
         this.description = description;
     }
 
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
     public String getType1() {
         return type1;
     }
@@ -153,14 +130,6 @@ public class GoodsEntity {
 
     public void setType2(String type2) {
         this.type2 = type2;
-    }
-
-    public String getDetailBg() {
-        return detailBg;
-    }
-
-    public void setDetailBg(String detailBg) {
-        this.detailBg = detailBg;
     }
 
     public String getFile1() {

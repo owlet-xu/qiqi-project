@@ -14,11 +14,13 @@
         :multiple="true"
         :file-list="fileList"
         :show-file-list="true"
+        :on-change="onUploadChange"
         :on-remove="handleRemove"
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="http://localhost:32100/api/v1/upload/head"
+        action=""
+        :auto-upload="false"
         list-type="picture-card"
       >
         <el-button size="small" type="primary"> 点击上传 </el-button>
@@ -51,6 +53,11 @@ export default {
       fileList: []
     };
   },
+  computed() {
+    // dd() {
+    //   return AttachService.
+    // }
+  },
   methods: {
     checkAllSuccess() {
       return Object.keys(this.listObj).every((item) => this.listObj[item].hasSuccess);
@@ -66,11 +73,26 @@ export default {
       if (arr.length > 1 && type === 'bg') {
         this.$message.warning('背景图片只能上传一张');
       }
-      this.$emit('successCBK', {type, arr});
-      this.listObj = {};
-      this.fileList = [];
-      this.dialogVisible = false;
+      const requests = [];
+      for (let key in this.listObj) {
+        const formData = new FormData();
+        formData.append('file', this.listObj[key].raw);
+        requests.push(AttachService.uploadSingle(formData));
+      }
+      Promise.all(requests).then((res) => {
+        const arr = res.map((item) => item[0]);
+        this.$emit('successCBK', { type, arr });
+        this.listObj = {};
+        this.fileList = [];
+        this.dialogVisible = false;
+      });
     },
+    onUploadChange(file, fileList) {
+      this.listObj[file.uid] = { hasSuccess: true, uid: file.uid, width: this.width, height: this.height, raw: file.raw };
+    },
+    /**
+     * 自动上传成功时候回调
+     */
     handleSuccess(response, file) {
       const uid = file.uid;
       const objKeyArr = Object.keys(this.listObj);
@@ -92,6 +114,9 @@ export default {
         }
       }
     },
+    /**
+     * 自动上传成功时候回调
+     */
     beforeUpload(file) {
       const _self = this;
       const _URL = window.URL || window.webkitURL;

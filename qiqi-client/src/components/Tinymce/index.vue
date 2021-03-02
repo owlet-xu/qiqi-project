@@ -21,6 +21,7 @@ import { AppModule } from '@/store/modules/app';
 // import './langs/zh_CN'; // 国际化
 import plugins from './plugins';
 import toolbar from './toolbar';
+import attachService from '@/api/attach-service';
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
 // const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js';
@@ -201,11 +202,11 @@ export default {
       let html = '';
       if (data.type === 'bg') {
         data.arr.forEach((v) => {
-          this.setContentBg(v.url);
+          this.setContentBg(attachService.previewUrl(v.fileId));
         });
         // data.arr.forEach((v) => (html += `<img style="z-index: -100;position: absolute;" src="${v.url}" >`));
       } else if (data.type === 'pic') {
-        data.arr.forEach((v) => (html += `<img class="wscnph" src="${v.url}" >`));
+        data.arr.forEach((v) => (html += `<img class="wscnph" src="${attachService.previewUrl(v.fileId)}" >`));
       }
       window.tinymce.get(this.tinymceId).insertContent(html);
     },

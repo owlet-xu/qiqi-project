@@ -22,9 +22,9 @@ export default {
     return stringFormatArr(`${AppModule.configs.nginxUrl}${AttachUrls.preview}`, [fileId]);
   },
   previewVideoUrl(file: any) {
-    //建立一个可存取到该file的url
+    // 建立一个可存取到该file的url
     let url = null;
-    if (window.URL != undefined) { // mozilla(firefox)
+    if (window.URL !== undefined) { // mozilla(firefox)
       url = window.URL.createObjectURL(file);
     }
     // } else if (window.webkitURL != undefined) { // webkit or chrome
