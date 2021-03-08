@@ -7,7 +7,7 @@ declare module '*.json' {
   export default data;
 }
 
-declare module "mint-ui";
+declare module 'mint-ui';
 
 declare module 'animate.css' {
   const animate: any;

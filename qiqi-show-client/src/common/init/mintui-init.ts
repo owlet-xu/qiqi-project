@@ -6,7 +6,9 @@ import {
     Field,
     Toast,
     Header,
-    Swipe, SwipeItem
+    Swipe, SwipeItem,
+    Loadmore,
+    InfiniteScroll
 } from 'mint-ui';
 
 declare module 'vue/types/vue' {
@@ -16,6 +18,8 @@ declare module 'vue/types/vue' {
     }
 }
 export const initMintUi = () => {
+    Vue.use(InfiniteScroll);
+    Vue.component(Loadmore.name, Loadmore);
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
     Vue.component(Header.name, Header);
