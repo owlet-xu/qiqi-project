@@ -66,6 +66,7 @@ export default class GoodsAdd extends Vue {
 
   clear() {
     this.fromData = new GoodsInfo();
+    this.setBackgroudImg();
     (this.$refs['tinymce'] as any).setContent('');
   }
 
