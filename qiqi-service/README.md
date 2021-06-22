@@ -1,5 +1,10 @@
 # qiqi-service 后端接口服务
 
+## 服务简介
+
++ WebApi，Contract，Services，backend合理架构
++ 集成jpa，简单易用，集成方便
+
 ### 快速开始
 
 1、下载代码到本地
