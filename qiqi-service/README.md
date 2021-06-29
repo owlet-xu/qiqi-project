@@ -4,6 +4,7 @@
 
 + WebApi，Contract，Services，backend合理架构
 + 集成jpa，简单易用，集成方便
++ 实现了用户，部门，菜单，权限，基础商品图文等功能
 
 ### 快速开始
 

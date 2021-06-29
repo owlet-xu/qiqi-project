@@ -51,4 +51,5 @@ app:
   rest-connect-timeout: 10000
   rest-read-timeout: 10000
   check-token-timeout: 3600
+  # 图片，视频保存的物理路径，通过nginx代理访问视频和图片
   file-path: C:/files/qiqi/
