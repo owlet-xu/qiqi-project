@@ -21,7 +21,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://sa:123456@127.0.0.1:27017/qiqi_db  # mongodb://sa:123456@169.254.59.111:27017/qiqi_db
+      uri: mongodb://sa:123456@169.254.59.111:27017/qiqi_db  # mongodb://sa:123456@169.254.59.111:27017/qiqi_db
       database: qiqi_db
   servlet:
     multipart:
@@ -47,7 +47,7 @@ attach:
 app:
   language: en_US
   check-token: false
-  check-token-url: http://172.22.3.61:31025/v3/oauth/check-token
+  check-token-url: http://169.254.59.111:31025/v3/oauth/check-token
   rest-connect-timeout: 10000
   rest-read-timeout: 10000
   check-token-timeout: 3600

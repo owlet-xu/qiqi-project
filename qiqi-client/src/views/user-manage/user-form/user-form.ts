@@ -131,8 +131,9 @@ export default class UserForm extends Vue {
   private async save() {
     this.savingTemp = true;
     const img: any = await this.uploadHeadImg();
-    if (img && img.fileName) {
-      this.fromData.headImg = img.fileName;
+    if (Array.isArray(img) && img.length) {
+      // this.fromData.headImg = img.fileName;
+      this.fromData.headImg = img[0].fileId;
     }
     this.fromData.userType = '1';
     UserService.saveUser(this.fromData)
