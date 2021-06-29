@@ -3,6 +3,7 @@ package com.attach.springboot.attach.bz1.service.entity;
 import javax.validation.constraints.Size;
 
 public class MetadataEntity {
+    // 系统，比如qiqi系统，不能为空，用于文件存储路径
     @Size(max = 50)
     private String system;
 

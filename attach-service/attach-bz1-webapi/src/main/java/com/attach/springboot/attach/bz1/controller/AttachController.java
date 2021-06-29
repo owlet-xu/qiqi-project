@@ -88,10 +88,11 @@ public class AttachController {
             @ApiResponse(code = 400, message = "参数校验失败"),
             @ApiResponse(code = 500, message = "服务端异常")
     })
-    @LimitAccess(frequency = 5, millisecond = 1000*60*60*24*10)
+    @LimitAccess(frequency = 20, millisecond = 1000*60*60)
     @DeleteMapping("/attaches/{fileId}/metadata/{moduleName}")
     public ResponseEntity<Void> deleteByFileIdAndModule(@PathVariable("fileId") String fileId,
                                                         @PathVariable("moduleName") String module) {
+        // frequency = 5, millisecond = 1000*60*60  1小时同一个id调用5次
         attachService.deleteByFileIdAndModule(fileId, module);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

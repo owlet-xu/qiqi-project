@@ -21,7 +21,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://sa:123456@169.254.59.111:27017/qiqi_db
+      uri: mongodb://sa:123456@127.0.0.1:27017/qiqi_db  # mongodb://sa:123456@169.254.59.111:27017/qiqi_db
       database: qiqi_db
   servlet:
     multipart:
@@ -52,4 +52,4 @@ app:
   rest-read-timeout: 10000
   check-token-timeout: 3600
   # 图片，视频保存的物理路径，通过nginx代理访问视频和图片
-  file-path: C:/files/qiqi/
+  file-path: C:/files/

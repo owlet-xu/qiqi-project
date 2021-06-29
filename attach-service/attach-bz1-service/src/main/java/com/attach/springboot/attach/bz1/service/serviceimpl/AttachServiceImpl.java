@@ -391,12 +391,16 @@ public class AttachServiceImpl implements AttachService {
         // ObjectId objectId = gridFsTemplate.store(inputStream, fileName, contentType, metadataEntity);
         // String id = objectId.toString();
         // 2、存硬盘
+        if (StringUtil.isNullOrEmpty(metadataEntity.getSystem())) {
+            logger.error("system is null");
+            throw new SystemException(ResultStatus.SYSTEM_INNER_ERROR);
+        }
         String[] names = fileName.split("\\.");
         FileOutputStream fos = null;
         String id = UUID.randomUUID().toString().replaceAll("-", "") + "." + names[names.length - 1];
         try {
             byte[] bs = getBytes(inputStream);
-            fos = new FileOutputStream(FILE_PATH + id);
+            fos = new FileOutputStream(FILE_PATH + metadataEntity.getSystem() + "/" + id);
             fos.write(bs);// 写入数据
         } catch (Exception e) {
             e.printStackTrace();
