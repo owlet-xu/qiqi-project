@@ -4,6 +4,18 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: $margin-size;
+  .tool-container {
+    display: flex;
+    .el-input {
+      margin-right: 5px;
+    }
+    .el-button {
+      margin-right: 5px;
+    }
+    .el-switch {
+      width: 140px;
+    }
+  }
   .privilege-table {
     width: 100%;
     /deep/ .disabled-row {

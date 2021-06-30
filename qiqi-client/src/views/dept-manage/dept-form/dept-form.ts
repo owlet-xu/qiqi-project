@@ -93,8 +93,9 @@ export default class DeptForm extends Vue {
   private async save() {
     this.savingTemp = true;
     const img: any = await this.uploadHeadImg();
-    if (img && img.fileName) {
-      this.fromData.imgId = img.fileName;
+    if (Array.isArray(img) && img.length) {
+      // this.fromData.headImg = img.fileName;
+      this.fromData.imgId = img[0].fileId;
     }
     DeptService.saveDepartment(this.fromData)
       .then((res: any) => {

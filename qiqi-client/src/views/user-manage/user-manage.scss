@@ -5,6 +5,18 @@
   overflow-x: hidden;
   padding: $margin-size;
   @include scrollBar();
+  .tool-container {
+    display: flex;
+    .el-input {
+      margin-right: 5px;
+    }
+    .el-button {
+      margin-right: 5px;
+    }
+    .el-switch {
+      width: 140px;
+    }
+  }
   .user-table {
     width: 100%;
     /deep/ .disabled-row {
