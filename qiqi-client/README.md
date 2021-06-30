@@ -2,7 +2,7 @@
 
 ### 系统预览
 
-
+![qiqi](./docs/imgs/qiqi.gif)
 
 ### 快速开始
 
