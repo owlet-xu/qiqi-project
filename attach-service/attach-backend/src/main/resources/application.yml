@@ -53,3 +53,45 @@ app:
   check-token-timeout: 3600
   # 图片，视频保存的物理路径，通过nginx代理访问视频和图片
   file-path: C:/files/
+
+# 生产环境
+---
+spring:
+  profiles: pro
+  application:
+    name: attach-service
+
+  data:
+    mongodb:
+      uri: mongodb://sa:123456@127.0.0.1:27017/qiqi_db  # mongodb://sa:123456@169.254.59.111:27017/qiqi_db
+      database: qiqi_db
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 110MB
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  #日期序列化格式
+attach:
+  file:
+    # 默认的文件存储集合名(当匹配不到下面的映射关系时, 会默认存储于默认文件集合中)
+    defaultCollName: b_file
+    # 各模块文件存储集合映射关系(调用上传接口时, 会根据metadata中的module匹配下面映射关系, 分别存储到不同的文件集合中, 查找文件信息时也需要传入对应的module名)
+    collectionNames:
+       # 城市安全相关
+      citysafety: b_citysafety_file
+
+## log配置
+#logging:
+#  config: classpath:logback-spring.xml
+
+# app相关配置
+app:
+  language: en_US
+  check-token: false
+  check-token-url: http://169.254.59.111:31025/v3/oauth/check-token
+  rest-connect-timeout: 10000
+  rest-read-timeout: 10000
+  check-token-timeout: 3600
+  # 图片，视频保存的物理路径，通过nginx代理访问视频和图片
+  file-path: C:/files/
