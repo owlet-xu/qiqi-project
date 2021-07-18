@@ -161,3 +161,14 @@ app:
   }
 ```
 
+nginx配置
+
+```
+		location /orderfood/ {    #指定图片存放路径
+           root  C:/files;
+           autoindex on;
+        }
+        ## 访问地址
+        http://121.196.145.103:31111/orderfood/5dfa67a5-197e-4e92-8d5a-c479a036db03.mp4
+```
+

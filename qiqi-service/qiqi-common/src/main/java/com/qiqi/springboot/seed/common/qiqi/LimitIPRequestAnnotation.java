@@ -1,4 +1,4 @@
-package com.qiqi.springboot.seed.common.citysafety;
+package com.qiqi.springboot.seed.common.qiqi;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

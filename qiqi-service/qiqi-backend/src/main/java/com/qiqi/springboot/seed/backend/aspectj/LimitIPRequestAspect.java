@@ -1,7 +1,7 @@
 package com.qiqi.springboot.seed.backend.aspectj;
 
 import com.qiqi.springboot.seed.common.citysafety.HttpRestException;
-import com.qiqi.springboot.seed.common.citysafety.LimitIPRequestAnnotation;
+import com.qiqi.springboot.seed.common.qiqi.LimitIPRequestAnnotation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
@@ -49,7 +49,7 @@ public class LimitIPRequestAspect {
      *
      * @param joinPoint JoinPoint
      */
-    @Before("execution(* com.qiqi.springboot.seed.bz1.controller.*.*(..)) && @annotation(com.qiqi.springboot.seed.common.citysafety.LimitIPRequestAnnotation)")
+    @Before("execution(* com.qiqi.springboot.seed.bz1.controller.*.*(..)) && @annotation(com.qiqi.springboot.seed.common.qiqi.LimitIPRequestAnnotation)")
     public void requestLimit(JoinPoint joinPoint) {
 
         // 获取HttpRequest
