@@ -418,7 +418,6 @@ public class AttachServiceImpl implements AttachService {
         fileEntity.setContentType(contentType);
 
         return assembleFileMetadata(metadataEntity, fileEntity);
-
     }
 
     /**

@@ -48,6 +48,23 @@ public class AttachController {
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
+    @ApiOperation(value = "上传多个附件信息,不能大于10个(metadata参考:{\"system\":\"\",\"module\":\"\",\"businessId\":\"\"})")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "上传成功"),
+            @ApiResponse(code = 400, message = "参数校验失败"),
+            @ApiResponse(code = 500, message = "服务端异常")
+    })
+    @LimitAccess(frequency = 5, millisecond = 1000*60*60*24*10)
+    @PostMapping(value = "/attaches/upload/more", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<List<FileInfo>> uploadMore(@RequestPart("files") MultipartFile[] files,
+                                                 @RequestParam(value = "metadata", required = false) String metadata) {
+        if (files.length > 10) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        List<FileInfo> fileInfos = attachService.batchUpload(files, metadata);
+        return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
+    }
+
     @ApiOperation(value = "上传base64文件字符串(metadata参考:{\"system\":\"\",\"module\":\"\",\"businessId\":\"\"})")
     @ApiResponses({
             @ApiResponse(code = 200, message = "上传成功"),

@@ -69,7 +69,95 @@ gradlew clean build
   // 使用nssm.exe制作windows服务
   ```
 
-  
 
-  
+## 使用
+
+### 1、在yml配置文件中配置服务器保存文件的路径
+
+```
+# app相关配置
+app:
+  # 图片，视频保存的物理路径，通过nginx代理访问视频和图片
+  file-path: C:/files/
+```
+
+
+
+### 2、前端传送参数的时候必须指定“system”字段，用于存放图片的路径
+
+文件可以存mongdb，可以存服务器硬盘
+
+我们采取存硬盘，通过nginx代理，访问资源的方式
+
+```java
+    /**
+     * 保存并返回文件实体对象
+     *
+     * @param inputStream    文件输入流
+     * @param fileName       文件名
+     * @param contentType    文件类型
+     * @param metadataEntity 文件元数据实体对象
+     * @return 文件实体对象
+     */
+    private FileEntity storeFileAndReturnFileEntity(InputStream inputStream, String fileName, String contentType, MetadataEntity metadataEntity) {
+        // 1、存分布式文件
+        // ObjectId objectId = gridFsTemplate.store(inputStream, fileName, contentType, metadataEntity);
+        // String id = objectId.toString();
+        // 2、存硬盘
+        if (StringUtil.isNullOrEmpty(metadataEntity.getSystem())) {
+            logger.error("system is null");
+            throw new SystemException(ResultStatus.SYSTEM_INNER_ERROR);
+        }
+        String[] names = fileName.split("\\.");
+        FileOutputStream fos = null;
+        String id = UUID.randomUUID().toString().replaceAll("-", "") + "." + names[names.length - 1];
+        try {
+            byte[] bs = getBytes(inputStream);
+            fos = new FileOutputStream(FILE_PATH + metadataEntity.getSystem() + "/" + id);
+            fos.write(bs);// 写入数据
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(null != inputStream) inputStream.close();
+                if(null != fos) fos.close();// 保存数据
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFileId(id);
+        fileEntity.setFileName(fileName);
+        fileEntity.setContentType(contentType);
+
+        return assembleFileMetadata(metadataEntity, fileEntity);
+    }
+```
+
+
+
+### 3、前端使用
+
+上传
+
+```javascript
+    this.headImgFile = file.raw;
+    const formData = new FormData();
+    formData.append('file', this.headImgFile);
+    const url = `${AppModule.configs.attachUrl}${AttachUrls.uploadSingle}`;
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    formData.append('metadata', '{"system":"qiqi","module":"qiqi-client","businessId":""}');
+    return httpClient.postPromise(url, formData, config);
+```
+
+显示
+
+```javascript
+  previewUrl(fileId: string) {
+    if (!fileId) {
+      return '';
+    }
+    return stringFormatArr(`${AppModule.configs.nginxUrl}/qiqi/{fileId}`, [fileId]);
+  }
+```
 

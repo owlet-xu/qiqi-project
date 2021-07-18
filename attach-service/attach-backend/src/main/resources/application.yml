@@ -21,7 +21,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://sa:123456@169.254.59.111:27017/qiqi_db  # mongodb://sa:123456@169.254.59.111:27017/qiqi_db
+      uri: mongodb://sa:123456@121.196.145.103:27017/qiqi_db  # mongodb://sa:123456@169.254.59.111:27017/qiqi_db
       database: qiqi_db
   servlet:
     multipart:
