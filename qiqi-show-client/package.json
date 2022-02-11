@@ -62,7 +62,7 @@
     "gulp-shell": "^0.8.0",
     "gulp-sonar": "^3.0.1",
     "minimist": "^1.2.5",
-    "node-sass": "^4.9.4",
+    "node-sass": "^7.0.0",
     "postcss-pxtorem": "^5.1.1",
     "sass-loader": "^7.3.1",
     "typescript": "^3.9.5",
