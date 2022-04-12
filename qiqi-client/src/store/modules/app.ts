@@ -74,7 +74,7 @@ class App extends VuexModule implements IAppState {
 
   @Action
   public async setConfigs() {
-    const configPath = '/config.json';
+    const configPath = './config.json';
     const configs = await axios.get(configPath);
     this.SET_CONFIGS(configs.data);
   }
