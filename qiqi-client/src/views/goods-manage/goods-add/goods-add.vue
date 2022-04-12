@@ -23,8 +23,6 @@
             </el-form-item>
           </div>
         </div>
-        <!-- 图片视频上传 -->
-        <goods-imgs ref="goodsImgsRef" :imgUrls="[fromData.file1, fromData.file2, fromData.file3, fromData.file4, fromData.file5, fromData.file6]"></goods-imgs>
       </div>
       <el-form-item :label="$t('类型1')" prop="type1">
         <el-select style="width: 100%" v-model="fromData.type1" placeholder="类型1" filterable>
@@ -45,6 +43,8 @@
       <el-form-item label="简单文字描述">
         <el-input v-model="fromData.description" type="textarea" maxlength="30" show-word-limit rows="4"></el-input>
       </el-form-item>
+      <!-- 图片视频上传 -->
+      <goods-imgs ref="goodsImgsRef" :imgUrls="[fromData.file1, fromData.file2, fromData.file3, fromData.file4, fromData.file5, fromData.file6]"></goods-imgs>
     </el-form>
     <div>
       <div class="form-title">商品详情</div>

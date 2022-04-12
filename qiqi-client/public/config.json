@@ -1,6 +1,10 @@
 {
+  "langDoc": "zh 中文；en 英文；",
   "lang": "zh",
-  "qiqiServiceUrl": "http://localhost:32100",
-  "attachUrl": "http://localhost:32101",
-  "nginxUrl": "http://localhost:31111"
+  "qiqiServiceUrlDoc": "主服务地址",
+  "qiqiServiceUrl": "http://169.254.59.111:32100",
+  "attachUrlDoc": "附件上传url",
+  "attachUrl": "http://169.254.59.111:32101",
+  "nginxUrlDoc": "图片nginx代理",
+  "nginxUrl": "http://169.254.59.111:31111"
 }

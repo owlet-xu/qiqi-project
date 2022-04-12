@@ -13,6 +13,8 @@ git clone https://github.com/owlet-xu/qiqi-project.git
 ```
 
 2、安装前端依赖
+node v10.15.1
+npm  6.4.1
 
 ```
 npm install
